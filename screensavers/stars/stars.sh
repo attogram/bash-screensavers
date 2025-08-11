@@ -8,10 +8,10 @@ trap cleanup SIGINT # Trap CONTROL-C
 
 # --- Configuration ---
 # Set the colors
-WHITE='\e[97m'
-YELLOW='\e[93m'
-BLACK='\e[40m'
-RESET='\e[0m'
+WHITE=$'\e[97m'
+YELLOW=$'\e[93m'
+BLACK=$'\e[40m'
+RESET=$'\e[0m'
 
 # The characters for the stars
 STARS=("*" "." "+")
