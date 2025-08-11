@@ -48,7 +48,7 @@ We welcome contributions! Feel free to fork the repo, create a new screensaver, 
 
 ## Join the Community
 
-Have questions, ideas, or just want to chat with fellow bash enthusiasts? Join our Discord server!
+Have questions, ideas, or just want to chat? Join our Discord server!
 
 [**Join our Discord!**](https://discord.gg/BGQJCbYVBa)
 

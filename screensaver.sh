@@ -1,67 +1,42 @@
-#!/bin/bash
-
-#~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-
-# BASH-SCREENSAVERS
+#!/usr/bin/env bash
+#
+# Bash Screensaver Chooser
 #
 # A collection of screensavers written in bash.
 # Because who needs fancy graphics when you have ASCII?
-#~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-
-
-# --- Configuration ---
-SCREENSAVERS_DIR="screensavers"
-
-# --- Functions ---
-
 #
+
+BASH_SCREENSAVERS_NAME="Bash Screensavers"
+BASH_SCREENSAVERS_VERSION="0.0.1"
+BASH_SCREENSAVERS_URL="https://github.com/attogram/bash-screensavers"
+BASH_SCREENSAVERS_DISCORD="https://discord.gg/BGQJCbYVBa"
+BASH_SCREENSAVERS_LICENSE="MIT"
+BASH_SCREENSAVERS_COPYRIGHT="Copyright (c) 2025 Attogram Project <https://github.com/attogram>"
+
+BASH_SCREENSAVERS_DIR='screensavers'
+
 # Lists all available screensavers.
-#
 list_screensavers() {
-    echo "Finding screensavers in '$SCREENSAVERS_DIR'..."
-    # find all the .sh files in the screensavers subdirectories
-    find "$SCREENSAVERS_DIR" -mindepth 2 -maxdepth 2 -type f -name "*.sh"
+  local screensaver name run list
+  for screensaver in $BASH_SCREENSAVERS_DIR/*/; do
+    if [[ -d "${screensaver}" ]]; then
+      name=$(basename "${screensaver}")
+      run="${screensaver}${name}.sh"
+      if [[ -f "${run}" ]]; then
+        list+="$run "
+      fi
+    fi
+  done
+  printf '%s\n' "$list"
 }
 
-#
-# Prompts the user to choose a screensaver from the list.
-#
-choose_screensaver() {
-    local screensavers=("$@")
-    if [ ${#screensavers[@]} -eq 0 ]; then
-        echo "Whoops! No screensavers found. Add some to the '$SCREENSAVERS_DIR' directory."
-        exit 1
-    fi
-
-    echo "Available Screensavers:"
-
-    local i=1
-    for saver in "${screensavers[@]}"; do
-        # strip the path and .sh extension for a cleaner name
-        local name=$(basename "$saver" .sh)
-        echo "  $i. $name"
-        i=$((i+1))
-    done
-
-    local choice
-    read -p "Enter the number of the screensaver you want to run: " choice
-
-    # Validate the choice
-    if ! [[ "$choice" =~ ^[0-9]+$ ]] || [ "$choice" -lt 1 ] || [ "$choice" -gt "${#screensavers[@]}" ]; then
-        echo "Invalid choice. Please enter a number from the list."
-        exit 1
-    fi
-
-    echo "${screensavers[$((choice-1))]}"
-}
-
-#
 # Runs the selected screensaver.
-#
 run_screensaver() {
     local screensaver_path="$1"
-    if [ -f "$screensaver_path" ] && [ -x "$screensaver_path" ]; then
+    if [[ -f "$screensaver_path" ]] && [[ -x "$screensaver_path" ]]; then
         # Run the screensaver
         "$screensaver_path"
-    elif [ -f "$screensaver_path" ]; then
+    elif [[ -f "$screensaver_path" ]]; then
         echo "Making the screensaver executable..."
         chmod +x "$screensaver_path"
         "$screensaver_path"
@@ -71,22 +46,39 @@ run_screensaver() {
     fi
 }
 
-#
-# Main function to run the script.
-#
+# Main screensaver goodness
 main() {
-    echo "Welcome to the Bash Screensaver Extravaganza!"
+  echo
+  echo "$BASH_SCREENSAVERS_NAME v$BASH_SCREENSAVERS_VERSION"
+  echo
 
-    local screensaver_files=($(list_screensavers))
-    local chosen_saver=$(choose_screensaver "${screensaver_files[@]}")
+  local screensavers
+  screensavers=($(list_screensavers))
+  if [[ ${#screensavers[@]} -eq 0 ]]; then
+    echo "Whoops! No screensavers found. Add some to the '$BASH_SCREENSAVERS_DIR' directory."
+    echo
+    exit 1
+  fi
 
-    if [ -n "$chosen_saver" ]; then
-        echo "Launching $chosen_saver..."
-        run_screensaver "$chosen_saver"
-    fi
+  local i=1
+  for saver in "${screensavers[@]}"; do
+    local name=$(basename "$saver" .sh) # strip the path and .sh extension for a cleaner name
+    echo "  $i. $name"
+    i=$((i+1))
+  done
 
-    echo "Thanks for watching!"
+  local choice
+  echo
+  echo -n "Enter the number of the screensaver to run: "
+  read choice
+
+  # Validate the choice
+  if ! [[ "$choice" =~ ^[0-9]+$ ]] || [ "$choice" -lt 1 ] || [ "$choice" -gt "${#screensavers[@]}" ]; then
+      echo "Invalid choice. Please enter a number from the list."
+      exit 1
+  fi
+
+  run_screensaver "${screensavers[$((choice-1))]}"
 }
 
-# --- Let's get this party started! ---
 main
