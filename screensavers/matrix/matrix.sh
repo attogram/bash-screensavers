@@ -4,11 +4,13 @@
 # MATRIX - A simple matrix-style screensaver
 #~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-
 
+trap cleanup SIGINT # Trap CONTROL-C
+
 # --- Configuration ---
 # Set the colors
-GREEN="\e[32m"
-BLACK="\e[40m"
-RESET="\e[0m"
+GREEN='\e[32m'
+BLACK='\e[40m'
+RESET='\e[0m'
 
 # The characters to display
 CHARS="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()"
@@ -19,9 +21,9 @@ CHARS="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()"
 # Cleanup function to restore the terminal
 #
 cleanup() {
-    echo -e "$RESET"
+    printf '%s' "$RESET"
     tput cnorm # Restore cursor
-    clear
+    echo
     exit 0
 }
 
@@ -31,7 +33,7 @@ cleanup() {
 animate() {
     clear
     tput civis # Hide cursor
-    echo -e "${GREEN}${BLACK}"
+    printf '%s%s' "${GREEN}" "${BLACK}"
 
     # Get terminal dimensions
     local width=$(tput cols)
@@ -42,9 +44,6 @@ animate() {
     for ((i=0; i<width; i++)); do
         columns[$i]=0
     done
-
-    # Trap Ctrl+C to exit gracefully
-    trap cleanup SIGINT
 
     while true; do
         for ((i=0; i<width; i++)); do
@@ -58,7 +57,7 @@ animate() {
                 # Print a random character
                 local rand_char=${CHARS:$((RANDOM % ${#CHARS})):1}
                 tput cup ${columns[$i]} $i
-                echo -e "$rand_char"
+                printf '%s' "$rand_char"
 
                 # Move the column down
                 columns[$i]=$((${columns[$i]} + 1))

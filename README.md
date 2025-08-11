@@ -6,7 +6,7 @@ Welcome to **Bash Screensavers**, a collection of screensavers written entirely 
 
 ## What is this madness?
 
-This project is a celebration of what you can do with the humble command line. It's a bit of fun, a bit of nostalgia, and a whole lot of ASCII. We provide a master script to run the screensavers and a few examples to get you started.
+This project is a celebration of what you can do with the humble command line. It's a bit of fun, a bit of nostalgia, and a whole lot of ASCII. We provide a main script to run the screensavers and a few examples to get you started.
 
 ## How to Use
 
@@ -14,11 +14,11 @@ It's as easy as pie (or, in our case, as easy as running a shell script).
 
 1.  **Clone the repo:**
     ```bash
-    git clone https://github.com/your-username/bash-screensavers.git
+    git clone https://github.com/attogram/bash-screensavers.git
     cd bash-screensavers
     ```
 
-2.  **Run the master script:**
+2.  **Run the main script:**
     ```bash
     ./screensaver.sh
     ```
@@ -40,7 +40,7 @@ Got an idea for a cool ASCII animation? Want to contribute to the collection? It
     - Handle cleanup gracefully. Use `trap` to catch `SIGINT` (`Ctrl+C`) and restore the terminal to its normal state.
     - Be awesome.
 
-That's it! The master `screensaver.sh` script will automatically detect your new creation.
+That's it! The main `screensaver.sh` script will automatically detect your new creation.
 
 ## Contributing
 
