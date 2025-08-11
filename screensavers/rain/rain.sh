@@ -4,11 +4,13 @@
 # RAIN - A simple rain-style screensaver
 #~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-
 
+trap cleanup SIGINT # Trap CONTROL-C
+
 # --- Configuration ---
 # Set the colors
-BLUE="\e[34m"
-BLACK="\e[40m"
-RESET="\e[0m"
+BLUE='\e[34m'
+BLACK='\e[40m'
+RESET='\e[0m'
 
 # The characters for the raindrops
 DROPS=("|" "." "'")
@@ -19,9 +21,9 @@ DROPS=("|" "." "'")
 # Cleanup function to restore the terminal
 #
 cleanup() {
-    echo -e "$RESET"
+    printf '%s' "$RESET"
     tput cnorm # Restore cursor
-    clear
+    echo
     exit 0
 }
 
@@ -31,7 +33,7 @@ cleanup() {
 animate() {
     clear
     tput civis # Hide cursor
-    echo -e "${BLUE}${BLACK}"
+    printf '%s%s' "${BLUE}" "${BLACK}"
 
     # Get terminal dimensions
     local width=$(tput cols)
@@ -40,9 +42,6 @@ animate() {
     # Initialize drops
     local drops_x=()
     local drops_y=()
-
-    # Trap Ctrl+C to exit gracefully
-    trap cleanup SIGINT
 
     while true; do
         # Create a new drop
@@ -55,7 +54,7 @@ animate() {
         for i in "${!drops_x[@]}"; do
             # Clear the old position
             tput cup ${drops_y[$i]} ${drops_x[$i]}
-            echo " "
+            printf " "
 
             # Move the drop down
             drops_y[$i]=$((${drops_y[$i]} + 1))
@@ -64,7 +63,7 @@ animate() {
             if [ ${drops_y[$i]} -lt $height ]; then
                 tput cup ${drops_y[$i]} ${drops_x[$i]}
                 local rand_drop=${DROPS[$((RANDOM % ${#DROPS[@]}))]}
-                echo -e "$rand_drop"
+                printf '%s' "$rand_drop"
             else
                 # Remove drops that have fallen off the screen
                 unset drops_x[$i]
