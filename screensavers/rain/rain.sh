@@ -8,9 +8,9 @@ trap cleanup SIGINT # Trap CONTROL-C
 
 # --- Configuration ---
 # Set the colors
-BLUE='\e[34m'
-BLACK='\e[40m'
-RESET='\e[0m'
+BLUE=$'\e[34m'
+BLACK=$'\e[40m'
+RESET=$'\e[0m'
 
 # The characters for the raindrops
 DROPS=("|" "." "'")

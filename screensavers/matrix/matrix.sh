@@ -8,12 +8,15 @@ trap cleanup SIGINT # Trap CONTROL-C
 
 # --- Configuration ---
 # Set the colors
-GREEN='\e[32m'
-BLACK='\e[40m'
-RESET='\e[0m'
+GREEN=$'\e[32m'
+BLACK=$'\e[40m'
+RESET=$'\e[0m'
 
 # The characters to display
 CHARS="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()"
+
+# The length of the character streams
+STREAM_LEN=15
 
 # --- Functions ---
 
@@ -57,12 +60,27 @@ animate() {
                 # Print a random character
                 local rand_char=${CHARS:$((RANDOM % ${#CHARS})):1}
                 tput cup ${columns[$i]} $i
-                printf '%s' "$rand_char"
+                printf '%s%s' "${GREEN}" "$rand_char"
+
+                # Erase the tail of the stream
+                local tail_y=$((${columns[$i]} - STREAM_LEN))
+                if [ $tail_y -ge 0 ]; then
+                    tput cup $tail_y $i
+                    printf ' '
+                fi
 
                 # Move the column down
                 columns[$i]=$((${columns[$i]} + 1))
                 if [ ${columns[$i]} -ge $height ]; then
                     columns[$i]=0
+                    # Clear the rest of the tail when the stream resets
+                    for ((j=1; j<STREAM_LEN; j++)); do
+                        local y_to_clear=$(($height + $j - STREAM_LEN))
+                        if [ $y_to_clear -ge 0 ]; then
+                            tput cup $y_to_clear $i
+                            printf ' '
+                        fi
+                    done
                 fi
             fi
         done
