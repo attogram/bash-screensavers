@@ -4,6 +4,18 @@
 
 Welcome to **Bash Screensavers**, a collection of screensavers written entirely in bash. Because who needs fancy graphics cards and complex rendering engines when you have `echo`, `sleep`, and a little bit of `tput` magic?
 
+### Available Screensavers
+
+* alpha
+* bouncing
+* cutesaver
+* fireworks
+* matrix
+* pipes
+* rain
+* stars
+* tunnel
+
 ## What is this madness?
 
 This project is a celebration of what you can do with the humble command line. It's a bit of fun, a bit of nostalgia, and a whole lot of ASCII. We provide a main script to run the screensavers and a few examples to get you started.
@@ -33,8 +45,8 @@ It's as easy as pie (or, in our case, as easy as running a shell script).
 
 Got an idea for a cool ASCII animation? Want to contribute to the collection? It's easy!
 
-1.  **Create a new directory** for your screensaver inside the `screensavers` directory. For example, `screensavers/my-awesome-screensaver`.
-2.  **Create a shell script** inside your new directory with the same name as the directory, ending in `.sh`. For example, `screensavers/my-awesome-screensaver/my-awesome-screensaver.sh`.
+1.  **Create a new directory** for your screensaver inside the `gallery` directory. For example, `gallery/my-awesome-screensaver`.
+2.  **Create a shell script** inside your new directory with the same name as the directory, ending in `.sh`. For example, `gallery/my-awesome-screensaver/my-awesome-screensaver.sh`.
 3.  **Write your masterpiece!** Your script should:
     - Be executable (`chmod +x your-script.sh`).
     - Handle cleanup gracefully. Use `trap` to catch `SIGINT` (`Ctrl+C`) and restore the terminal to its normal state.

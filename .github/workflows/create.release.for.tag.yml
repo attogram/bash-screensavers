@@ -1,0 +1,39 @@
+name: Release with Shell Script and Description
+
+on:
+  push:
+    tags:
+      - 'v*'  # Triggers on tags like v1.0.0
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Create GitHub Release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set current tag
+        run: echo "CURRENT_TAG=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+
+      - name: Generate Release Notes
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          RELEASE_BODY="Bash Screensavers $CURRENT_TAG\n\Turn your idle shell into a visual playground with this collection of Bash screensav­ers\n\nRepo: https://github.com/${{ github.repository }}\n"
+          echo "RELEASENOTES<<EOF" >> $GITHUB_ENV
+          echo -e "$RELEASE_BODY" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ env.CURRENT_TAG }}
+          name: "Bash Screensavers ${{ env.CURRENT_TAG }}"
+          body: ${{ env.RELEASENOTES }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
