@@ -22,7 +22,7 @@ cd bash-screensavers
 ./screensaver.sh
 ```
 ```
-Bash Screensavers v0.0.4
+Bash Screensavers v0.0.5
 
   1. alpha
   2. bouncing
