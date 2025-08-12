@@ -1,102 +1,52 @@
+#!/bin/bash
+
 # This file reads from 12 art files and then loops.
-# Each is displayed for 10 seconds. To alter that time, change the sleep value after each art file.
+# Each is displayed for 10 seconds.
 
-clear
-file1="./art/1.art"
-while IFS= read -r line
-do
-    echo "$line"
-done <"$file1"
-sleep 10
+trap cleanup SIGINT # Trap CONTROL-C
 
-clear
-file1="./art/2.art"
-while IFS= read -r line
-do
-    echo "$line"
-done <"$file1"
-sleep 10
+# --- Functions ---
 
-clear
-file1="./art/3.art"
-while IFS= read -r line
-do
-    echo "$line"
-done <"$file1"
-sleep 10
+#
+# Cleanup function to restore the terminal
+#
+cleanup() {
+    tput cnorm # Restore cursor
+    printf '\e[0m'
+    printf '\n'
+    exit 0
+}
 
-clear
-file1="./art/4.art"
-while IFS= read -r line
-do
-    echo "$line"
-done <"$file1"
-sleep 10
+#
+# Main animation loop
+#
+animate() {
+    tput civis # Hide cursor
 
-clear
-file1="./art/5.art"
-while IFS= read -r line
-do
-    echo "$line"
-done <"$file1"
-sleep 10
+    # List of art files to display
+    local art_files=(
+        "./art/1.art" "./art/2.art" "./art/3.art" "./art/4.art"
+        "./art/5.art" "./art/6.art" "./art/7.art" "./art/8.art"
+        "./art/9.art" "./art/10.art" "./art/11.art" "./art/12.art"
+    )
 
-clear
-file1="./art/12.art"
-while IFS= read -r line
-do
-    echo "$line"
-done <"$file1"
-sleep 10
+    while true; do
+        for art_file in "${art_files[@]}"; do
+            clear
+            if [ -f "$art_file" ]; then
+                # Using cat is simpler than a while loop for this
+                cat "$art_file"
+            else
+                # In case an art file is missing, show a message
+                tput cup 5 5
+                echo "Art file not found: $art_file"
+            fi
+            sleep 10
+        done
+    done
+}
 
-clear
-file1="./art/7.art"
-while IFS= read -r line
-do
-    echo "$line"
-done <"$file1"
-sleep 10
-
-clear
-file1="./art/11.art"
-while IFS= read -r line
-do
-    echo "$line"
-done <"$file1"
-sleep 10
-
-clear
-file1="./art/9.art"
-while IFS= read -r line
-do
-    echo "$line"
-done <"$file1"
-sleep 10
-
-clear
-file1="./art/10.art"
-while IFS= read -r line
-do
-    echo "$line"
-done <"$file1"
-sleep 10
-
-clear
-file1="./art/8.art"
-while IFS= read -r line
-do
-    echo "$line"
-done <"$file1"
-sleep 10
-
-clear
-file1="./art/6.art"
-while IFS= read -r line
-do
-    echo "$line"
-done <"$file1"
-sleep 10
-
-# Lather, Rinse, Repeat...
-
-./rollthecute.sh
+# --- Let the cuteness roll ---
+# Change directory to the script's location to find the art files
+cd "$( dirname "${BASH_SOURCE[0]}" )"
+animate

@@ -24,9 +24,9 @@ STREAM_LEN=15
 # Cleanup function to restore the terminal
 #
 cleanup() {
-    printf '%s' "$RESET"
     tput cnorm # Restore cursor
-    echo
+    printf '%s' "$RESET"
+    printf '\n'
     exit 0
 }
 
