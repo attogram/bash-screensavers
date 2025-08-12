@@ -53,6 +53,11 @@ Got an idea for a cool ASCII animation? Want to contribute to the collection? It
 
 That's it! The main `screensaver.sh` script will automatically detect your new creation.
 
+### Codespaces
+
+* whip up a [Codespace from attogram/bash-screensavers](https://codespaces.new/attogram/bash-screensavers) 
+  for fun!
+
 ## Guide for Developers and AI agents
 
 ### Project Overview
