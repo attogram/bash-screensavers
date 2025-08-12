@@ -22,7 +22,7 @@ cd bash-screensavers
 ./screensaver.sh
 ```
 ```
-Bash Screensavers v0.0.5
+Bash Screensavers v0.0.6
 
   1. alpha
   2. bouncing
@@ -31,8 +31,9 @@ Bash Screensavers v0.0.5
   5. matrix
   6. pipes
   7. rain
-  8. stars
-  9. tunnel
+  8. speaky
+  9. stars
+  10. tunnel
 
 (Press ^C to exit)
 
