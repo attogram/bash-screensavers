@@ -32,3 +32,6 @@ load 'libs/bats-assert/load'
   run timeout 1s ../screensaver.sh <<< "matrix"
   assert_success
 }
+
+# --- Load and run tests for speaky screensaver ---
+load 'speaky.sh'
