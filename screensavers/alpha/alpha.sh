@@ -17,7 +17,8 @@ _location() {
 
 _stop() {
   tput cnorm # yes cursor
-  echo
+  printf '\e[0m'
+  printf '\n'
   exit 0
 }
 
