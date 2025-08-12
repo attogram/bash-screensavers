@@ -1,22 +1,19 @@
 #!/usr/bin/env bash
 #
-# Bash Screensaver Chooser
+# Bash Screensavers
 #
 # A collection of screensavers written in bash.
 # Because who needs fancy graphics when you have ASCII?
 #
 
 BASH_SCREENSAVERS_NAME="Bash Screensavers"
-BASH_SCREENSAVERS_VERSION="0.0.2"
+BASH_SCREENSAVERS_VERSION="0.0.3"
 BASH_SCREENSAVERS_URL="https://github.com/attogram/bash-screensavers"
 BASH_SCREENSAVERS_DISCORD="https://discord.gg/BGQJCbYVBa"
 BASH_SCREENSAVERS_LICENSE="MIT"
 BASH_SCREENSAVERS_COPYRIGHT="Copyright (c) 2025 Attogram Project <https://github.com/attogram>"
 
-# Get the directory of this script
-# https://stackoverflow.com/questions/59895/how-do-i-get-the-directory-where-a-bash-script-is-located-from-within-the-script
 SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &> /dev/null && pwd)
-
 BASH_SCREENSAVERS_DIR="$SCRIPT_DIR/gallery"
 
 # Lists all available screensavers.
