@@ -24,7 +24,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          RELEASE_BODY="Bash Screensavers $CURRENT_TAG\n\Turn your idle shell into a visual playground with this collection of Bash screensav­ers\n\nRepo: https://github.com/${{ github.repository }}\n"
+          RELEASE_BODY="Bash Screensavers $CURRENT_TAG\n\nTurn your idle shell into a visual playground with this collection of Bash screensav­ers\n\nRepo: https://github.com/${{ github.repository }}\n"
           echo "RELEASENOTES<<EOF" >> $GITHUB_ENV
           echo -e "$RELEASE_BODY" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
