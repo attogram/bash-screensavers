@@ -78,7 +78,7 @@ animate() {
             done
         done
 
-        sleep $(( (RANDOM % 3) + 1)) # Wait 1-3 seconds before next firework
+        sleep 0.5 # Wait a moment before the next firework
     done
 }
 

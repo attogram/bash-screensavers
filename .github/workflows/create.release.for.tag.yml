@@ -1,0 +1,37 @@
+name: Create Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Get Release Info
+        run: |
+          export BASH_SCREENSAVERS_NAME=$(grep 'BASH_SCREENSAVERS_NAME=' screensaver.sh | cut -d'"' -f2)
+          export BASH_SCREENSAVERS_VERSION=$(grep 'BASH_SCREENSAVERS_VERSION=' screensaver.sh | cut -d'"' -f2)
+          export BASH_SCREENSAVERS_DESCRIPTION=$(grep -m 1 '\*\*Tired' README.md)
+          echo "BASH_SCREENSAVERS_NAME=$BASH_SCREENSAVERS_NAME" >> $GITHUB_ENV
+          echo "BASH_SCREENSAVERS_VERSION=$BASH_SCREENSAVERS_VERSION" >> $GITHUB_ENV
+          echo "BASH_SCREENSAVERS_DESCRIPTION=$BASH_SCREENSAVERS_DESCRIPTION" >> $GITHUB_ENV
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          body: |
+            **${{ env.BASH_SCREENSAVERS_NAME }} v${{ env.BASH_SCREENSAVERS_VERSION }}**
+
+            ${{ env.BASH_SCREENSAVERS_DESCRIPTION }}
+          draft: false
+          prerelease: false
