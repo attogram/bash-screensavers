@@ -4,8 +4,6 @@
 # STARS - A simple starfield screensaver
 #~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-
 
-trap cleanup SIGINT # Trap CONTROL-C
-
 # --- Configuration ---
 # Set the colors
 WHITE=$'\e[97m'
@@ -16,17 +14,13 @@ RESET=$'\e[0m'
 # The characters for the stars
 STARS=("*" "." "+")
 
-# --- Functions ---
-
-#
-# Cleanup function to restore the terminal
-#
-cleanup() {
-    tput cnorm # Restore cursor
-    printf '%s' "$RESET"
-    printf '\n'
-    exit 0
+_cleanup_and_exit() { # handler for SIGINT (Ctrl‑C)
+  tput cnorm       # show the cursor again
+  printf '\e[0m\n' # reset colours and move to a new line
+  exit 0
 }
+
+trap _cleanup_and_exit SIGINT # Ctrl‑C
 
 #
 # Main animation loop

@@ -3,19 +3,13 @@
 # This file reads from 12 art files and then loops.
 # Each is displayed for 10 seconds.
 
-trap cleanup SIGINT # Trap CONTROL-C
-
-# --- Functions ---
-
-#
-# Cleanup function to restore the terminal
-#
-cleanup() {
-    tput cnorm # Restore cursor
-    printf '\e[0m'
-    printf '\n'
-    exit 0
+_cleanup_and_exit() { # handler for SIGINT (Ctrl‑C)
+  tput cnorm       # show the cursor again
+  printf '\e[0m\n' # reset colours and move to a new line
+  exit 1           # exit with error, so main menu knows what happened!
 }
+
+trap _cleanup_and_exit SIGINT # Ctrl‑C
 
 #
 # Main animation loop

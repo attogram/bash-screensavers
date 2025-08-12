@@ -59,3 +59,7 @@ The Bash Screensavers project is a collection of fun screensavers written entire
 * Bash v3.2 or higher
 * All screensavers must gracefully handle ^C to clean up the terminal and exit
 * All shell scripts must have execute permission (chmod +x *.sh)
+
+# Style
+
+* Indents are 2 spaces. No Tabs.

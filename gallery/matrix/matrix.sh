@@ -4,8 +4,6 @@
 # MATRIX - A simple matrix-style screensaver
 #~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-
 
-trap cleanup SIGINT # Trap CONTROL-C
-
 # --- Configuration ---
 # Set the colors
 GREEN=$'\e[32m'
@@ -18,17 +16,13 @@ CHARS="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()"
 # The length of the character streams
 STREAM_LEN=15
 
-# --- Functions ---
-
-#
-# Cleanup function to restore the terminal
-#
-cleanup() {
-    tput cnorm # Restore cursor
-    printf '%s' "$RESET"
-    printf '\n'
-    exit 0
+_cleanup_and_exit() { # handler for SIGINT (Ctrl‑C)
+  tput cnorm       # show the cursor again
+  printf '\e[0m\n' # reset colours and move to a new line
+  exit 1           # exit with error, so main menu knows what happened!
 }
+
+trap _cleanup_and_exit SIGINT # Ctrl‑C
 
 #
 # Main animation loop

@@ -4,25 +4,19 @@
 # FIREWORKS - A simple fireworks display
 #~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-
 
-trap cleanup SIGINT # Trap CONTROL-C
-
 # --- Configuration ---
 RESET=$'\e[0m'
 COLORS=($'\e[31m' $'\e[32m' $'\e[33m' $'\e[34m' $'\e[35m' $'\e[36m' $'\e[91m' $'\e[92m' $'\e[93m' $'\e[94m' $'\e[95m' $'\e[96m')
 ROCKET_CHARS=("." "^" "+")
 EXPLOSION_CHARS=("*" "+" ".")
 
-# --- Functions ---
-
-#
-# Cleanup function to restore the terminal
-#
-cleanup() {
-    tput cnorm # Restore cursor
-    printf '%s' "$RESET"
-    printf '\n'
-    exit 0
+_cleanup_and_exit() { # handler for SIGINT (Ctrl‑C)
+  tput cnorm       # show the cursor again
+  printf '\e[0m\n' # reset colours and move to a new line
+  exit 1           # exit with error, so main menu knows what happened!
 }
+
+trap _cleanup_and_exit SIGINT # Ctrl‑C
 
 #
 # Main animation loop
