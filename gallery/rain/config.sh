@@ -1,0 +1,6 @@
+name="rain"
+tagline="Soothing, gentle rain."
+description="A simple screensaver that simulates falling rain in your terminal."
+authors="attogram"
+license="MIT"
+settings=""

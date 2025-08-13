@@ -1,19 +1,22 @@
 #!/bin/bash
 
 #~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-
-# FIREWORKS - A simple fireworks display
+# FIREWORKS - A simple fireworks display (optimized for speed)
 #~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-
 
 # --- Configuration ---
-RESET=$'\e[0m'
 COLORS=($'\e[31m' $'\e[32m' $'\e[33m' $'\e[34m' $'\e[35m' $'\e[36m' $'\e[91m' $'\e[92m' $'\e[93m' $'\e[94m' $'\e[95m' $'\e[96m')
 ROCKET_CHARS=("." "^" "+")
 EXPLOSION_CHARS=("*" "+" ".")
+DELAY_ROCKET=0.01
+DELAY_EXPLOSION=0.05
+DELAY_BETWEEN=0.5
 
 _cleanup_and_exit() { # handler for SIGINT (Ctrl‑C)
   tput cnorm       # show the cursor again
-  printf '\e[0m\n' # reset colours and move to a new line
-  exit 1           # exit with error, so main menu knows what happened!
+  tput sgr0
+  clear
+  exit 0
 }
 
 trap _cleanup_and_exit SIGINT # Ctrl‑C
@@ -22,6 +25,7 @@ trap _cleanup_and_exit SIGINT # Ctrl‑C
 # Main animation loop
 #
 animate() {
+    tput setab 0 # black background
     clear
     tput civis # Hide cursor
 
@@ -38,11 +42,11 @@ animate() {
 
         # Draw rocket ascending
         for ((y=rocket_y; y > peak_y; y--)); do
-            tput cup $y $rocket_x
-            printf '%s%s' "$rocket_color" "$rocket_char"
-            sleep 0.01
-            tput cup $y $rocket_x
-            printf " "
+            local frame_buffer="\e[$((y + 1));$((rocket_x + 1))H${rocket_color}${rocket_char}"
+            printf '%b' "$frame_buffer"
+            sleep $DELAY_ROCKET
+            frame_buffer="\e[$((y + 1));$((rocket_x + 1))H "
+            printf '%b' "$frame_buffer"
         done
 
         # --- Explosion ---
@@ -52,27 +56,40 @@ animate() {
 
         # Expanding explosion
         for ((r=1; r <= explosion_radius; r++)); do
-            # Simple diamond shape for explosion
+            local frame_buffer=""
             for ((i=0; i<r; i++)); do
-                tput cup $((peak_y - r + i)) $((rocket_x + i)); printf '%s%s' "$explosion_color" "$explosion_char"
-                tput cup $((peak_y + i)) $((rocket_x + r - i)); printf '%s%s' "$explosion_color" "$explosion_char"
-                tput cup $((peak_y + r - i)) $((rocket_x - i)); printf '%s%s' "$explosion_color" "$explosion_char"
-                tput cup $((peak_y - i)) $((rocket_x - r + i)); printf '%s%s' "$explosion_color" "$explosion_char"
+                y1=$((peak_y - r + i)); x1=$((rocket_x + i))
+                y2=$((peak_y + i)); x2=$((rocket_x + r - i))
+                y3=$((peak_y + r - i)); x3=$((rocket_x - i))
+                y4=$((peak_y - i)); x4=$((rocket_x - r + i))
+
+                if (( y1 >= 0 && y1 < height && x1 >= 0 && x1 < width )); then frame_buffer+="\e[$((y1 + 1));$((x1 + 1))H${explosion_color}${explosion_char}"; fi
+                if (( y2 >= 0 && y2 < height && x2 >= 0 && x2 < width )); then frame_buffer+="\e[$((y2 + 1));$((x2 + 1))H${explosion_color}${explosion_char}"; fi
+                if (( y3 >= 0 && y3 < height && x3 >= 0 && x3 < width )); then frame_buffer+="\e[$((y3 + 1));$((x3 + 1))H${explosion_color}${explosion_char}"; fi
+                if (( y4 >= 0 && y4 < height && x4 >= 0 && x4 < width )); then frame_buffer+="\e[$((y4 + 1));$((x4 + 1))H${explosion_color}${explosion_char}"; fi
             done
-            sleep 0.05
+            printf '%b' "$frame_buffer"
+            sleep $DELAY_EXPLOSION
         done
 
         # Clear the explosion
+        local frame_buffer=""
         for ((r=1; r <= explosion_radius; r++)); do
             for ((i=0; i<r; i++)); do
-                tput cup $((peak_y - r + i)) $((rocket_x + i)); printf " "
-                tput cup $((peak_y + i)) $((rocket_x + r - i)); printf " "
-                tput cup $((peak_y + r - i)) $((rocket_x - i)); printf " "
-                tput cup $((peak_y - i)) $((rocket_x - r + i)); printf " "
+                y1=$((peak_y - r + i)); x1=$((rocket_x + i))
+                y2=$((peak_y + i)); x2=$((rocket_x + r - i))
+                y3=$((peak_y + r - i)); x3=$((rocket_x - i))
+                y4=$((peak_y - i)); x4=$((rocket_x - r + i))
+
+                if (( y1 >= 0 && y1 < height && x1 >= 0 && x1 < width )); then frame_buffer+="\e[$((y1 + 1));$((x1 + 1))H "; fi
+                if (( y2 >= 0 && y2 < height && x2 >= 0 && x2 < width )); then frame_buffer+="\e[$((y2 + 1));$((x2 + 1))H "; fi
+                if (( y3 >= 0 && y3 < height && x3 >= 0 && x3 < width )); then frame_buffer+="\e[$((y3 + 1));$((x3 + 1))H "; fi
+                if (( y4 >= 0 && y4 < height && x4 >= 0 && x4 < width )); then frame_buffer+="\e[$((y4 + 1));$((x4 + 1))H "; fi
             done
         done
+        printf '%b' "$frame_buffer"
 
-        sleep 0.5 # Wait a moment before the next firework
+        sleep $DELAY_BETWEEN # Wait a moment before the next firework
     done
 }
 

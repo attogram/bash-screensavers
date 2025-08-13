@@ -1,31 +1,38 @@
 #!/usr/bin/env bash
 #
-# alpha screensaver
+# alpha screensaver (optimized for speed)
 #
 
-SLEEPY_TIME="0.30" # Number of seconds of sleepy time between alpha-ness
+SLEEPY_TIME="0.03" # Number of seconds of sleepy time between alpha-ness
 
 _cleanup_and_exit() { # handler for SIGINT (Ctrl‑C)
   tput cnorm       # show the cursor again
-  printf '\e[0m\n' # reset colours and move to a new line
+  tput sgr0
+  clear
   exit 0
 }
 
 trap _cleanup_and_exit SIGINT # Ctrl‑C
 
-_color() {
-  printf '\e[38;5;%dm' $((RANDOM % 256))
-}
+# Get terminal dimensions
+width=$(tput cols)
+height=$(tput lines)
 
-_location() {
-  tput cup $(($RANDOM%$(tput lines))) $(($RANDOM%$(tput cols)))
-}
-
+tput setab 0 # black background
 clear
 tput civis # no cursor
 
 while true; do
-  _location
-  printf '%s█%s' "$(_color)" $'\e[0m'
+  # Get random location and color
+  local x=$((RANDOM % width + 1))
+  local y=$((RANDOM % height + 1))
+  local color_code=$((RANDOM % 256))
+
+  # Build the string to print
+  local frame_buffer="\e[${y};${x}H\e[38;5;${color_code}m█"
+
+  # Print the frame
+  printf '%b' "$frame_buffer"
+
   sleep "$SLEEPY_TIME"
 done

@@ -1,0 +1,6 @@
+name="tunnel"
+tagline="Fly through a digital tunnel."
+description="A digital tunnel or hyperspace effect created with expanding character-based shapes."
+authors="attogram"
+license="MIT"
+settings=""

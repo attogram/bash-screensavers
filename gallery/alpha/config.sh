@@ -1,0 +1,6 @@
+name="alpha"
+tagline="Colorful pixels, one at a time"
+description="A simple screensaver that prints random colored blocks at random locations on the screen."
+authors="attogram"
+license="MIT"
+settings=""

@@ -265,6 +265,7 @@ init_screen() {
     stty -echo
     tput smcup
     tput civis
+    tput setab 0 # black background
     tput clear
     trap cleanup HUP TERM
 
