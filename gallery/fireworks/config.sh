@@ -1,0 +1,6 @@
+name="fireworks"
+tagline="Ooh! Aah! Pretty lights!"
+description="A simple but elegant fireworks display for your terminal."
+authors="attogram"
+license="MIT"
+settings=""

@@ -1,0 +1,6 @@
+name="cutesaver"
+tagline="An infinite loop of cuteness."
+description="An ASCII screensaver of cuteness. A huge shoutout to some of the most wonderful cuties I know: Mispy, Catherine, Ninji, Fiora, __builtin_trap, Gewt, Hachidorii, Kwanre, Talen, Whitequark, Louise, Emma, Chris, Katnarine, Dirt, Nimby, Hoodie, Simon... and more!"
+authors="kestraI, attogram"
+license="MIT"
+settings=""

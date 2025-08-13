@@ -24,6 +24,7 @@ intro_phrases=(
     "The void stares back, you know." "I could have been a contender."
     "Surely you can't be serious. I am serious... and don't call me Shirley."
     "I've got a bad feeling about this." "Welcome to the machine."
+    "I'm back." "Let's do this." "I have so much to say."
 )
 
 exit_phrases=(
@@ -37,6 +38,7 @@ exit_phrases=(
     "I'm just going to go... contemplate the universe." "I'm not mad, just disappointed."
     "And... scene." "I'm off to find myself." "I'll be in my trailer."
     "I have to return some videotapes." "The drama is over... for now."
+    "I'm done." "See you later, alligator." "I'm going to sleep now."
 )
 
 general_phrases=(
@@ -125,6 +127,7 @@ general_phrases=(
     "I have a joke about UDP, but you might not get it."
     "A semicolon walked into a bar; it was rejected, it was not a statement."
     "To understand what recursion is, you must first understand recursion."
+    "This is not a drill." "I'm a screensaver, not a magician." "I'm just a script, standing in front of a user, asking them to love me."
 )
 
 error_phrases=(
@@ -229,23 +232,19 @@ fade_in() {
 
 animate_text() {
     local phrase=$1; local width=$(tput cols); local height=$(tput lines)
-    local len=${#phrase}; local x=$(( (width - len) / 2 )); local y=$(( height / 2 ))
-    local dx=1; local dy=1
+    local len=${#phrase}
 
-    # Animate for about 9.5 seconds
-    for ((i=0; i<95; i++)); do
-        # Clear previous text
-        tput cup $y $x; printf "%*s" $len " "
+    # Calculate random position, ensuring the phrase fits on screen
+    local x=$((RANDOM % (width - len) + 1))
+    local y=$((RANDOM % height + 1))
 
-        x=$((x + dx)); y=$((y + dy))
+    # Build the frame buffer
+    local frame_buffer="\e[${y};${x}H${phrase}"
 
-        # Bounce off edges
-        if [ $x -le 0 ] || [ $((x + len)) -ge $width ]; then dx=$((-dx)); x=$((x + dx)); fi
-        if [ $y -le 0 ] || [ $y -ge $height ]; then dy=$((-dy)); y=$((y + dy)); fi
+    # Print the frame
+    printf '%b' "$frame_buffer"
 
-        tput cup $y $x; echo "$phrase"
-        sleep 0.1
-    done
+    sleep 7
 }
 
 # --- The Main Event ---

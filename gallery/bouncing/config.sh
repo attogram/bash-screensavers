@@ -1,0 +1,6 @@
+name="bouncing"
+tagline="Bouncing 'O's, a classic."
+description="A classic screensaver effect with multiple objects bouncing off the edges of the terminal."
+authors="attogram"
+license="MIT"
+settings=""

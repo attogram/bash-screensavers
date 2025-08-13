@@ -15,6 +15,8 @@ trap _cleanup_and_exit SIGINT # Ctrl‑C
 # Main animation loop
 #
 animate() {
+    tput setab 0 # black background
+    clear
     tput civis # Hide cursor
 
     # List of art files to display

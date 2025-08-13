@@ -65,16 +65,32 @@ choose_screensaver() {
   local names=()
   local i=1
   for saver in "${screensavers[@]}"; do
-    local name=$(basename "$saver" .sh)
+    local name
+    name=$(basename "$saver" .sh)
     names+=("$name")
-    echo "  $i. $name"
+    local tagline
+    # Source config in a subshell to prevent it from breaking the main script
+    tagline=$( (
+        local config_file="$(dirname "$saver")/config.sh"
+        if [[ -f "$config_file" ]]; then
+            # shellcheck source=/dev/null
+            source "$config_file"
+            echo "$tagline"
+        fi
+    ) 2>/dev/null )
+    if [[ -z "$tagline" ]]; then
+        printf "  %-2s. %s\n" "$i" "$name"
+    else
+        printf "  %-2s. %-12s - %s\n" "$i" "$name" "$tagline"
+    fi
     i=$((i+1))
   done
 
   # Set up tab completion for screensaver names
-  # TODO - check if compgen exists - failover nicely if not
-  local IFS=$'\n'
-  COMPREPLY=($(compgen -W "${names[*]}" -- "${COMP_WORDS[COMP_CWORD]}"))
+  if command -v compgen &> /dev/null; then
+    local IFS=$'\n'
+    COMPREPLY=($(compgen -W "${names[*]}" -- "${COMP_WORDS[COMP_CWORD]}"))
+  fi
 
   echo
   echo '(Press ^C to exit)'
@@ -110,11 +126,16 @@ choose_screensaver() {
 }
 
 while true; do
+  tput setab 0 # black background
+  tput setaf 2 # green foreground
+  clear
   choose_screensaver
   run_screensaver "$chosen_screensaver" # run until user presses ^C
   screensaver_return=$?
   if (( screensaver_return )); then
+    tput setab 0; tput setaf 1 # red foreground
     printf '\nOh no! Screensaver had trouble and returned %d\n' "$screensaver_return"
+    tput sgr0
     #exit $screensaver_return # Fun time is really over
   fi
 done

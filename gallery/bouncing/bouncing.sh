@@ -1,19 +1,19 @@
 #!/bin/bash
 
 #~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-
-# BOUNCING - A simple bouncing objects screensaver
+# BOUNCING - A simple bouncing objects screensaver (optimized for speed)
 #~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-
 
 # --- Configuration ---
-RESET=$'\e[0m'
 COLORS=($'\e[31m' $'\e[32m' $'\e[33m' $'\e[34m' $'\e[35m' $'\e[36m')
 OBJECT_CHAR="O"
 NUM_OBJECTS=5
-SLEEP_TIME=0.05
+SLEEP_TIME=0.03
 
 _cleanup_and_exit() { # handler for SIGINT (Ctrl‑C)
   tput cnorm       # show the cursor again
-  printf '\e[0m\n' # reset colours and move to a new line
+  tput sgr0
+  clear
   exit 0
 }
 
@@ -23,6 +23,7 @@ trap _cleanup_and_exit SIGINT # Ctrl‑C
 # Main animation loop
 #
 animate() {
+    tput setab 0 # black background
     clear
     tput civis # Hide cursor
 
@@ -30,11 +31,11 @@ animate() {
     local height=$(tput lines)
 
     # Initialize objects
-    local pos_x=()
-    local pos_y=()
-    local vel_x=()
-    local vel_y=()
-    local colors=()
+    local -a pos_x
+    local -a pos_y
+    local -a vel_x
+    local -a vel_y
+    local -a colors
 
     for ((i=0; i<NUM_OBJECTS; i++)); do
         pos_x[$i]=$((RANDOM % (width - 2) + 1))
@@ -46,10 +47,10 @@ animate() {
     done
 
     while true; do
+        local frame_buffer=""
         for ((i=0; i<NUM_OBJECTS; i++)); do
-            # 1. Clear old position
-            tput cup ${pos_y[$i]} ${pos_x[$i]}
-            printf " "
+            # 1. Add clear old position to frame buffer
+            frame_buffer+="\e[$((${pos_y[$i]} + 1));$((${pos_x[$i]} + 1))H "
 
             # 2. Update position
             pos_x[$i]=$((${pos_x[$i]} + ${vel_x[$i]}))
@@ -58,19 +59,19 @@ animate() {
             # 3. Check for wall collisions and reverse velocity
             if [ ${pos_x[$i]} -le 0 ] || [ ${pos_x[$i]} -ge $((width - 1)) ]; then
                 vel_x[$i]=$((${vel_x[$i]} * -1))
-                # Move back into bounds immediately to prevent getting stuck
-                pos_x[$i]=$((${pos_x[$i]} + ${vel_x[$i]}))
+                pos_x[$i]=$((${pos_x[$i]} + ${vel_x[$i]})) # Move back into bounds
             fi
             if [ ${pos_y[$i]} -le 0 ] || [ ${pos_y[$i]} -ge $((height - 1)) ]; then
                 vel_y[$i]=$((${vel_y[$i]} * -1))
-                # Move back into bounds immediately
-                pos_y[$i]=$((${pos_y[$i]} + ${vel_y[$i]}))
+                pos_y[$i]=$((${pos_y[$i]} + ${vel_y[$i]})) # Move back into bounds
             fi
 
-            # 4. Draw new position
-            tput cup ${pos_y[$i]} ${pos_x[$i]}
-            printf '%s%s' "${colors[$i]}" "$OBJECT_CHAR"
+            # 4. Add draw new position to frame buffer
+            frame_buffer+="\e[$((${pos_y[$i]} + 1));$((${pos_x[$i]} + 1))H${colors[$i]}${OBJECT_CHAR}"
         done
+
+        # Print the entire frame at once
+        printf '%b' "$frame_buffer"
         sleep $SLEEP_TIME
     done
 }

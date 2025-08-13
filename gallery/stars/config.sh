@@ -1,0 +1,6 @@
+name="stars"
+tagline="A twinkling starfield."
+description="A simple starfield screensaver that randomly places stars on the screen and makes them twinkle."
+authors="attogram"
+license="MIT"
+settings=""

@@ -1,22 +1,22 @@
 #!/bin/bash
 
 #~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-
-# STARS - A simple starfield screensaver
+# STARS - A simple starfield screensaver (optimized for speed)
 #~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-
 
 # --- Configuration ---
 # Set the colors
 WHITE=$'\e[97m'
 YELLOW=$'\e[93m'
-BLACK=$'\e[40m'
-RESET=$'\e[0m'
+DELAY=0.02
 
 # The characters for the stars
 STARS=("*" "." "+")
 
 _cleanup_and_exit() { # handler for SIGINT (Ctrl‑C)
   tput cnorm       # show the cursor again
-  printf '\e[0m\n' # reset colours and move to a new line
+  tput sgr0
+  clear
   exit 0
 }
 
@@ -26,37 +26,38 @@ trap _cleanup_and_exit SIGINT # Ctrl‑C
 # Main animation loop
 #
 animate() {
+    tput setab 0 # black background
     clear
     tput civis # Hide cursor
-    printf '%s' "${BLACK}"
 
     # Get terminal dimensions
     local width=$(tput cols)
     local height=$(tput lines)
 
     while true; do
+        local frame_buffer=""
+
         # Add a new star
-        local x=$((RANDOM % width))
-        local y=$((RANDOM % height))
-        tput cup $y $x
+        local x=$((RANDOM % width + 1))
+        local y=$((RANDOM % height + 1))
 
         # Choose a random star character and color
         local rand_star=${STARS[$((RANDOM % ${#STARS[@]}))]}
+        local star_color=$WHITE
         if [ $((RANDOM % 5)) -eq 0 ]; then
-            printf '%s%s' "${YELLOW}" "$rand_star"
-        else
-            printf '%s%s' "${WHITE}" "$rand_star"
+            star_color=$YELLOW
         fi
+        frame_buffer+="\e[${y};${x}H${star_color}${rand_star}"
 
         # Occasionally clear a random spot to make stars twinkle
         if [ $((RANDOM % 3)) -eq 0 ]; then
-            local clear_x=$((RANDOM % width))
-            local clear_y=$((RANDOM % height))
-            tput cup $clear_y $clear_x
-            printf " "
+            local clear_x=$((RANDOM % width + 1))
+            local clear_y=$((RANDOM % height + 1))
+            frame_buffer+="\e[${clear_y};${clear_x}H "
         fi
 
-        sleep 0.02
+        printf '%b' "$frame_buffer"
+        sleep $DELAY
     done
 }
 
