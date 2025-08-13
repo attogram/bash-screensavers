@@ -38,7 +38,6 @@ Bash Screensavers v0.0.7
 (Press ^C to exit)
 
 Choose your screensaver:
-
 ```
 
 ## Join the Community
