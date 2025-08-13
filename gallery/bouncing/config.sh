@@ -1,5 +1,5 @@
 name="bouncing"
-tagline="Bouncing 'O's, a classic."
+tagline="classic bouncing 'O's"
 description="A classic screensaver effect with multiple objects bouncing off the edges of the terminal."
 authors="attogram"
 license="MIT"

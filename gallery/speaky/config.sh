@@ -1,5 +1,5 @@
 name="speaky"
-tagline="A dramatic, talking screensaver."
+tagline="dramatic talking screensaver"
 description="A screensaver that uses text-to-speech to deliver dramatic and humorous phrases, displaying each phrase at a random location on the screen."
 authors="Jules"
 license="MIT"

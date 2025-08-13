@@ -3,12 +3,12 @@
 # alpha screensaver (optimized for speed)
 #
 
-SLEEPY_TIME="0.03" # Number of seconds of sleepy time between alpha-ness
+SLEEPY_TIME="0.7" # Number of seconds of sleepy time between alpha-ness
 
 _cleanup_and_exit() { # handler for SIGINT (Ctrl‑C)
   tput cnorm       # show the cursor again
   tput sgr0
-  clear
+  echo
   exit 0
 }
 
@@ -24,12 +24,12 @@ tput civis # no cursor
 
 while true; do
   # Get random location and color
-  local x=$((RANDOM % width + 1))
-  local y=$((RANDOM % height + 1))
-  local color_code=$((RANDOM % 256))
+  x=$((RANDOM % width + 1))
+  y=$((RANDOM % height + 1))
+  color_code=$((RANDOM % 256))
 
   # Build the string to print
-  local frame_buffer="\e[${y};${x}H\e[38;5;${color_code}m█"
+  frame_buffer="\e[${y};${x}H\e[38;5;${color_code}m█"
 
   # Print the frame
   printf '%b' "$frame_buffer"

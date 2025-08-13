@@ -7,7 +7,7 @@
 #
 
 BASH_SCREENSAVERS_NAME="Bash Screensavers"
-BASH_SCREENSAVERS_VERSION="0.0.6"
+BASH_SCREENSAVERS_VERSION="0.0.7"
 BASH_SCREENSAVERS_URL="https://github.com/attogram/bash-screensavers"
 BASH_SCREENSAVERS_DISCORD="https://discord.gg/BGQJCbYVBa"
 BASH_SCREENSAVERS_LICENSE="MIT"
@@ -21,7 +21,7 @@ chosen_screensaver='' # global variable
 # Lists all available screensavers.
 list_screensavers() {
   local screensaver name run list
-  for screensaver in $BASH_SCREENSAVERS_DIR/*/; do
+  for screensaver in "$BASH_SCREENSAVERS_DIR"/*/; do
     if [[ -d "${screensaver}" ]]; then
       name=$(basename "${screensaver}")
       run="${screensaver}${name}.sh"
@@ -54,6 +54,7 @@ choose_screensaver() {
   echo
 
   local screensavers
+  # TODO - use mapfile or read -r
   screensavers=($(list_screensavers))
   if [[ ${#screensavers[@]} -eq 0 ]]; then
     echo "Whoops! No screensavers found. Add some to the '$BASH_SCREENSAVERS_DIR' directory."
@@ -71,7 +72,8 @@ choose_screensaver() {
     local tagline
     # Source config in a subshell to prevent it from breaking the main script
     tagline=$( (
-        local config_file="$(dirname "$saver")/config.sh"
+        local config_file
+        config_file="$(dirname "$saver")/config.sh"
         if [[ -f "$config_file" ]]; then
             # shellcheck source=/dev/null
             source "$config_file"
@@ -89,6 +91,7 @@ choose_screensaver() {
   # Set up tab completion for screensaver names
   if command -v compgen &> /dev/null; then
     local IFS=$'\n'
+    # TODO - use mapfile or read -r
     COMPREPLY=($(compgen -W "${names[*]}" -- "${COMP_WORDS[COMP_CWORD]}"))
   fi
 
@@ -134,8 +137,7 @@ while true; do
   screensaver_return=$?
   if (( screensaver_return )); then
     tput setab 0; tput setaf 1 # red foreground
-    printf '\nOh no! Screensaver had trouble and returned %d\n' "$screensaver_return"
+    printf '\n\nOh no! Screensaver had trouble and returned %d\n\n' "$screensaver_return"
     tput sgr0
-    #exit $screensaver_return # Fun time is really over
   fi
 done

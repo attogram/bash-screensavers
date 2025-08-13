@@ -1,5 +1,5 @@
 name="matrix"
-tagline="The classic digital rain."
+tagline="classic digital rain"
 description="A matrix-style screensaver with falling green characters. This version is optimized for speed."
 authors="attogram"
 license="MIT"

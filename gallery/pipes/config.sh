@@ -1,5 +1,5 @@
 name="pipes"
-tagline="A classic, endless maze of pipes."
+tagline="classic maze of pipes"
 description="An animated pipes terminal screensaver. This is a classic, highly customizable screensaver."
 authors="Pipeseroni/pipes.sh contributors, Yu-Jie Lin, Matthew Simpson"
 license="MIT"
