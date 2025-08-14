@@ -6,24 +6,27 @@
 # Because who needs fancy graphics when you have ASCII?
 #
 
-BASH_SCREENSAVERS_NAME="Bash Screensavers"
-BASH_SCREENSAVERS_VERSION="0.0.9"
-BASH_SCREENSAVERS_URL="https://github.com/attogram/bash-screensavers"
-BASH_SCREENSAVERS_DISCORD="https://discord.gg/BGQJCbYVBa"
-BASH_SCREENSAVERS_LICENSE="MIT"
-BASH_SCREENSAVERS_COPYRIGHT="Copyright (c) 2025 Attogram Project <https://github.com/attogram>"
+BASH_SCREENSAVERS_NAME='Bash Screensavers'
+BASH_SCREENSAVERS_VERSION='0.0.10'
+BASH_SCREENSAVERS_CODENAME='Mystical Tempo'
+BASH_SCREENSAVERS_URL='https://github.com/attogram/bash-screensavers'
+BASH_SCREENSAVERS_DISCORD='https://discord.gg/BGQJCbYVBa'
+BASH_SCREENSAVERS_LICENSE='MIT'
+BASH_SCREENSAVERS_COPYRIGHT='Copyright (c) 2025 Attogram Project <https://github.com/attogram>'
 
 SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &> /dev/null && pwd)
 BASH_SCREENSAVERS_DIR="$SCRIPT_DIR/gallery"
 
 chosen_screensaver='' # the chosen one
 
-# Lists all available screensavers.
-list_screensavers() {
-  local screensaver name run list
+# Peak into the gallery
+#
+# Output: list of screensaver run scripts, 1 per line
+peak_into_the_gallery() {
+  local screensaver name run
   for screensaver in "$BASH_SCREENSAVERS_DIR"/*/; do
     if [[ -d "${screensaver}" ]]; then
-      name=$(basename "${screensaver}")
+      name="$(basename "${screensaver}")"
       run="${screensaver}${name}.sh"
       if [[ -f "${run}" ]]; then
         printf '%s\n' "$run"
@@ -32,33 +35,40 @@ list_screensavers() {
   done
 }
 
-# Runs the selected screensaver.
-run_screensaver() {
-    local screensaver_path="$1"
-    if [[ ! -f "$screensaver_path" ]]; then
-        echo "Hmm, something went wrong. Cannot find the screensaver at '$screensaver_path'."
+# Enjoy a screensaver
+#
+# Input: 1 - full path to the screensaver run script
+# Output: The visual goodness of the screensaver
+enjoy_a_screensaver() {
+    local visual_goodness="$1"
+    if [[ ! -f "$visual_goodness" ]]; then
+        echo "404 Screensaver Not Found: $visual_goodness"
         return 1
     fi
-    if [[ ! -x "$screensaver_path" ]]; then
+    if [[ ! -x "$visual_goodness" ]]; then
         tput setaf 1 # red foreground
         printf "\nWoah there, partner! This screensaver ain't ready for the big show yet.\n"
         printf "Give it some execute permissions and we'll be in business:\n\n"
-        printf "    chmod +x %s\n\n" "$screensaver_path"
-        printf "(Press ^C to go back to the menu, or to ponder the meaning of file permissions.)\n"
+        printf "chmod +x %s\n\n" "$visual_goodness"
+        printf "(Press ^C to exit and fix, or to ponder the meaning of file permissions)\n"
         tput setaf 2 # back to green
         return 2
     fi
-    ( "$screensaver_path" ) # Execute the saver in a sub‑shell – isolates its `exit` from the menu script.
+    ( "$visual_goodness" ) # Execute the saver in a sub‑shell – isolates its `exit` from the menu script
     return $?
 }
 
-choose_screensaver() {
-  echo
-  echo "$BASH_SCREENSAVERS_NAME v$BASH_SCREENSAVERS_VERSION"
-  echo
+intro() {
+  local emptiness='                                                                      '
+  echo "$emptiness"
+  echo "$BASH_SCREENSAVERS_NAME v$BASH_SCREENSAVERS_VERSION ($BASH_SCREENSAVERS_CODENAME)" '     '
+  echo "$emptiness"
+}
 
+choose_screensaver() {
+  intro
   local screensavers
-  mapfile -t screensavers < <(list_screensavers)
+  mapfile -t screensavers < <(peak_into_the_gallery)
   if [[ ${#screensavers[@]} -eq 0 ]]; then
     echo "Whoops! No screensavers found. Add some to the '$BASH_SCREENSAVERS_DIR' directory."
     echo
@@ -70,11 +80,11 @@ choose_screensaver() {
   local i=1
   for saver in "${screensavers[@]}"; do
     local name
-    name=$(basename "$saver" .sh)
+    name="$(basename "$saver" .sh)"
     names+=("$name")
     local tagline
     # Source config in a subshell to prevent it from breaking the main script
-    tagline=$( (
+    tagline="$( (
         local config_file
         config_file="$(dirname "$saver")/config.sh"
         if [[ -f "$config_file" ]]; then
@@ -82,11 +92,11 @@ choose_screensaver() {
             source "$config_file"
             echo "$tagline"
         fi
-    ) 2>/dev/null )
+    ) 2>/dev/null )"
     if [[ -z "$tagline" ]]; then
-        printf "  %-2s. %s\n" "$i" "$name"
+        printf '  %-2s. %s     \n' "$i" "$name"
     else
-        printf "  %-2s. %-12s - %s\n" "$i" "$name" "$tagline"
+        printf '  %-2s. %-12s - %s     \n' "$i" "$name" "$tagline"
     fi
     i=$((i+1))
   done
@@ -103,7 +113,8 @@ choose_screensaver() {
 
   local choice
   echo
-  read -e -p "Choose your screensaver: " choice
+  echo 'Choose your screensaver:'
+  read -e choice
 
   if [[ "$choice" =~ ^[0-9]+$ ]]; then   # Check if choice is a number
     if [ "$choice" -ge 1 ] && [ "$choice" -le "${#screensavers[@]}" ]; then
@@ -121,9 +132,8 @@ choose_screensaver() {
       done
   fi
 
-  # If we get here, the choice was invalid
   echo
-  echo "Invalid choice. Please enter a number or name from the list."
+  echo 'Oops, invalid input!  Please enter a number or name from the list.     '
   echo
   return 1
 }
@@ -150,7 +160,7 @@ create_new_screensaver() {
 _cleanup_and_exit() {
   tput cnorm # show the cursor again
   tput sgr0  # reset all attributes
-  clear
+  echo
   exit 0
 }
 trap _cleanup_and_exit SIGINT # Catch Ctrl-C
@@ -183,8 +193,11 @@ name="$name"
 tagline=""
 EOL
 
+    echo
     echo "Successfully created new screensaver '$name' in $dir"
-    echo "To make it runnable, execute: chmod +x $script_path"
+    echo 'To make it runnable, execute:'
+    echo "chmod +x $script_path"
+    echo
 }
 
 main_menu() {
@@ -192,28 +205,24 @@ main_menu() {
       tput setab 0 # black background
       tput setaf 2 # green foreground
       echo
-      choose_screensaver
-      if [ $? -ne 0 ]; then
+
+      if ! choose_screensaver; then
           continue # Invalid choice, re-show menu
       fi
-      run_screensaver "$chosen_screensaver" # run until user presses ^C
+
+      enjoy_a_screensaver "$chosen_screensaver" # run until user presses ^C
       screensaver_return=$?
-      if [ $screensaver_return -ne 0 ]; then
-        if [ $screensaver_return -eq 2 ]; then
-            # Specific error for non-executable file, message already printed
-            sleep 0.1
-        else
-            # Generic error for other return codes
-            tput setab 0; tput setaf 1 # red foreground
-            printf '\n\nOh no! Screensaver had trouble and returned %d\n\n' "$screensaver_return"
-            tput sgr0
-            sleep 0.1
+      if (( screensaver_return )); then
+            tput setab 0 # black background
+            tput setaf 1 # red foreground
+            printf '\n\nOh no! Screensaver had trouble! Error code: %d\n\n' "$screensaver_return"
+            tput sgr0 # reset
         fi
-      fi
     done
 }
 
-# Main script execution
+# TODO: better arg handling, add: -version, -help, -verbose and whatever
+
 if [ "$1" == "-n" ] || [ "$1" == "--new" ]; then
     if [ -z "$2" ]; then
         echo "Error: missing screensaver name for $1 option." >&2
