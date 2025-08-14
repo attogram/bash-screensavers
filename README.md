@@ -22,7 +22,7 @@ cd bash-screensavers
 ./screensaver.sh
 ```
 ```
-Bash Screensavers v0.0.8
+Bash Screensavers v0.0.9
 
   1 . alpha        - colorful pixels, one at a time
   2 . bouncing     - classic bouncing 'O's
