@@ -16,7 +16,7 @@ BASH_SCREENSAVERS_COPYRIGHT="Copyright (c) 2025 Attogram Project <https://github
 SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &> /dev/null && pwd)
 BASH_SCREENSAVERS_DIR="$SCRIPT_DIR/gallery"
 
-chosen_screensaver='' # global variable
+chosen_screensaver='' # the chosen one
 
 # Lists all available screensavers.
 list_screensavers() {
