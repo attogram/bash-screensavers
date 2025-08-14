@@ -12,6 +12,14 @@
 
 # Anyway, on with the cuteness. Let's load some title art.
 
+_cleanup_and_exit() { # handler for SIGINT (Ctrl‑C)
+  tput cnorm # show the cursor again
+  tput sgr0  # reset all attributes
+  echo
+  exit 0
+}
+trap _cleanup_and_exit SIGINT # Catch Ctrl‑C
+
 cd "$( dirname "${BASH_SOURCE[0]}" )"
 
 clear
@@ -44,8 +52,34 @@ echo
 sleep 2
 # read -p "Press [ENTER] to start..."
 
-# Now we'll simply load the ever-looping cuteness file.
-./rollthecute.sh
+# Now we'll simply start the animation.
+animate() {
+    tput setab 0 # black background
+    clear
+    tput civis # Hide cursor
 
-# Et Voila!
-exit
+    # Find all art files
+    local art_files=(./art/*.art)
+    if [ ${#art_files[@]} -eq 0 ]; then
+        echo "No art files found in ./art/"
+        sleep 5
+        return
+    fi
+
+    while true; do
+        # Shuffle the list of files for random order
+        local shuffled_files=($(shuf -e "${art_files[@]}"))
+        for art_file in "${shuffled_files[@]}"; do
+            clear
+            if [ -f "$art_file" ]; then
+                cat "$art_file"
+            else
+                tput cup 5 5
+                echo "Art file not found: $art_file"
+            fi
+            sleep 10
+        done
+    done
+}
+
+animate

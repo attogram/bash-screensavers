@@ -17,7 +17,7 @@ DELAY=0.03
 _cleanup_and_exit() { # handler for SIGINT (Ctrl‑C)
   tput cnorm       # show the cursor again
   tput sgr0
-  clear
+  echo
   exit 0
 }
 

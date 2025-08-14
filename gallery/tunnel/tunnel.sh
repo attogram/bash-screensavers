@@ -12,7 +12,7 @@ DELAY=0.02
 _cleanup_and_exit() { # handler for SIGINT (Ctrl‑C)
   tput cnorm       # show the cursor again
   tput sgr0
-  clear
+  echo
   exit 0
 }
 
@@ -30,7 +30,7 @@ animate() {
     local height=$(tput lines)
     local center_x=$((width / 2))
     local center_y=$((height / 2))
-    local max_radius=$((height < width ? height / 2 : width / 2))
+    local max_radius=$(( (height > width ? height : width) / 2 + 1 ))
 
     while true; do
         for ((r=1; r < max_radius; r++)); do
@@ -46,10 +46,10 @@ animate() {
                     x2=$((center_x + prev_r - i)); y2=$((center_y + i))
                     x3=$((center_x - i)); y3=$((center_y + prev_r - i))
                     x4=$((center_x - prev_r + i)); y4=$((center_y - i))
-                    frame_buffer+="\e[$((y1 + 1));$((x1 + 1))H "
-                    frame_buffer+="\e[$((y2 + 1));$((x2 + 1))H "
-                    frame_buffer+="\e[$((y3 + 1));$((x3 + 1))H "
-                    frame_buffer+="\e[$((y4 + 1));$((x4 + 1))H "
+                    if (( y1 >= 0 && y1 < height && x1 >= 0 && x1 < width )); then frame_buffer+="\e[$((y1 + 1));$((x1 + 1))H "; fi
+                    if (( y2 >= 0 && y2 < height && x2 >= 0 && x2 < width )); then frame_buffer+="\e[$((y2 + 1));$((x2 + 1))H "; fi
+                    if (( y3 >= 0 && y3 < height && x3 >= 0 && x3 < width )); then frame_buffer+="\e[$((y3 + 1));$((x3 + 1))H "; fi
+                    if (( y4 >= 0 && y4 < height && x4 >= 0 && x4 < width )); then frame_buffer+="\e[$((y4 + 1));$((x4 + 1))H "; fi
                 done
             fi
 
@@ -59,11 +59,10 @@ animate() {
                 x2=$((center_x + r - i)); y2=$((center_y + i))
                 x3=$((center_x - i)); y3=$((center_y + r - i))
                 x4=$((center_x - r + i)); y4=$((center_y - i))
-
-                frame_buffer+="\e[$((y1 + 1));$((x1 + 1))H${color}${char}"
-                frame_buffer+="\e[$((y2 + 1));$((x2 + 1))H${color}${char}"
-                frame_buffer+="\e[$((y3 + 1));$((x3 + 1))H${color}${char}"
-                frame_buffer+="\e[$((y4 + 1));$((x4 + 1))H${color}${char}"
+                if (( y1 >= 0 && y1 < height && x1 >= 0 && x1 < width )); then frame_buffer+="\e[$((y1 + 1));$((x1 + 1))H${color}${char}"; fi
+                if (( y2 >= 0 && y2 < height && x2 >= 0 && x2 < width )); then frame_buffer+="\e[$((y2 + 1));$((x2 + 1))H${color}${char}"; fi
+                if (( y3 >= 0 && y3 < height && x3 >= 0 && x3 < width )); then frame_buffer+="\e[$((y3 + 1));$((x3 + 1))H${color}${char}"; fi
+                if (( y4 >= 0 && y4 < height && x4 >= 0 && x4 < width )); then frame_buffer+="\e[$((y4 + 1));$((x4 + 1))H${color}${char}"; fi
             done
 
             printf '%b' "$frame_buffer"

@@ -170,7 +170,8 @@ say_txt() {
         "festival")   echo "$phrase" | festival --tts & ;;
         "gtts-cli")   gtts-cli -l en - --output - "$phrase" | aplay & ;;
         "pico2wave")
-            local tmpfile="/tmp/speaky_tts_$$.wav"
+            local tmpfile
+            tmpfile=$(mktemp /tmp/speaky_tts.XXXXXX.wav)
             pico2wave -l en-US -w "$tmpfile" "$phrase" && aplay "$tmpfile" && rm "$tmpfile" & ;;
         "powershell")
             powershell.exe -Command "Add-Type -AssemblyName System.Speech; (New-Object System.Speech.Synthesis.SpeechSynthesizer).Speak('$phrase_ps')" & ;;
@@ -195,7 +196,7 @@ cleanup_and_exit() {
     local exit_phrase=${exit_phrases[$RANDOM % ${#exit_phrases[@]}]}
     say_txt "$exit_phrase"
     wait $SPEAK_PID &>/dev/null
-    tput cnorm; tput sgr0; clear
+    tput cnorm; tput sgr0; echo
     exit 0
 }
 

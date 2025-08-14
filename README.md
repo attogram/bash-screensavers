@@ -22,7 +22,7 @@ cd bash-screensavers
 ./screensaver.sh
 ```
 ```
-Bash Screensavers v0.0.7
+Bash Screensavers v0.0.8
 
   1 . alpha        - colorful pixels, one at a time
   2 . bouncing     - classic bouncing 'O's
@@ -64,6 +64,19 @@ Let's make the command line a more colorful place, one ASCII character at a time
 ### Create Your Own Screensaver
 
 Got an idea for a cool ASCII animation? Want to contribute to the collection? It's easy!
+
+#### The Easy Way (Generator)
+
+You can use the built-in generator to create a new screensaver with all the boilerplate code you need. Just run:
+
+```bash
+./screensaver.sh --new my-awesome-screensaver
+```
+(You can also use `-n` instead of `--new`)
+
+This will create a new directory `gallery/my-awesome-screensaver` with a starter `my-awesome-screensaver.sh` script and a `config.sh` file. All you have to do is edit the `.sh` file to add your animation logic!
+
+#### The Hard Way (Manual)
 
 1.  **Create a new directory** for your screensaver inside the `gallery` directory. For example, `gallery/my-awesome-screensaver`.
 2.  **Create a shell script** inside your new directory with the same name as the directory, ending in `.sh`. For example, `gallery/my-awesome-screensaver/my-awesome-screensaver.sh`.
