@@ -22,7 +22,7 @@ cd bash-screensavers
 ./screensaver.sh
 ```
 ```
-Bash Screensavers v0.0.9
+Bash Screensavers v0.0.11 (Mystical Shine)
 
   1 . alpha        - colorful pixels, one at a time
   2 . bouncing     - classic bouncing 'O's
