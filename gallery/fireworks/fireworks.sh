@@ -15,7 +15,7 @@ DELAY_BETWEEN=0.5
 _cleanup_and_exit() { # handler for SIGINT (Ctrl‑C)
   tput cnorm       # show the cursor again
   tput sgr0
-  clear
+  echo
   exit 0
 }
 
@@ -72,24 +72,9 @@ animate() {
             sleep $DELAY_EXPLOSION
         done
 
-        # Clear the explosion
-        local frame_buffer=""
-        for ((r=1; r <= explosion_radius; r++)); do
-            for ((i=0; i<r; i++)); do
-                y1=$((peak_y - r + i)); x1=$((rocket_x + i))
-                y2=$((peak_y + i)); x2=$((rocket_x + r - i))
-                y3=$((peak_y + r - i)); x3=$((rocket_x - i))
-                y4=$((peak_y - i)); x4=$((rocket_x - r + i))
-
-                if (( y1 >= 0 && y1 < height && x1 >= 0 && x1 < width )); then frame_buffer+="\e[$((y1 + 1));$((x1 + 1))H "; fi
-                if (( y2 >= 0 && y2 < height && x2 >= 0 && x2 < width )); then frame_buffer+="\e[$((y2 + 1));$((x2 + 1))H "; fi
-                if (( y3 >= 0 && y3 < height && x3 >= 0 && x3 < width )); then frame_buffer+="\e[$((y3 + 1));$((x3 + 1))H "; fi
-                if (( y4 >= 0 && y4 < height && x4 >= 0 && x4 < width )); then frame_buffer+="\e[$((y4 + 1));$((x4 + 1))H "; fi
-            done
-        done
-        printf '%b' "$frame_buffer"
-
-        sleep $DELAY_BETWEEN # Wait a moment before the next firework
+        # Let the explosion linger for a moment, then clear for the next one
+        sleep $DELAY_BETWEEN
+        clear
     done
 }
 

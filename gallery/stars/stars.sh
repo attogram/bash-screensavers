@@ -6,17 +6,20 @@
 
 # --- Configuration ---
 # Set the colors
-WHITE=$'\e[97m'
-YELLOW=$'\e[93m'
+C_WHITE=$'\e[97m'
+C_YELLOW=$'\e[93m'
+C_BLUE=$'\e[94m'
+C_CYAN=$'\e[96m'
+COLORS=("$C_WHITE" "$C_YELLOW" "$C_BLUE" "$C_CYAN")
 DELAY=0.02
 
 # The characters for the stars
-STARS=("*" "." "+")
+STARS=("*" "." "+" "'" "O")
 
 _cleanup_and_exit() { # handler for SIGINT (Ctrl‑C)
   tput cnorm       # show the cursor again
   tput sgr0
-  clear
+  echo
   exit 0
 }
 
@@ -37,24 +40,21 @@ animate() {
     while true; do
         local frame_buffer=""
 
-        # Add a new star
-        local x=$((RANDOM % width + 1))
-        local y=$((RANDOM % height + 1))
+        # Add a few new stars
+        for i in {1..3}; do
+            local x=$((RANDOM % width + 1))
+            local y=$((RANDOM % height + 1))
+            local rand_star=${STARS[$((RANDOM % ${#STARS[@]}))]}
+            local rand_color=${COLORS[$((RANDOM % ${#COLORS[@]}))]}
+            frame_buffer+="\e[${y};${x}H${rand_color}${rand_star}"
+        done
 
-        # Choose a random star character and color
-        local rand_star=${STARS[$((RANDOM % ${#STARS[@]}))]}
-        local star_color=$WHITE
-        if [ $((RANDOM % 5)) -eq 0 ]; then
-            star_color=$YELLOW
-        fi
-        frame_buffer+="\e[${y};${x}H${star_color}${rand_star}"
-
-        # Occasionally clear a random spot to make stars twinkle
-        if [ $((RANDOM % 3)) -eq 0 ]; then
+        # Clear a few random spots to make stars twinkle and prevent over-filling
+        for i in {1..2}; do
             local clear_x=$((RANDOM % width + 1))
             local clear_y=$((RANDOM % height + 1))
             frame_buffer+="\e[${clear_y};${clear_x}H "
-        fi
+        done
 
         printf '%b' "$frame_buffer"
         sleep $DELAY
