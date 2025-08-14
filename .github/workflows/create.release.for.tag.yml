@@ -20,11 +20,14 @@ jobs:
       - name: Set current tag
         run: echo "CURRENT_TAG=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
 
+      - name: Get Screensaver Codename
+        run: echo "CODENAME=$(grep '^BASH_SCREENSAVERS_CODENAME=' screensaver.sh | cut -d'=' -f2 | sed "s/'//g" | xargs)" >> $GITHUB_ENV
+
       - name: Generate Release Notes
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          RELEASE_BODY="Bash Screensavers $CURRENT_TAG\n\nTurn your idle shell into a visual playground with this collection of Bash screensavers\n\nRepo: https://github.com/${{ github.repository }}\n"
+          RELEASE_BODY="**Bash Screensavers $CURRENT_TAG** _($CODENAME)_\n\nTurn your idle shell into a visual playground with this collection of Bash screensavers\n\nRepo: https://github.com/${{ github.repository }}\n"
           echo "RELEASENOTES<<EOF" >> $GITHUB_ENV
           echo -e "$RELEASE_BODY" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
@@ -33,7 +36,7 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ env.CURRENT_TAG }}
-          name: "Bash Screensavers ${{ env.CURRENT_TAG }}"
+          name: "Bash Screensavers ${{ env.CURRENT_TAG }} (${{ env.CODENAME }})"
           body: ${{ env.RELEASENOTES }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
