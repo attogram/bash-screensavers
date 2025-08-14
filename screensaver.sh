@@ -7,7 +7,7 @@
 #
 
 BASH_SCREENSAVERS_NAME="Bash Screensavers"
-BASH_SCREENSAVERS_VERSION="0.0.8"
+BASH_SCREENSAVERS_VERSION="0.0.9"
 BASH_SCREENSAVERS_URL="https://github.com/attogram/bash-screensavers"
 BASH_SCREENSAVERS_DISCORD="https://discord.gg/BGQJCbYVBa"
 BASH_SCREENSAVERS_LICENSE="MIT"
@@ -122,8 +122,9 @@ choose_screensaver() {
   fi
 
   # If we get here, the choice was invalid
+  echo
   echo "Invalid choice. Please enter a number or name from the list."
-  sleep 2
+  echo
   return 1
 }
 
@@ -190,7 +191,7 @@ main_menu() {
     while true; do
       tput setab 0 # black background
       tput setaf 2 # green foreground
-      clear
+      echo
       choose_screensaver
       if [ $? -ne 0 ]; then
           continue # Invalid choice, re-show menu
@@ -200,13 +201,13 @@ main_menu() {
       if [ $screensaver_return -ne 0 ]; then
         if [ $screensaver_return -eq 2 ]; then
             # Specific error for non-executable file, message already printed
-            sleep 2
+            sleep 0.1
         else
             # Generic error for other return codes
             tput setab 0; tput setaf 1 # red foreground
             printf '\n\nOh no! Screensaver had trouble and returned %d\n\n' "$screensaver_return"
             tput sgr0
-            sleep 2
+            sleep 0.1
         fi
       fi
     done
