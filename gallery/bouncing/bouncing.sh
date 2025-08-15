@@ -27,8 +27,10 @@ animate() {
     clear
     tput civis # Hide cursor
 
-    local width=$(tput cols)
-    local height=$(tput lines)
+    local width
+    width=$(tput cols)
+    local height
+    height=$(tput lines)
 
     # Initialize objects
     local -a pos_x

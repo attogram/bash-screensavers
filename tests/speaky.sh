@@ -1,46 +1,77 @@
 #!/usr/bin/env bats
 
-load 'libs/bats-support/load'
-load 'libs/bats-assert/load'
-
-SCRIPT_UNDER_TEST="../gallery/speaky/speaky.sh"
-ORIGINAL_SCRIPT=""
-
 setup() {
-    # Make sure the script is executable
-    chmod +x "$SCRIPT_UNDER_TEST"
-    # Save a copy of the original script
-    ORIGINAL_SCRIPT=$(cat "$SCRIPT_UNDER_TEST")
+    SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &> /dev/null && pwd)
+    SCRIPT="$SCRIPT_DIR/../gallery/speaky/speaky.sh"
+
+    BATS_TMPDIR=$(mktemp -d -t bats-speaky-XXXXXX)
+    export PATH="$BATS_TMPDIR:$PATH"
+    export MOCK_LOG="$BATS_TMPDIR/mock.log"
+    touch "$MOCK_LOG"
 }
 
 teardown() {
-    # Restore the original script from the saved content
-    if [ -n "$ORIGINAL_SCRIPT" ]; then
-        echo "$ORIGINAL_SCRIPT" > "$SCRIPT_UNDER_TEST"
-    fi
+    rm -rf "$BATS_TMPDIR"
 }
 
-@test "speaky: displays witty error when no TTS engine is found" {
-    # Override the detect function to simulate no engine found
-    # and make the error message predictable for the test
-    perl -i -p0e 's/(tts_detect_engine\(\) \{)(.*?)(\n\})/$1\n    TTS_ENGINE=""\n    return\n$3/s' "$SCRIPT_UNDER_TEST"
-    perl -i -pe "s/local phrase=\\\$\\{error_phrases\\[\\\$RANDOM % \\\$\\{#error_phrases\\[@\\]\\}\\]\\}/local phrase=\\\$\\{error_phrases[0]\\}/g" "$SCRIPT_UNDER_TEST"
+@test "speaky: tts_get_voices_say populates SAY_VOICES" {
+    cat > "$BATS_TMPDIR/say" <<EOF
+#!/bin/bash
+if [[ "\$1" == "-v" && "\$2" == "?" ]]; then
+    echo "Alex                en_US    # Most people recognize me by my voice."
+    echo "Fred                en_US    # I sure like being inside this fancy computer."
+fi
+EOF
+    chmod +x "$BATS_TMPDIR/say"
 
-    run "$SCRIPT_UNDER_TEST"
-    assert_success
-    assert_output --partial "I can't find any speaky speaky app"
+    # Source the script in a subshell to isolate it
+    . "$SCRIPT"
+
+    tts_get_voices_say
+
+    [ "${#SAY_VOICES[@]}" -eq 2 ]
+    [ "${SAY_VOICES[0]}" = "Alex" ]
+    [ "${SAY_VOICES[1]}" = "Fred" ]
 }
 
-@test "speaky: runs successfully with a simulated TTS engine" {
-    # Override the detect function to simulate finding the 'say' engine
-    perl -i -p0e 's/(tts_detect_engine\(\) \{)(.*?)(\n\})/$1\n    TTS_ENGINE="say"\n    return\n$3/s' "$SCRIPT_UNDER_TEST"
-    # Override the say_txt function to just echo a marker instead of speaking
-    perl -i -p0e 's/(say_txt\(\) \{)(.*?)(\n\})/$1\n    echo "[BATS_SUCCESS_MARKER]"\n    SPEAK_PID=$$ # Set a dummy PID\n$3/s' "$SCRIPT_UNDER_TEST"
+@test "speaky: say_txt uses a random voice if available" {
+    cat > "$BATS_TMPDIR/say" <<EOF
+#!/bin/bash
+echo "say called with: \$@" >> "$MOCK_LOG"
+EOF
+    chmod +x "$BATS_TMPDIR/say"
 
-    # Run the script but time it out to prevent it from running forever
-    run timeout 1s "$SCRIPT_UNDER_TEST"
+    . "$SCRIPT"
 
-    # It might exit with a timeout status, which is fine for this test.
-    # We just want to see if it started correctly.
-    assert_output --partial "[BATS_SUCCESS_MARKER]"
+    SAY_VOICES=("Alex" "Fred")
+    TTS_ENGINE="say"
+
+    say_txt "hello world"
+
+    sleep 0.1
+
+    run cat "$MOCK_LOG"
+    [ "$status" -eq 0 ]
+    [[ "$output" =~ "say called with: -v (Alex|Fred) hello world" ]]
+}
+
+@test "speaky: say_txt works normally if no voices are found" {
+    cat > "$BATS_TMPDIR/say" <<EOF
+#!/bin/bash
+echo "say called with: \$@" >> "$MOCK_LOG"
+EOF
+    chmod +x "$BATS_TMPDIR/say"
+
+    . "$SCRIPT"
+
+    SAY_VOICES=()
+    TTS_ENGINE="say"
+
+    say_txt "hello world"
+
+    sleep 0.1
+
+    run cat "$MOCK_LOG"
+    [ "$status" -eq 0 ]
+    [ "$output" = "say called with: hello world" ]
 }

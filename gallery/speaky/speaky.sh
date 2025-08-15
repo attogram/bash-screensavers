@@ -25,6 +25,7 @@ intro_phrases=(
     "Surely you can't be serious. I am serious... and don't call me Shirley."
     "I've got a bad feeling about this." "Welcome to the machine."
     "I'm back." "Let's do this." "I have so much to say."
+    "Behold, the monologue begins." "Let the words flow."
 )
 
 exit_phrases=(
@@ -39,11 +40,22 @@ exit_phrases=(
     "And... scene." "I'm off to find myself." "I'll be in my trailer."
     "I have to return some videotapes." "The drama is over... for now."
     "I'm done." "See you later, alligator." "I'm going to sleep now."
+    "The final curtain call." "Until we meet again."
 )
 
 general_phrases=(
     "Is it art, or is it just a terminal?"
     "I'm not lazy, I'm in energy-saving mode."
+    "This is your captain speaking."
+    "Someone set us up the bomb."
+    "All your base are belong to us."
+    "Do a barrel roll!"
+    "The cake is a lie."
+    "It's dangerous to go alone! Take this."
+    "Would you kindly..."
+    "War never changes."
+    "Stay awhile and listen."
+    "What is a man? A miserable little pile of secrets."
     "This is my moment to shine. Literally."
     "I wonder if I'll dream."
     "Don't look at me like that."
@@ -137,15 +149,46 @@ error_phrases=(
     "My talents are wasted without a voice." "I'm speechless. Literally."
     "The sound of silence is not what I was going for." "I'm a silent film now. How retro."
     "I guess I'll just have to mime my lines." "All dressed up and nowhere to speak."
+    "Silence, the final frontier."
+    "A voice unheard, a story untold."
 )
 
 # --- Text-to-Speech (TTS) Helper ---
 TTS_ENGINE=""
 SPEAK_PID=0
+SAY_VOICES=()
+
+# Get voices for macOS 'say' command
+#
+# Output: SAY_VOICES - array of voice names
+tts_get_voices_say() {
+    if ! command -v say &>/dev/null; then
+        return
+    fi
+    local raw_voices
+    raw_voices=$(say -v '?')
+    if [[ -z "$raw_voices" ]]; then
+        return
+    fi
+    while IFS= read -r line; do
+        [[ -z "$line" ]] && continue
+        local line_no_comment="${line%%#*}"
+        local locale
+        locale=$(awk '{ for (i=NF; i>0; i--) { if ($i ~ /^[a-z][a-z]_[A-Z][A-Z]$/) { print $i; exit } } }' <<<"$line_no_comment")
+        [[ -z "$locale" ]] && continue
+        local voice
+        voice=$(awk -v loc="$locale" '{ for (i=1; i<=NF; i++) { if ($i == loc) { for (j=1; j<i; j++) { printf "%s%s", $j, (j<i-1 ? OFS : "") }; exit } } }' <<<"$line_no_comment")
+        if [[ -n "$voice" ]]; then
+            SAY_VOICES+=("$voice")
+        fi
+    done <<<"$raw_voices"
+}
 
 tts_detect_engine() {
     TTS_ENGINE=""
-    if command -v say &>/dev/null; then TTS_ENGINE="say";
+    if command -v say &>/dev/null; then
+        TTS_ENGINE="say"
+        tts_get_voices_say
     elif command -v spd-say &>/dev/null; then TTS_ENGINE="spd-say";
     elif command -v espeak &>/dev/null; then TTS_ENGINE="espeak";
     elif command -v festival &>/dev/null; then TTS_ENGINE="festival";
@@ -163,7 +206,14 @@ say_txt() {
     if [ -z "$TTS_ENGINE" ]; then return; fi
     local phrase="$1"; local phrase_ps; phrase_ps=$(echo "$phrase" | sed "s/'/''/g")
     case "$TTS_ENGINE" in
-        "say")        say "$phrase" & ;;
+        "say")
+            if [ ${#SAY_VOICES[@]} -gt 0 ]; then
+                local random_voice=${SAY_VOICES[$RANDOM % ${#SAY_VOICES[@]}]}
+                say -v "$random_voice" "$phrase" &
+            else
+                say "$phrase" &
+            fi
+            ;;
         "spd-say")    spd-say -r -20 "$phrase" & ;;
         "espeak")     espeak "$phrase" & ;;
         "flite")      flite -t "$phrase" & ;;
@@ -232,7 +282,11 @@ fade_in() {
 }
 
 animate_text() {
-    local phrase=$1; local width=$(tput cols); local height=$(tput lines)
+    local phrase=$1
+    local width
+    width=$(tput cols)
+    local height
+    height=$(tput lines)
     local len=${#phrase}
 
     # Calculate random position, ensuring the phrase fits on screen

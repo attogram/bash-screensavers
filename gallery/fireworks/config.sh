@@ -1,6 +1,6 @@
 name="fireworks"
 tagline="Ooh! Aah! Pretty lights!"
-description="A simple but elegant fireworks display for your terminal."
+description="Light up your terminal with a dazzling fireworks show. Watch as colorful rockets launch and explode into beautiful, shimmering patterns. A celebration for your command line."
 authors="attogram"
 license="MIT"
 settings=""

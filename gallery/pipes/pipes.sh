@@ -147,7 +147,7 @@ parse() {
                 V+=(${#sets[@]})
                 sets+=("${OPTARG:1}")
             elif is_N "$OPTARG" && ((OPTARG < ${#sets[@]})); then
-                V+=($OPTARG)
+                V+=("$OPTARG")
             else
                 pearg 'must be an integer and from 0 to' \
                       "$((${#sets[@]} - 1)); or a custom type"
@@ -167,7 +167,7 @@ parse() {
                 fi
                 C+=($((16$OPTARG)))
             elif is_N "$OPTARG" && ((OPTARG < COLORS)); then
-                C+=($OPTARG)
+                C+=("$OPTARG")
             else
                 pearg "must be an integer and from 0 to $((COLORS - 1));" \
                       'or a hexadecimal string with # prefix'

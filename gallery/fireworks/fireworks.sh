@@ -29,8 +29,10 @@ animate() {
     clear
     tput civis # Hide cursor
 
-    local width=$(tput cols)
-    local height=$(tput lines)
+    local width
+    width=$(tput cols)
+    local height
+    height=$(tput lines)
 
     while true; do
         # --- Rocket Launch ---

@@ -22,17 +22,17 @@ cd bash-screensavers
 ./screensaver.sh
 ```
 ```
-Bash Screensavers v0.0.12 (Mystical Mirage)
+Bash Screensavers v0.0.13 (Mystic Matrix)
 
-  1 . alpha        - colorful pixels, one at a time
-  2 . bouncing     - classic bouncing 'O's
-  3 . cutesaver    - infinite loop of cuteness
-  4 . fireworks    - Ooh! Aah! Pretty lights!
-  5 . matrix       - classic digital rain
-  6 . pipes        - classic maze of pipes
+  1 . alpha        - random colorful pixels
+  2 . bouncing     - bouncing 'O' madness
+  3 . cutesaver    - an infinite loop of cuteness
+  4 . fireworks    - elegant fireworks display
+  5 . matrix       - the matrix has you
+  6 . pipes        - an endless pipe maze
   7 . rain         - soothing, gentle rain
   8 . speaky       - dramatic talking screensaver
-  9 . stars        - twinkling starfield
+  9 . stars        - twinkling starfield simulation
   10. tunnel       - fly into the digital tunnel
 
 (Press ^C to exit)
@@ -107,7 +107,7 @@ That's it! The main `screensaver.sh` script will automatically detect your new c
 
 ```
 .
-├─ screensaver.sh    # Where all the visual pleasuring starts
+├─ screensaver.sh    # Where the ASCII magic begins
 ├─ LICENSE           # MIT Licensed, because all the cool kids are doing it
 ├─ README.md         # This file, isn't it pretty?
 ├─ gallery           # Welcome to the Gallery of Terminal Visualizations
@@ -141,6 +141,19 @@ That's it! The main `screensaver.sh` script will automatically detect your new c
 ### Codespaces
 
 * whip up a [Codespace from attogram/bash-screensavers](https://codespaces.new/attogram/bash-screensavers) for fun!
+
+---
+
+## Development Tools
+
+### `tools/smile-for-the-camera.sh`
+
+This script is used to generate animated GIF previews for each screensaver. It uses `asciinema` to record a `.cast` file and `agg` to convert it to a `.gif`. The output files are saved in the `gallery/<screensaver_name>/` directory.
+
+**Usage:**
+```bash
+./tools/smile-for-the-camera.sh
+```
 
 ---
 

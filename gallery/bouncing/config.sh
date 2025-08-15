@@ -1,6 +1,6 @@
 name="bouncing"
-tagline="classic bouncing 'O's"
-description="A classic screensaver effect with multiple objects bouncing off the edges of the terminal."
+tagline="bouncing 'O' madness"
+description="A tribute to the DVD screensavers of yesteryear. Watch as multiple 'O's bounce around the terminal, changing color and direction as they hit the edges. Will they ever hit the corner? Only time will tell."
 authors="attogram"
 license="MIT"
 settings=""

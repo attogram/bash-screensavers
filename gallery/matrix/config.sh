@@ -1,6 +1,6 @@
 name="matrix"
-tagline="classic digital rain"
-description="A matrix-style screensaver with falling green characters. This version is optimized for speed."
+tagline="the matrix has you"
+description="Enter the Matrix with this digital rain effect. Green characters cascade down your screen, creating the iconic, mesmerizing look from the movies. This version is optimized for performance, so you can really feel like you're in the simulation."
 authors="attogram"
 license="MIT"
 settings=""

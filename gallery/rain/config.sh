@@ -1,6 +1,6 @@
 name="rain"
 tagline="soothing, gentle rain"
-description="A simple screensaver that simulates falling rain in your terminal."
+description="Relax and unwind with the calming effect of digital rain. This screensaver simulates a gentle downpour in your terminal, with droplets falling and splashing. It's the perfect way to bring a little bit of tranquility to your workspace."
 authors="attogram"
 license="MIT"
 settings=""
