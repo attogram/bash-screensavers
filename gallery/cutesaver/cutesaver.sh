@@ -68,7 +68,10 @@ animate() {
 
     while true; do
         # Shuffle the list of files for random order
-        mapfile -t shuffled_files < <(shuf -e "${art_files[@]}")
+        local shuffled_files=()
+        while IFS= read -r line; do
+            shuffled_files+=("$line")
+        done < <(shuf -e "${art_files[@]}")
         for art_file in "${shuffled_files[@]}"; do
             clear
             if [ -f "$art_file" ]; then
