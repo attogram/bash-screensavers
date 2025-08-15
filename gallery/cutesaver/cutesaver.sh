@@ -20,7 +20,7 @@ _cleanup_and_exit() { # handler for SIGINT (Ctrl‑C)
 }
 trap _cleanup_and_exit SIGINT # Catch Ctrl‑C
 
-cd "$( dirname "${BASH_SOURCE[0]}" )"
+cd "$( dirname "${BASH_SOURCE[0]}" )" || exit
 
 clear
 file1="./art/title.art"
@@ -68,7 +68,7 @@ animate() {
 
     while true; do
         # Shuffle the list of files for random order
-        local shuffled_files=($(shuf -e "${art_files[@]}"))
+        mapfile -t shuffled_files < <(shuf -e "${art_files[@]}")
         for art_file in "${shuffled_files[@]}"; do
             clear
             if [ -f "$art_file" ]; then

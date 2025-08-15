@@ -1,6 +1,6 @@
 name="pipes"
-tagline="classic maze of pipes"
-description="An animated pipes terminal screensaver. This is a classic, highly customizable screensaver."
+tagline="an endless pipe maze"
+description="Get lost in a labyrinth of colorful, winding pipes. This highly customizable screensaver continuously builds an intricate network of pipes that twist and turn across your terminal. No two runs are ever the same."
 authors="Pipeseroni/pipes.sh contributors, Yu-Jie Lin, Matthew Simpson"
 license="MIT"
 settings="-p [1-], -t [0-9], -c [0-7], -f [20-100], -s [5-15], -r [0-], -R, -B, -C, -K"

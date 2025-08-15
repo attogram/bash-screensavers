@@ -26,8 +26,10 @@ animate() {
     clear
     tput civis # Hide cursor
 
-    local width=$(tput cols)
-    local height=$(tput lines)
+    local width
+    width=$(tput cols)
+    local height
+    height=$(tput lines)
     local center_x=$((width / 2))
     local center_y=$((height / 2))
     local max_radius=$(( (height > width ? height : width) / 2 + 1 ))

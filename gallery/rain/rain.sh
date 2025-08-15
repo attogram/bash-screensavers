@@ -32,8 +32,10 @@ animate() {
     tput civis # Hide cursor
 
     # Get terminal dimensions
-    local width=$(tput cols)
-    local height=$(tput lines)
+    local width
+    width=$(tput cols)
+    local height
+    height=$(tput lines)
 
     # Initialize drops array
     local -a drops_x
@@ -63,8 +65,8 @@ animate() {
                 local rand_drop=${DROPS[$((RANDOM % ${#DROPS[@]}))]}
                 # Add new position to frame buffer
                 frame_buffer+="\e[$((new_y + 1));$((${drops_x[$i]} + 1))H${BLUE}${rand_drop}"
-                next_drops_x+=(${drops_x[$i]})
-                next_drops_y+=($new_y)
+                next_drops_x+=("${drops_x[$i]}")
+                next_drops_y+=("$new_y")
             fi
         done
 

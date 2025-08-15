@@ -7,8 +7,8 @@
 #
 
 BASH_SCREENSAVERS_NAME='Bash Screensavers'
-BASH_SCREENSAVERS_VERSION='0.0.12'
-BASH_SCREENSAVERS_CODENAME='Mystical Mirage'
+BASH_SCREENSAVERS_VERSION='0.0.13'
+BASH_SCREENSAVERS_CODENAME='Mystic Matrix'
 BASH_SCREENSAVERS_URL='https://github.com/attogram/bash-screensavers'
 BASH_SCREENSAVERS_DISCORD='https://discord.gg/BGQJCbYVBa'
 BASH_SCREENSAVERS_LICENSE='MIT'
@@ -101,13 +101,6 @@ choose_screensaver() {
     i=$((i+1))
   done
 
-  # Set up tab completion for screensaver names
-  if command -v compgen &> /dev/null; then
-    local IFS=$'\n'
-    # TODO - use mapfile or read -r
-    COMPREPLY=($(compgen -W "${names[*]}" -- "${COMP_WORDS[COMP_CWORD]}"))
-  fi
-
   echo
   echo '(Press ^C to exit)'
 
@@ -199,6 +192,16 @@ EOL
     echo "chmod +x $script_path"
     echo
 }
+
+_main_menu_cleanup() {
+    tput sgr0 # Reset terminal attributes
+    echo
+    echo "Enjoyed Bash Screensavers? Give the project a star on GitHub! ✨"
+    echo
+    echo "${BASH_SCREENSAVERS_URL}"
+    echo
+}
+trap _main_menu_cleanup EXIT
 
 main_menu() {
     while true; do
