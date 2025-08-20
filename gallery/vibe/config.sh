@@ -1,0 +1,6 @@
+name="vibe"
+tagline="vibe coding"
+description="a simulation of vibe coding"
+authors="Jules <https://github.com/apps/google-labs-jules>, attogram"
+license="MIT"
+settings=""

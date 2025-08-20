@@ -80,7 +80,7 @@ main() {
 
                 # Record with asciinema
                 local cast_file="${output_path_base}.cast"
-                asciinema rec --command="bash -c 'sleep 1; echo -e \"\\\n\\\n\\\n\"; sleep 1; timeout 5s $run_script &>/dev/null'" --overwrite "$cast_file"
+                asciinema rec --command="bash -c 'sleep 1; echo -e \"\\\n\\\n\\\n\"; sleep 1; timeout 5s $run_script'" --overwrite "$cast_file"
 
                 # Convert to GIF with agg
                 local gif_file="${output_path_base}.gif"
