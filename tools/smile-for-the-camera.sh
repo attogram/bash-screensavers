@@ -49,10 +49,6 @@ check_deps() {
         echo "Error: asciinema not found. Please install it."
         exit 1
     fi
-    if ! command -v agg &> /dev/null; then
-        echo "Error: agg not found. Please install it."
-        exit 1
-    fi
 }
 
 # --- Main Logic ---
@@ -79,12 +75,25 @@ main() {
                 mkdir -p "$output_dir/$name"
 
                 # Record with asciinema
+                local raw_cast_file="${output_path_base}.raw.cast"
+                asciinema rec --command="bash -c 'timeout 10s env SHELL=/bin/bash $run_script'" --overwrite "$raw_cast_file"
+
+                # Process the cast file with awk to remove startup artifacts
                 local cast_file="${output_path_base}.cast"
-                asciinema rec --command="bash -c 'sleep 1; echo -e \"\\\n\\\n\\\n\"; sleep 1; timeout 5s $run_script'" --overwrite "$cast_file"
+                awk 'NR==1{print;next} /^\[/ && substr($1,2)+0 > 0.1' "$raw_cast_file" > "$cast_file"
 
                 # Convert to GIF with agg
                 local gif_file="${output_path_base}.gif"
-                agg "$cast_file" "$gif_file"
+                if command -v agg &> /dev/null; then
+                    agg "$cast_file" "$gif_file"
+                elif command -v python &> /dev/null; then
+                    python -m agg "$cast_file" "$gif_file"
+                else
+                    echo "Warning: agg or python not found. Skipping GIF generation."
+                fi
+
+                # Clean up the raw cast file
+                rm "$raw_cast_file"
 
                 echo "    - Saved to $cast_file and $gif_file"
             fi
