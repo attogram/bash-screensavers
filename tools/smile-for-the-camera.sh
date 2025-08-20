@@ -49,10 +49,6 @@ check_deps() {
         echo "Error: asciinema not found. Please install it."
         exit 1
     fi
-    if ! command -v agg &> /dev/null; then
-        echo "Error: agg not found. Please install it."
-        exit 1
-    fi
 }
 
 # --- Main Logic ---
@@ -79,12 +75,21 @@ main() {
                 mkdir -p "$output_dir/$name"
 
                 # Record with asciinema
+                #
+                # The old command had a startup artifact:
+                #   asciinema rec --command="bash -c 'sleep 1; echo -e \"\\\n\\\n\\\n\"; sleep 1; timeout 5s $run_script'" --overwrite "$cast_file"
+                #
+                # This has been replaced with a command that:
+                #   - removes the startup delay
+                #   - increases the timeout to 10 seconds
+                #   - ensures the SHELL is set to bash
+                #
                 local cast_file="${output_path_base}.cast"
-                asciinema rec --command="bash -c 'sleep 1; echo -e \"\\\n\\\n\\\n\"; sleep 1; timeout 5s $run_script'" --overwrite "$cast_file"
+                asciinema rec --command="bash -c 'timeout 10s env SHELL=/bin/bash $run_script'" --overwrite "$cast_file"
 
                 # Convert to GIF with agg
                 local gif_file="${output_path_base}.gif"
-                agg "$cast_file" "$gif_file"
+                python -m agg "$cast_file" "$gif_file"
 
                 echo "    - Saved to $cast_file and $gif_file"
             fi
