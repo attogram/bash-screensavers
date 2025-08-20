@@ -1,0 +1,3 @@
+# Ignore generated asciinema cast and gif files
+*.cast
+*.gif
