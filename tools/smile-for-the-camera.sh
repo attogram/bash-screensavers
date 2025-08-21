@@ -60,7 +60,7 @@ main() {
 
                 # Record with asciinema
                 local cast_file="${output_path_base}.cast"
-                asciinema rec --command="bash -c 'timeout 10s env SHELL=/bin/bash $run_script'" "$cast_file"
+                asciinema rec --command="bash -c 'timeout 10s env SHELL=/bin/bash $run_script'" --overwrite "$cast_file"
 
                 # Process the cast file with awk to remove startup artifacts
                 #local cast_file="${output_path_base}.cast"
