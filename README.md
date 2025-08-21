@@ -14,6 +14,9 @@ when you have `echo`, `sleep`, and a little bit of `tput` magic?
 ![Bash ≥3.2](https://img.shields.io/badge/bash-%3E=3.2-blue?logo=gnu-bash)
 ![GitHub stars](https://img.shields.io/github/stars/attogram/bash-screensavers?style=flat)
 
+![overview](https://raw.githubusercontent.com/attogram/bash-screensavers/main/overview.gif)
+
+
 ## Get the party started
 
 ```bash
@@ -22,7 +25,7 @@ cd bash-screensavers
 ./screensaver.sh
 ```
 ```
-Bash Screensavers v0.0.13 (Mystic Matrix)
+Bash Screensavers v0.0.14 (Mystic Canvas)
 
   1 . alpha        - random colorful pixels
   2 . bouncing     - bouncing 'O' madness
@@ -34,6 +37,7 @@ Bash Screensavers v0.0.13 (Mystic Matrix)
   8 . speaky       - dramatic talking screensaver
   9 . stars        - twinkling starfield simulation
   10. tunnel       - fly into the digital tunnel
+  11. vibe         - colorful plasma vibes
 
 (Press ^C to exit)
 

@@ -260,29 +260,13 @@ display_error_and_exit() {
 }
 
 # --- Animation and Color Functions ---
-BG_COLORS=(40 41 42 43 44 45 46)
-FG_COLORS=(30 31 32 33 34 35 36 37)
 
-get_random_colors() {
-    local bg_index=$((RANDOM % ${#BG_COLORS[@]}))
-    local fg_index=$((RANDOM % ${#FG_COLORS[@]}))
-    # Ensure fg and bg are not too similar
-    while [ $bg_index -eq $((fg_index - 10)) ]; do
-        fg_index=$((RANDOM % ${#FG_COLORS[@]}))
-    done
-    BG_COLOR=${BG_COLORS[$bg_index]}
-    FG_COLOR=${FG_COLORS[$fg_index]}
-}
+# Function to convert HSL to RGB
+# Not available in bash, so we use a pre-computed rainbow palette
+RAINBOW_COLORS=(196 202 208 214 220 226 190 154 118 82 46)
 
-fade_in() {
-    for i in {0..10}; do
-        local grey=$((232 + i)); tput setab $grey; clear; sleep 0.05
-    done
-    tput setab 242; clear
-}
-
-animate_text() {
-    local phrase=$1
+animate_text_rainbow() {
+    local phrase="$1"
     local width
     width=$(tput cols)
     local height
@@ -293,14 +277,40 @@ animate_text() {
     local x=$((RANDOM % (width - len) + 1))
     local y=$((RANDOM % height + 1))
 
-    # Build the frame buffer
-    local frame_buffer="\e[${y};${x}H${phrase}"
+    tput cup "$y" "$x"
 
-    # Print the frame
-    printf '%b' "$frame_buffer"
+    # Approximate sleep duration based on phrase length
+    # This gives the "streaming" effect
+    local sleep_duration
+    if [ "$len" -gt 0 ]; then
+        sleep_duration=$(awk "BEGIN {print 5 / $len}")
+    else
+        sleep_duration=0.1
+    fi
 
-    sleep 7
+
+    for (( i=0; i<len; i++ )); do
+        local char="${phrase:$i:1}"
+        # Cycle through the rainbow colors
+        local color_index=$(( (i + RANDOM) % ${#RAINBOW_COLORS[@]} ))
+        tput setaf "${RAINBOW_COLORS[$color_index]}"
+        printf "%s" "$char"
+        sleep "$sleep_duration"
+    done
+
+    # Wait for speech to finish, with a max timeout
+    if [ $SPEAK_PID -ne 0 ]; then
+        local child_pid
+        child_pid=$(pgrep -P $SPEAK_PID)
+        if [ -n "$child_pid" ]; then
+            # Wait for the actual player process, not the wrapper script
+            timeout 10s wait "$child_pid" &>/dev/null
+        else
+            timeout 10s wait $SPEAK_PID &>/dev/null
+        fi
+    fi
 }
+
 
 # --- The Main Event ---
 the_show_must_go_on() {
@@ -308,21 +318,25 @@ the_show_must_go_on() {
     if [ -z "$TTS_ENGINE" ]; then
         display_error_and_exit
     fi
-    tput civis; clear
+    tput civis
+    tput setab 0 # Set background to black
+    clear
+
+    # Intro phrase
     local intro_phrase=${intro_phrases[$RANDOM % ${#intro_phrases[@]}]}
     say_txt "$intro_phrase"
-    fade_in
-    tput setaf 7
-    animate_text "$intro_phrase"
+    animate_text_rainbow "$intro_phrase"
     kill_speech
+    sleep 2
+    clear
 
     while true; do
-        get_random_colors
-        tput setab $BG_COLOR; tput setaf $FG_COLOR; clear
         local phrase=${general_phrases[$RANDOM % ${#general_phrases[@]}]}
         say_txt "$phrase"
-        animate_text "$phrase"
+        animate_text_rainbow "$phrase"
         kill_speech
+        sleep 2 # Pause between phrases
+        clear
     done
 }
 

@@ -42,6 +42,11 @@ main() {
 
     local gallery_dir="gallery"
     local output_dir="gallery"
+    local temp_dir
+    temp_dir=$(mktemp -d)
+
+    # a trap to clean up the temporary directory
+    trap 'rm -rf "$temp_dir"' EXIT
 
     echo "Creating previews for all screensavers..."
 
@@ -59,12 +64,12 @@ main() {
                 mkdir -p "$output_dir/$name"
 
                 # Record with asciinema
-                local cast_file="${output_path_base}.cast"
-                asciinema rec --command="bash -c 'timeout 10s env SHELL=/bin/bash $run_script'" --overwrite "$cast_file"
+                local raw_cast_file="$temp_dir/$name.raw.cast"
+                asciinema rec --command="bash -c 'timeout 10s env SHELL=/bin/bash $run_script'" --overwrite "$raw_cast_file"
 
                 # Process the cast file with awk to remove startup artifacts
-                #local cast_file="${output_path_base}.cast"
-                #awk 'NR==1{print;next} /^\[/ && substr($1,2)+0 > 0.1' "$raw_cast_file" > "$cast_file"
+                local cast_file="${output_path_base}.cast"
+                awk 'NR==1{print;next} /^\[/ && substr($1,2)+0 > 0.5' "$raw_cast_file" > "$cast_file"
 
                 # Convert to GIF with agg
                 local gif_file="${output_path_base}.gif"
@@ -75,9 +80,6 @@ main() {
                 else
                     echo "Warning: agg or python not found. Skipping GIF generation."
                 fi
-
-                # Clean up the raw cast file
-                #rm "$raw_cast_file"
 
                 echo "    - Saved to $cast_file and $gif_file"
             fi
