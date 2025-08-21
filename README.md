@@ -37,6 +37,7 @@ Bash Screensavers v0.0.14 (Mystic Canvas)
   8 . speaky       - dramatic talking screensaver
   9 . stars        - twinkling starfield simulation
   10. tunnel       - fly into the digital tunnel
+  11. vibe         - colorful plasma vibes
 
 (Press ^C to exit)
 
