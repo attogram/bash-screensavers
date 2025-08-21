@@ -59,12 +59,12 @@ main() {
                 mkdir -p "$output_dir/$name"
 
                 # Record with asciinema
-                local cast_file="${output_path_base}.cast"
-                asciinema rec --command="bash -c 'timeout 10s env SHELL=/bin/bash $run_script'" --overwrite "$cast_file"
+                local raw_cast_file="${output_path_base}.raw.cast"
+                asciinema rec --command="bash -c 'timeout 10s env SHELL=/bin/bash $run_script'" --overwrite "$raw_cast_file"
 
                 # Process the cast file with awk to remove startup artifacts
-                #local cast_file="${output_path_base}.cast"
-                #awk 'NR==1{print;next} /^\[/ && substr($1,2)+0 > 0.1' "$raw_cast_file" > "$cast_file"
+                local cast_file="${output_path_base}.cast"
+                awk 'NR==1{print;next} /^\[/ && substr($1,2)+0 > 0.5' "$raw_cast_file" > "$cast_file"
 
                 # Convert to GIF with agg
                 local gif_file="${output_path_base}.gif"
@@ -77,7 +77,7 @@ main() {
                 fi
 
                 # Clean up the raw cast file
-                #rm "$raw_cast_file"
+                rm "$raw_cast_file"
 
                 echo "    - Saved to $cast_file and $gif_file"
             fi
