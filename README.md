@@ -41,19 +41,19 @@ cd bash-screensavers
 ./screensaver.sh
 ```
 ```
-Bash Screensavers v0.0.14 (Mystic Canvas)
+Bash Screensavers v0.0.15 (Mystic Path)
 
   1 . alpha        - random colorful pixels
   2 . bouncing     - bouncing 'O' madness
-  3 . cutesaver    - an infinite loop of cuteness
-  4 . fireworks    - elegant fireworks display
+  3 . cutesaver    - infinite loop of cuteness
+  4 . fireworks    - Ooh! Aah! Pretty lights!
   5 . matrix       - the matrix has you
   6 . pipes        - an endless pipe maze
   7 . rain         - soothing, gentle rain
   8 . speaky       - dramatic talking screensaver
-  9 . stars        - twinkling starfield simulation
+  9 . stars        - twinkling starfield
   10. tunnel       - fly into the digital tunnel
-  11. vibe         - colorful plasma vibes
+  11. vibe         - vibe coding
 
 (Press ^C to exit)
 

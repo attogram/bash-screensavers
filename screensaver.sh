@@ -7,15 +7,14 @@
 #
 
 BASH_SCREENSAVERS_NAME='Bash Screensavers'
-BASH_SCREENSAVERS_VERSION='0.0.14'
-BASH_SCREENSAVERS_CODENAME='Mystic Canvas'
+BASH_SCREENSAVERS_VERSION='0.0.15'
+BASH_SCREENSAVERS_CODENAME='Mystic Path'
 BASH_SCREENSAVERS_URL='https://github.com/attogram/bash-screensavers'
 BASH_SCREENSAVERS_DISCORD='https://discord.gg/BGQJCbYVBa'
 BASH_SCREENSAVERS_LICENSE='MIT'
 BASH_SCREENSAVERS_COPYRIGHT='Copyright (c) 2025 Attogram Project <https://github.com/attogram>'
 
-SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &> /dev/null && pwd)
-BASH_SCREENSAVERS_DIR="$SCRIPT_DIR/gallery"
+BASH_SCREENSAVERS_GALLERY="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &> /dev/null && pwd)/gallery"
 
 chosen_screensaver='' # the chosen one
 
@@ -24,7 +23,7 @@ chosen_screensaver='' # the chosen one
 # Output: list of screensaver run scripts, 1 per line
 peak_into_the_gallery() {
   local screensaver name run
-  for screensaver in "$BASH_SCREENSAVERS_DIR"/*/; do
+  for screensaver in "$BASH_SCREENSAVERS_GALLERY"/*/; do
     if [[ -d "${screensaver}" ]]; then
       name="$(basename "${screensaver}")"
       run="${screensaver}${name}.sh"
@@ -70,7 +69,7 @@ choose_screensaver() {
   local screensavers
   mapfile -t screensavers < <(peak_into_the_gallery)
   if [[ ${#screensavers[@]} -eq 0 ]]; then
-    echo "Whoops! No screensavers found. Add some to the '$BASH_SCREENSAVERS_DIR' directory."
+    echo "Whoops! No screensavers found. Add some to the '$BASH_SCREENSAVERS_GALLERY' directory."
     echo
     exit 1
   fi
@@ -106,8 +105,8 @@ choose_screensaver() {
 
   local choice
   echo
-  echo 'Choose your screensaver:'
-  read -e choice
+  echo -n 'Choose your screensaver: '
+  read -r -e choice
 
   if [[ "$choice" =~ ^[0-9]+$ ]]; then   # Check if choice is a number
     if [ "$choice" -ge 1 ] && [ "$choice" -le "${#screensavers[@]}" ]; then
@@ -133,7 +132,7 @@ choose_screensaver() {
 
 create_new_screensaver() {
     local name="$1"
-    local dir="$BASH_SCREENSAVERS_DIR/$name"
+    local dir="$BASH_SCREENSAVERS_GALLERY/$name"
 
     if [ -d "$dir" ]; then
         echo "Error: screensaver '$name' already exists at $dir" >&2

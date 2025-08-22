@@ -283,7 +283,7 @@ animate_text_rainbow() {
     # This gives the "streaming" effect
     local sleep_duration
     if [ "$len" -gt 0 ]; then
-        sleep_duration=$(awk "BEGIN {print 5 / $len}")
+        sleep_duration=$(awk "BEGIN {print 3 / $len}")
     else
         sleep_duration=0.1
     fi
@@ -304,9 +304,9 @@ animate_text_rainbow() {
         child_pid=$(pgrep -P $SPEAK_PID)
         if [ -n "$child_pid" ]; then
             # Wait for the actual player process, not the wrapper script
-            timeout 10s wait "$child_pid" &>/dev/null
+            timeout 25s wait "$child_pid" &>/dev/null
         else
-            timeout 10s wait $SPEAK_PID &>/dev/null
+            timeout 25s wait $SPEAK_PID &>/dev/null
         fi
     fi
 }
