@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# create-overview.sh
+# tour-the-gallery.sh
 #
 # This script creates an overview of all screensavers.
 #
@@ -17,6 +17,27 @@ check_deps() {
         exit 1
     fi
 }
+
+run_with_timeout() {
+    local timeout_duration=$1
+    shift
+    local command_to_run=("$@")
+
+    # Run the command in the background
+    "${command_to_run[@]}" &
+    local cmd_pid=$!
+
+    # Sleep for the duration and then kill the command
+    (sleep "$timeout_duration" && kill "$cmd_pid" 2>/dev/null) &
+    local sleeper_pid=$!
+
+    # Wait for the command to finish, suppressing job termination message
+    wait "$cmd_pid" 2>/dev/null
+
+    # Kill the sleeper process if it's still running
+    kill "$sleeper_pid" 2>/dev/null
+}
+
 
 # Create a title card as a .cast file
 # $1: text to display
@@ -66,6 +87,7 @@ main() {
     all_casts+=("$temp_dir/00_intro.cast")
 
     # 2. Loop through screensavers
+    export -f run_with_timeout
     local i=1
     for screensaver_dir in "$gallery_dir"/*/; do
         if [[ -d "$screensaver_dir" ]]; then
@@ -82,7 +104,7 @@ main() {
 
                 # Record a longer snippet
                 local temp_cast="$temp_dir/$(printf "%02d" $i)_${name}_temp.cast"
-                asciinema rec --command="bash -c 'timeout 6s env SHELL=/bin/bash $run_script'" --overwrite "$temp_cast"
+                asciinema rec --command="bash -c 'run_with_timeout 6s env SHELL=/bin/bash $run_script'" --overwrite "$temp_cast"
 
                 # Cut a snippet from the middle
                 local snippet_cast="$temp_dir/$(printf "%02d" $i)_${name}_snippet.cast"
