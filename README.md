@@ -10,12 +10,28 @@ a collection of screensavers written entirely in `bash`.
 Because who needs fancy graphics cards and complex rendering engines
 when you have `echo`, `sleep`, and a little bit of `tput` magic?
 
+![Release](https://img.shields.io/github/v/release/attogram/bash-screensavers?style=flat)
 ![License](https://img.shields.io/github/license/attogram/bash-screensavers?style=flat)
-![Bash ≥3.2](https://img.shields.io/badge/bash-%3E=3.2-blue?logo=gnu-bash)
+![Bash ≥3.2](https://img.shields.io/badge/bash-%3E=3.2-blue?style=flat)
+![GitHub commit activity](https://img.shields.io/github/commit-activity/t/attogram/bash-screensavers?style=flat)
 ![GitHub stars](https://img.shields.io/github/stars/attogram/bash-screensavers?style=flat)
+![GitHub watchers](https://img.shields.io/github/watchers/attogram/bash-screensavers?style=flat)
+![Forks](https://img.shields.io/github/forks/attogram/bash-screensavers?style=flat)
+![Issues](https://img.shields.io/github/issues/attogram/bash-screensavers?style=flat)
 
-![overview](https://raw.githubusercontent.com/attogram/bash-screensavers/main/overview.gif)
+## Tour the gallery
 
+### Matrix
+![Matrix](gallery/matrix/matrix.gif)
+
+### Bouncing
+![Bouncing](gallery/bouncing/bouncing.gif)
+
+### Rain
+![Rain](gallery/rain/rain.gif)
+
+### Tunnel
+![Tunnel](gallery/tunnel/tunnel.gif)
 
 ## Get the party started
 
