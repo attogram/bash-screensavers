@@ -16,7 +16,7 @@ teardown() {
 
 @test "speaky: tts_get_voices_say populates SAY_VOICES" {
     cat > "$BATS_TMPDIR/say" <<EOF
-#!/bin/bash
+#!/usr/bin/env bash
 if [[ "\$1" == "-v" && "\$2" == "?" ]]; then
     echo "Alex                en_US    # Most people recognize me by my voice."
     echo "Fred                en_US    # I sure like being inside this fancy computer."
@@ -36,7 +36,7 @@ EOF
 
 @test "speaky: say_txt uses a random voice if available" {
     cat > "$BATS_TMPDIR/say" <<EOF
-#!/bin/bash
+#!/usr/bin/env bash
 echo "say called with: \$@" >> "$MOCK_LOG"
 EOF
     chmod +x "$BATS_TMPDIR/say"
@@ -57,7 +57,7 @@ EOF
 
 @test "speaky: say_txt works normally if no voices are found" {
     cat > "$BATS_TMPDIR/say" <<EOF
-#!/bin/bash
+#!/usr/bin/env bash
 echo "say called with: \$@" >> "$MOCK_LOG"
 EOF
     chmod +x "$BATS_TMPDIR/say"

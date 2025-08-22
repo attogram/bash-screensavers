@@ -7,8 +7,8 @@
 #
 
 BASH_SCREENSAVERS_NAME='Bash Screensavers'
-BASH_SCREENSAVERS_VERSION='0.0.15'
-BASH_SCREENSAVERS_CODENAME='Mystic Path'
+BASH_SCREENSAVERS_VERSION='0.0.16'
+BASH_SCREENSAVERS_CODENAME='Mystic Shebang'
 BASH_SCREENSAVERS_URL='https://github.com/attogram/bash-screensavers'
 BASH_SCREENSAVERS_DISCORD='https://discord.gg/BGQJCbYVBa'
 BASH_SCREENSAVERS_LICENSE='MIT'
@@ -147,7 +147,7 @@ create_new_screensaver() {
 
     local script_path="$dir/$name.sh"
     cat > "$script_path" << EOL
-#!/bin/bash
+#!/usr/bin/env bash
 
 _cleanup_and_exit() {
   tput cnorm # show the cursor again

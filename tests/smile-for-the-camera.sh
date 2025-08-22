@@ -43,13 +43,13 @@ teardown() {
 @test "smile-for-the-camera: creates cast and gif files" {
     # Mock dependencies
     cat > "$BATS_TMPDIR/asciinema" <<EOF
-#!/bin/bash
+#!/usr/bin/env bash
 touch "\$4" # Create the .cast file
 EOF
     chmod +x "$BATS_TMPDIR/asciinema"
 
     cat > "$BATS_TMPDIR/agg" <<EOF
-#!/bin/bash
+#!/usr/bin/env bash
 touch "\$2" # Create the .gif file
 EOF
     chmod +x "$BATS_TMPDIR/agg"

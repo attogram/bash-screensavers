@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # @MODIFIED 2025 - MIT License - for https://github.com/attogram/bash-screensavers
 # @ORIGINAL - MIT License - https://github.com/kestraI/cutesaver

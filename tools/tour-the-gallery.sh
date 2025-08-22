@@ -50,7 +50,7 @@ create_title_card() {
 
     # Create a script to display the title card
     cat > "$temp_script" <<EOF
-#!/bin/bash
+#!/usr/bin/env bash
 clear
 tput cup 5 10
 if command -v figlet &>/dev/null; then
