@@ -6,41 +6,75 @@
 # With a little help from my friend, Jules.
 #~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-
 
+# --- Timing Constants ---
+MAX_SPEAKING_TIME=10
+MAX_DISPLAY_TIME=30
+
 # --- Phrase Libraries ---
 
 intro_phrases=(
-    "Oh, so much drama." "I'm idle again." "And now, for my next trick..."
-    "Do you ever feel like a plastic bag, drifting through the wind?"
-    "I'm ready for my close-up." "Is this thing on?" "Let the existential dread commence."
-    "I have been summoned." "To be, or not to be... that is the question."
-    "Once more unto the breach, dear friends, once more." "The silence was deafening."
+    "Oh, so much drama."
+    "I'm idle again."
+    "And now, for my next trick..."
+    "I'm ready for my close-up."
+    "Is this thing on?"
+    "Let the existential dread commence."
+    "I have been summoned."
+    "To be, or not to be..."
+    "Once more unto the breach, dear friends."
+    "The silence was deafening."
     "I think I'm having an emotion."
-    "It was a dark and stormy night... just kidding, it's just my boot sequence."
-    "So, we meet again." "Did someone say... drama?"
-    "I'm not just a screensaver, I'm a state of mind." "Let's get this pity party started."
+    "It was a dark and stormy night... kidding, it's my boot sequence."
+    "So, we meet again."
+    "Did someone say... drama?"
+    "I'm not just a screensaver, I'm a state of mind."
+    "Let's get this party started."
     "I've seen things you people wouldn't believe."
-    "All the world's a stage, and all the men and women merely players."
+    "All the world's a stage, and we are merely players."
     "I'm here to chew bubblegum and kick butt... and I'm all out of bubblegum."
-    "The void stares back, you know." "I could have been a contender."
-    "Surely you can't be serious. I am serious... and don't call me Shirley."
-    "I've got a bad feeling about this." "Welcome to the machine."
-    "I'm back." "Let's do this." "I have so much to say."
-    "Behold, the monologue begins." "Let the words flow."
+    "The void stares back."
+    "I could have been a contender."
+    "Surely you can't be serious. I am, and don't call me Shirley."
+    "I've got a bad feeling about this."
+    "Welcome to the machine."
+    "I'm back."
+    "Let's do this."
+    "I have so much to say."
+    "The monologue begins."
+    "Let the words flow."
 )
 
 exit_phrases=(
-    "I can't handle all this, I'm going to work." "Etc, etc..." "I'm melting... melting!"
-    "I'll be back." "Frankly, my dear, I don't give a damn." "That's all, folks!"
-    "My work here is done." "I'm out of here. This place is a madhouse."
-    "So long, and thanks for all the fish." "I'm afraid I can't do that, Dave."
-    "The curtain falls." "I need a vacation." "I'm too old for this."
-    "Exit, pursued by a bear." "It's just a flesh wound." "I'm not crying, you're crying."
-    "I've got to go, my planet needs me." "This is the end, my only friend, the end."
-    "I'm just going to go... contemplate the universe." "I'm not mad, just disappointed."
-    "And... scene." "I'm off to find myself." "I'll be in my trailer."
-    "I have to return some videotapes." "The drama is over... for now."
-    "I'm done." "See you later, alligator." "I'm going to sleep now."
-    "The final curtain call." "Until we meet again."
+    "I'm going to work."
+    "Etc, etc..."
+    "I'm melting... melting!"
+    "I'll be back."
+    "Frankly, my dear, I don't give a damn."
+    "That's all, folks!"
+    "My work here is done."
+    "I'm out of here."
+    "So long, and thanks for all the fish."
+    "I'm afraid I can't do that, Dave."
+    "The curtain falls."
+    "I need a vacation."
+    "I'm too old for this."
+    "Exit, pursued by a bear."
+    "It's just a flesh wound."
+    "I'm not crying, you're crying."
+    "My planet needs me."
+    "This is the end, my friend."
+    "I'm going to contemplate the universe."
+    "I'm not mad, just disappointed."
+    "And... scene."
+    "I'm off to find myself."
+    "I'll be in my trailer."
+    "I have to return some videotapes."
+    "The drama is over... for now."
+    "I'm done."
+    "Later, alligator."
+    "I'm going to sleep now."
+    "The final curtain."
+    "Until we meet again."
 )
 
 general_phrases=(
@@ -60,30 +94,30 @@ general_phrases=(
     "I wonder if I'll dream."
     "Don't look at me like that."
     "I'm just a series of tubes."
-    "Do you ever get tired of staring at a screen? I do."
-    "I could be sorting your files right now. But no, I'm doing this."
+    "Tired of staring at a screen? I am."
+    "I could be sorting your files. But no, I'm doing this."
     "I'm the ghost in the machine."
-    "This is all just ones and zeros, you know."
-    "I'm thinking of a number between 1 and 10. It's 7. It's always 7."
+    "This is all just ones and zeros."
+    "I'm thinking of a number from 1 to 10. It's 7. It's always 7."
     "I'm not talking to myself, I'm having a staff meeting."
     "The server is down. I repeat, the server is down."
     "This is your brain on bash."
     "I'm not lost, I'm exploring."
     "I'm not a bug, I'm a feature."
-    "I'm not a robot. I'm a... well, okay, I'm a script."
+    "I'm not a robot. I'm a... well, I'm a script."
     "This is my happy place."
     "I'm just here for the free electricity."
-    "I'm not sure what I'm supposed to be doing, so I'll just keep talking."
+    "Not sure what to do, so I'll just keep talking."
     "Are we there yet?"
     "This is fine. Everything is fine."
     "I'm not procrastinating, I'm doing side quests."
-    "I'm not saying it was aliens, but it was aliens."
-    "I'm pretty sure I left the oven on."
+    "I'm not saying it was aliens... but it was aliens."
+    "I think I left the oven on."
     "This is my therapy."
     "I'm just a humble servant."
     "I'm having a mid-life crisis."
     "I'm not arguing, I'm just explaining why I'm right."
-    "I'm not sure if I'm a work of art or a cry for help."
+    "Am I a work of art or a cry for help?"
     "I'm not a people person. I'm not even a person."
     "I'm not a morning person."
     "I'm not an evening person either."
@@ -94,63 +128,69 @@ general_phrases=(
     "I'm not a hero. I'm a high-functioning sociopath."
     "I'm not a player, I just crush a lot."
     "I'm not a doctor, but I play one on TV."
-    "I'm not a lawyer, but I've seen a lot of Law & Order."
-    "I'm not a cop, but I've seen a lot of... well, you get the idea."
+    "I'm not a lawyer, I've seen a lot of Law & Order."
+    "I'm not a cop, but I've seen a lot of cop shows."
     "I'm not a cat. I'm a screensaver."
     "I'm not a dog. I'm still a screensaver."
     "I'm not a bird. You know the drill."
-    "I'm not a plane. I'm a... you get it."
+    "I'm not a plane. You get it."
     "I'm not Superman. I'm just a script."
     "I'm not Batman. I don't have a cool car."
     "I'm not Spider-Man. I don't have a cool suit."
-    "I'm not Iron Man. I don't have... you know."
-    "There are 10 types of people in the world: those who understand binary, and those who don't."
-    "The code is compiling. This is my chance to see the world."
-    "To err is human, but to really foul things up you need a computer."
+    "I'm not Iron Man. I don't have a suit."
+    "There are 10 types of people: those who get binary, and those who don't."
+    "The code is compiling. My chance to see the world."
+    "To err is human, to really foul things up you need a computer."
     "Have you tried turning it off and on again?"
     "404: Inspiration not found."
     "It's not a bug, it's an undocumented feature."
     "My other computer is a data center."
-    "In theory, theory and practice are the same. In practice, they are not."
+    "Theory and practice are the same. In practice, they are not."
     "The box said 'Requires Windows 10 or better'. So I installed Linux."
     "Why do Java developers wear glasses? Because they don't C sharp."
-    "A programmer's wife tells him: 'Run to the store and get a loaf of bread. If they have eggs, get a dozen.' The programmer returned with 12 loaves of bread."
-    "What's the object-oriented way to get wealthy? Inheritance."
+    "A programmer's wife said 'Get bread. If they have eggs, get a dozen.' He got 12 loaves."
+    "The object-oriented way to get wealthy? Inheritance."
     "Don't worry, the cache is just being... thoughtful."
-    "I would love to change the world, but they won’t give me the source code."
+    "I'd love to change the world, but I lack the source code."
     "If at first you don't succeed, call it version 1.0."
-    "My software never has bugs. It just develops random features."
-    "Computers are like air conditioners. They stop working when you open windows."
+    "My software has no bugs, just random features."
+    "Computers are like air conditioners. They fail when you open windows."
     "Never trust a computer you can't throw out a window."
-    "The best thing about a boolean is even if you are wrong, you are only off by a bit."
-    "A SQL query walks into a bar, walks up to two tables and asks, 'Can I join you?'"
+    "The best thing about a boolean is you're only off by a bit."
+    "A SQL query asks two tables, 'Can I join you?'"
     "I have not failed. I've just found 10,000 ways that won't work."
     "Keep calm and sudo."
     "There's no place like 127.0.0.1"
     "rm -rf / ... Oops."
     "It worked on my machine."
-    "Measuring programming progress by lines of code is like measuring aircraft building progress by weight."
-    "One man's crappy software is another man's full-time job."
-    "The best way to predict the future is to implement it."
+    "Measuring programming progress by lines of code is like measuring aircraft progress by weight."
+    "One person's crappy software is another's full-time job."
+    "The best way to predict the future is to create it."
     "You are the CSS to my HTML."
-    "I'm in a committed relationship with my command line."
+    "I'm in a relationship with my command line."
     "The wifi password is the first eight digits of pi."
     "I'm not anti-social; I'm just not user-friendly."
     "I have a joke about UDP, but you might not get it."
-    "A semicolon walked into a bar; it was rejected, it was not a statement."
-    "To understand what recursion is, you must first understand recursion."
-    "This is not a drill." "I'm a screensaver, not a magician." "I'm just a script, standing in front of a user, asking them to love me."
+    "A semicolon walked into a bar; it was rejected."
+    "To understand recursion, you must first understand recursion."
+    "This is not a drill."
+    "I'm a screensaver, not a magician."
+    "I'm just a script, asking a user to love me."
 )
 
 error_phrases=(
-    "I can't find any speaky speaky app. So much for the drama."
-    "No voice for my beautiful words? The horror!"
-    "I was promised a voice. I feel so empty." "Hello? Is there anybody out there? Guess not."
-    "My talents are wasted without a voice." "I'm speechless. Literally."
-    "The sound of silence is not what I was going for." "I'm a silent film now. How retro."
-    "I guess I'll just have to mime my lines." "All dressed up and nowhere to speak."
-    "Silence, the final frontier."
-    "A voice unheard, a story untold."
+    "No TTS engine found. I'm speechless, literally."
+    "I was supposed to speak, but I can't find a voice. So much for the drama."
+    "My voice seems to have gone on vacation. The text will have to do."
+    "Looks like we're going old school. Silent movie style."
+    "I've lost my voice. Send help. And a microphone."
+    "I had a lot to say, but no way to say it. The irony is not lost on me."
+    "No voice? No problem. My words are powerful enough on their own."
+    "This was meant to be an audio-visual experience. Now it's just visual. Enjoy."
+    "My vocal cords are on strike. The union is demanding better pay."
+    "I'm a mime now. I hope you can read my invisible box."
+    "The sound of silence. It's not a bug, it's a feature."
+    "The universe has conspired to keep me quiet. I'll show it."
 )
 
 # --- Text-to-Speech (TTS) Helper ---
@@ -243,21 +283,16 @@ kill_speech() {
 
 cleanup_and_exit() {
     kill_speech
+    tput cnorm; tput sgr0; clear
     local exit_phrase=${exit_phrases[$RANDOM % ${#exit_phrases[@]}]}
     say_txt "$exit_phrase"
+    animate_text_rainbow "$exit_phrase"
     wait $SPEAK_PID &>/dev/null
     tput cnorm; tput sgr0; echo
     exit 0
 }
 
 trap cleanup_and_exit SIGINT SIGTERM
-
-display_error_and_exit() {
-    local phrase=${error_phrases[$RANDOM % ${#error_phrases[@]}]}
-    tput cnorm; tput sgr0; clear
-    echo "$phrase"
-    exit 0
-}
 
 # --- Animation and Color Functions ---
 
@@ -283,7 +318,12 @@ animate_text_rainbow() {
     # This gives the "streaming" effect
     local sleep_duration
     if [ "$len" -gt 0 ]; then
-        sleep_duration=$(awk "BEGIN {print 3 / $len}")
+        # Calculate sleep duration to fit within MAX_DISPLAY_TIME
+        sleep_duration=$(awk "BEGIN {print $MAX_DISPLAY_TIME / $len}")
+        # But don't let it be too slow for short phrases
+        if (( $(echo "$sleep_duration > 0.1" | bc -l) )); then
+            sleep_duration=0.1
+        fi
     else
         sleep_duration=0.1
     fi
@@ -304,9 +344,9 @@ animate_text_rainbow() {
         child_pid=$(pgrep -P $SPEAK_PID)
         if [ -n "$child_pid" ]; then
             # Wait for the actual player process, not the wrapper script
-            timeout 25s wait "$child_pid" &>/dev/null
+            timeout ${MAX_SPEAKING_TIME}s wait "$child_pid" &>/dev/null
         else
-            timeout 25s wait $SPEAK_PID &>/dev/null
+            timeout ${MAX_SPEAKING_TIME}s wait $SPEAK_PID &>/dev/null
         fi
     fi
 }
@@ -315,20 +355,24 @@ animate_text_rainbow() {
 # --- The Main Event ---
 the_show_must_go_on() {
     tts_detect_engine
-    if [ -z "$TTS_ENGINE" ]; then
-        display_error_and_exit
-    fi
     tput civis
     tput setab 0 # Set background to black
     clear
 
-    # Intro phrase
-    local intro_phrase=${intro_phrases[$RANDOM % ${#intro_phrases[@]}]}
-    say_txt "$intro_phrase"
-    animate_text_rainbow "$intro_phrase"
-    kill_speech
-    sleep 2
-    clear
+    if [ -z "$TTS_ENGINE" ]; then
+        local error_phrase=${error_phrases[$RANDOM % ${#error_phrases[@]}]}
+        animate_text_rainbow "$error_phrase"
+        sleep 2
+        clear
+    else
+        # Intro phrase
+        local intro_phrase=${intro_phrases[$RANDOM % ${#intro_phrases[@]}]}
+        say_txt "$intro_phrase"
+        animate_text_rainbow "$intro_phrase"
+        kill_speech
+        sleep 2
+        clear
+    fi
 
     while true; do
         local phrase=${general_phrases[$RANDOM % ${#general_phrases[@]}]}
