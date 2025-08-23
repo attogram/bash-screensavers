@@ -29,6 +29,8 @@ when you have `echo`, `sleep`, and a little bit of `tput` magic?
 
 ## Tour the gallery
 
+For a full list of all screensavers, see the [Gallery README](./gallery/README.md).
+
 ### Matrix
 ![Matrix](gallery/matrix/matrix.gif)
 
@@ -175,14 +177,7 @@ That's it! The main `screensaver.sh` script will automatically detect your new c
 
 ## Development Tools
 
-### `tools/smile-for-the-camera.sh`
-
-This script is used to generate animated GIF previews for each screensaver. It uses `asciinema` to record a `.cast` file and `agg` to convert it to a `.gif`. The output files are saved in the `gallery/<screensaver_name>/` directory.
-
-**Usage:**
-```bash
-./tools/smile-for-the-camera.sh
-```
+This project includes several scripts to help with development and maintenance. For a full list of tools and their usage, please see the [Tools README](./tools/README.md).
 
 ---
 
