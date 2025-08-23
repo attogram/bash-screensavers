@@ -275,7 +275,12 @@ say_txt() {
 kill_speech() {
     if [ $SPEAK_PID -ne 0 ]; then
         # Kill the process and any children
-        pkill -P $SPEAK_PID &>/dev/null
+        if command -v pkill &>/dev/null; then
+            pkill -P $SPEAK_PID &>/dev/null
+        else
+            # Fallback for systems without pkill (like Cygwin)
+            kill $(ps -ef | awk -v ppid="$SPEAK_PID" '$3==ppid {print $2}') &>/dev/null
+        fi
         kill $SPEAK_PID &>/dev/null
         wait $SPEAK_PID &>/dev/null
     fi
@@ -341,7 +346,13 @@ animate_text_rainbow() {
     # Wait for speech to finish, with a max timeout
     if [ $SPEAK_PID -ne 0 ]; then
         local child_pid
-        child_pid=$(pgrep -P $SPEAK_PID)
+        if command -v pgrep &>/dev/null; then
+            child_pid=$(pgrep -P "$SPEAK_PID")
+        else
+            # Fallback for systems without pgrep (like Cygwin)
+            child_pid=$(ps -ef | awk -v ppid="$SPEAK_PID" '$3==ppid {print $2}')
+        fi
+
         if [ -n "$child_pid" ]; then
             # Wait for the actual player process, not the wrapper script
             timeout ${MAX_SPEAKING_TIME}s wait "$child_pid" &>/dev/null
