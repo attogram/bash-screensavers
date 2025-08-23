@@ -24,6 +24,8 @@
 # Cygwin:
 #   Follow instructions on the websites for asciinema and agg
 
+ROWS=20
+COLS=80
 
 # --- Helper Functions ---
 
@@ -62,6 +64,12 @@ main() {
 
                 # Create output directory if it doesn't exist
                 mkdir -p "$output_dir/$name"
+
+                # Tell the kernel what the size *should* be
+                stty rows "$ROWS" cols "$COLS"
+
+                # Ask the emulator to change its real size (works only in emulators that support CSI 8)
+                printf '\e[8;%d;%dt' "$ROWS" "$COLS"
 
                 # Record with asciinema
                 local raw_cast_file="$temp_dir/$name.raw.cast"
