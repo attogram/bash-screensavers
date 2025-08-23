@@ -70,6 +70,10 @@ main() {
                 # Create output directory if it doesn't exist
                 mkdir -p "$output_dir/$name"
 
+                tput setab 0 # black background
+                clear
+                tput civis # no cursor
+
                 # Tell the kernel what the size *should* be
                 stty rows "$ROWS" cols "$COLS"
 
@@ -96,6 +100,9 @@ main() {
             fi
         fi
     done
+
+    tput cnorm       # show the cursor again
+    tput sgr0
 
     echo "Done!"
 }
