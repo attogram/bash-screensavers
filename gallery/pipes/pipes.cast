@@ -1,2 +1,1 @@
-{"version": 2, "width": 80, "height": 24, "timestamp": 1575632057, "env": {"SHELL": "/bin/zsh", "TERM": "xterm-256color"}}
-[1.0, "o", "This is a dummy cast file."]
+{"version": 2, "width": 80, "height": 20, "timestamp": 1755955122, "env": {"SHELL": "/bin/bash", "TERM": "xterm-256color"}}
