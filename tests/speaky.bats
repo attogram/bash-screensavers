@@ -1,8 +1,7 @@
 #!/usr/bin/env bats
 
 setup() {
-    SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &> /dev/null && pwd)
-    SCRIPT="$SCRIPT_DIR/../gallery/speaky/speaky.sh"
+    SCRIPT="gallery/speaky/speaky.sh"
 
     BATS_TMPDIR=$(mktemp -d -t bats-speaky-XXXXXX)
     export PATH="$BATS_TMPDIR:$PATH"

@@ -37,4 +37,11 @@ This document provides some specific knowledge required for working on this scre
 
 ## Testing
 
-I should not attempt to run the tests in this repository. I have encountered a persistent internal error when trying to install the test dependencies. The error is `ValueError: Unexpected error: return_code: 1 stderr_contents: "cat: /app/tests/libs/bats-assert: Is a directory\n"`. This seems to be a tooling issue. If I need to run tests, I should inform the user.
+The tests for this project are written using the `bats` testing framework. Here are some key things to know about the test suite:
+
+- **Dependencies**: The tests require `bats`, `bats-support`, and `bats-assert`. These are not checked in to the repository and need to be installed. I have found that cloning them with `git` can be unreliable in this environment. It is better to download the release tarballs and extract them.
+- **Test Structure**: The main test file is `tests/tests.bats`. It is responsible for testing the main `screensaver.sh` script. There are also individual test files for each screensaver in the `tests` directory.
+- **Running Tests**: The tests should be run from the root of the repository using the command `bats tests`. This will execute all the `.bats` files in the `tests` directory.
+- **Paths**: The test scripts are written with the assumption that they are being run from the root of the repository. All paths in the test files should be relative to the root.
+- **`timeout` and Assertions**: Many of the tests use `timeout` to run the screensavers for a short period. Since the screensavers are designed to run indefinitely, `timeout` will kill them, resulting in a non-zero exit code. Therefore, the tests should use `assert_failure` to check for this expected failure, not `assert_success`.
+- **Environment Limitations**: The testing environment can be restrictive. Commands like `cd`, `pwd`, and `git restore` may not work as expected. It's important to be aware of these limitations and find workarounds when necessary.
