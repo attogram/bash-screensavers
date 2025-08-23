@@ -16,9 +16,24 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Fetch all history for all tags
 
       - name: Set current tag
         run: echo "CURRENT_TAG=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+
+      - name: Get previous tag
+        id: previoustag
+        run: |
+          # Get the latest tag that is not the current tag
+          PREVIOUS_TAG=$(git describe --tags --abbrev=0 $(git rev-list --tags --skip=1 --max-count=1) 2>/dev/null)
+          if [ $? -ne 0 ]; then
+            echo "No previous tag found. Using first commit."
+            # Use the hash of the very first commit if no previous tag is found
+            PREVIOUS_TAG=$(git rev-list --max-parents=0 HEAD)
+          fi
+          echo "previous_tag=$PREVIOUS_TAG" >> $GITHUB_ENV
+          echo "Previous tag: $PREVIOUS_TAG"
 
       - name: Get Screensaver Codename
         run: echo "CODENAME=$(grep '^BASH_SCREENSAVERS_CODENAME=' screensaver.sh | cut -d'=' -f2 | sed "s/'//g" | xargs)" >> $GITHUB_ENV
@@ -26,8 +41,20 @@ jobs:
       - name: Generate Release Notes
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PREVIOUS_TAG: ${{ env.previous_tag }}
         run: |
-          RELEASE_BODY="**Bash Screensavers $CURRENT_TAG** _($CODENAME)_\n\nTurn your idle shell into a visual playground with this collection of Bash screensavers\n\nRepo: https://github.com/${{ github.repository }}\n"
+          RELEASE_BODY="**Bash Screensavers $CURRENT_TAG** _($CODENAME)_\n\nTurn your idle shell into a visual playground with this collection of Bash screensavers\n\nRepo: https://github.com/${{ github.repository }}\n\n"
+
+          # Generate changelog
+          CHANGELOG=$(git log --pretty=format:"* %s (%h)" $PREVIOUS_TAG..$CURRENT_TAG)
+
+          if [ -n "$CHANGELOG" ]; then
+            RELEASE_BODY="${RELEASE_BODY}**Full Changelog**:\n\n${CHANGELOG}\n\n"
+          fi
+
+          # Add link to compare with previous version
+          RELEASE_BODY="${RELEASE_BODY}See all commits since last release: https://github.com/${{ github.repository }}/compare/${PREVIOUS_TAG}...${CURRENT_TAG}"
+
           echo "RELEASENOTES<<EOF" >> $GITHUB_ENV
           echo -e "$RELEASE_BODY" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
