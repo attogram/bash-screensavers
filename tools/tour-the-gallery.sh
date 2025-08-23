@@ -7,6 +7,15 @@
 
 # --- Helper Functions ---
 
+validate_cast() {
+    local cast_file="$1"
+    if [[ ! -s "$cast_file" ]]; then
+        echo "Error: Failed to create a valid cast file: $cast_file"
+        echo "The file is missing, empty, or invalid."
+        exit 1
+    fi
+}
+
 check_deps() {
     if ! command -v asciinema &> /dev/null; then
         echo "Error: asciinema not found. Please install it."
@@ -64,6 +73,7 @@ EOF
 
     # Record the script with asciinema
     asciinema rec --command="$temp_script" --overwrite "$output_file"
+    validate_cast "$output_file"
 
     rm "$temp_script"
 }
@@ -105,10 +115,12 @@ main() {
                 # Record a longer snippet
                 local temp_cast="$temp_dir/$(printf "%02d" $i)_${name}_temp.cast"
                 asciinema rec --command="bash -c 'run_with_timeout 6s env SHELL=/bin/bash $run_script'" --overwrite "$temp_cast"
+                validate_cast "$temp_cast"
 
                 # Cut a snippet from the middle
                 local snippet_cast="$temp_dir/$(printf "%02d" $i)_${name}_snippet.cast"
                 asciinema cut -s 3 -e 6 "$temp_cast" > "$snippet_cast"
+                validate_cast "$snippet_cast"
                 all_casts+=("$snippet_cast")
 
                 i=$((i+1))
