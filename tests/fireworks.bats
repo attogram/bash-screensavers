@@ -3,10 +3,10 @@
 load 'libs/bats-support/load'
 load 'libs/bats-assert/load'
 
-SCRIPT="../gallery/fireworks/fireworks.sh"
+SCRIPT="gallery/fireworks/fireworks.sh"
 
 @test "fireworks: should be executable" {
-  assert [ -x "$SCRIPT" ], "$SCRIPT is not executable"
+  assert [ -x "$SCRIPT" ]
 }
 
 @test "fireworks: runs without errors for 1 second" {

@@ -3,10 +3,10 @@
 load 'libs/bats-support/load'
 load 'libs/bats-assert/load'
 
-SCRIPT="../gallery/vibe/vibe.sh"
+SCRIPT="gallery/vibe/vibe.sh"
 
 @test "vibe: should be executable" {
-  assert [ -x "$SCRIPT" ], "$SCRIPT is not executable"
+  assert [ -x "$SCRIPT" ]
 }
 
 @test "vibe: runs without errors for 1 second" {

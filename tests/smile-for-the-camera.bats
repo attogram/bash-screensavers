@@ -1,25 +1,21 @@
 #!/usr/bin/env bats
 
 setup() {
-    SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &> /dev/null && pwd)
-    SCRIPT="$SCRIPT_DIR/../tools/smile-for-the-camera.sh"
+    SCRIPT="tools/smile-for-the-camera.sh"
     chmod +x "$SCRIPT"
 
     BATS_TMPDIR=$(mktemp -d -t bats-smile-XXXXXX)
     export PATH="$BATS_TMPDIR:$PATH"
 
     # Create dummy gallery
-    mkdir -p "$BATS_TMPDIR/gallery/testsaver"
-    echo "echo hello" > "$BATS_TMPDIR/gallery/testsaver/testsaver.sh"
-    chmod +x "$BATS_TMPDIR/gallery/testsaver/testsaver.sh"
-
-    # Run the script from the temp dir
-    cd "$BATS_TMPDIR" || exit 1
+    mkdir -p "gallery/testsaver"
+    echo "echo hello" > "gallery/testsaver/testsaver.sh"
+    chmod +x "gallery/testsaver/testsaver.sh"
 }
 
 teardown() {
-    cd - > /dev/null || exit 1
     rm -rf "$BATS_TMPDIR"
+    rm -rf "gallery/testsaver"
 }
 
 @test "smile-for-the-camera: exits if asciinema is not found" {

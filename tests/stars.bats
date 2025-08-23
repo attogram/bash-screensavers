@@ -3,10 +3,10 @@
 load 'libs/bats-support/load'
 load 'libs/bats-assert/load'
 
-SCRIPT="../gallery/stars/stars.sh"
+SCRIPT="gallery/stars/stars.sh"
 
 @test "stars: should be executable" {
-  assert [ -x "$SCRIPT" ], "$SCRIPT is not executable"
+  assert [ -x "$SCRIPT" ]
 }
 
 @test "stars: runs without errors for 1 second" {

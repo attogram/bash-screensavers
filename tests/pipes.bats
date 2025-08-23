@@ -3,10 +3,10 @@
 load 'libs/bats-support/load'
 load 'libs/bats-assert/load'
 
-SCRIPT="../gallery/pipes/pipes.sh"
+SCRIPT="gallery/pipes/pipes.sh"
 
 @test "pipes: should be executable" {
-  assert [ -x "$SCRIPT" ], "$SCRIPT is not executable"
+  assert [ -x "$SCRIPT" ]
 }
 
 @test "pipes: runs without errors for 1 second" {

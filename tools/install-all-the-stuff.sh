@@ -35,13 +35,9 @@ install_macos() {
 
 install_debian_ubuntu() {
     echo "Debian/Ubuntu detected. Using apt-get."
-    if ! command -v asciinema &> /dev/null; then
-        echo "Installing asciinema..."
-        sudo apt-get update
-        sudo apt-get install -y asciinema
-    else
-        echo "asciinema is already installed."
-    fi
+    echo "Installing dependencies for Debian/Ubuntu..."
+    sudo apt-get update
+    sudo apt-get install -y asciinema figlet ncurses-bin
 
     if ! command -v agg &> /dev/null; then
         echo "Installing agg from prebuilt binary..."

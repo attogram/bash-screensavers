@@ -1,4 +1,0 @@
-{"version": 2, "width": 80, "height": 20, "timestamp": 1755955088, "env": {"SHELL": "/bin/bash", "TERM": "xterm-256color"}}
-[10.015265, "o", "gallery/life/life.sh: line 188: read: error setting terminal attributes: Interrupted system call\r\n"]
-[10.016298, "o", "\u001b[?25h\u001b[?1049l"]
-[10.01744, "o", "\u001b[?25h\u001b[?1049l"]

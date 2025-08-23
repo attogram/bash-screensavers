@@ -3,10 +3,10 @@
 load 'libs/bats-support/load'
 load 'libs/bats-assert/load'
 
-SCRIPT="../gallery/bouncing/bouncing.sh"
+SCRIPT="gallery/bouncing/bouncing.sh"
 
 @test "bouncing: should be executable" {
-  assert [ -x "$SCRIPT" ], "$SCRIPT is not executable"
+  assert [ -x "$SCRIPT" ]
 }
 
 @test "bouncing: runs without errors for 1 second" {
