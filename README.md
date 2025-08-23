@@ -12,14 +12,20 @@ a collection of screensavers written entirely in `bash`.
 Because who needs fancy graphics cards and complex rendering engines
 when you have `echo`, `sleep`, and a little bit of `tput` magic?
 
-![Release](https://img.shields.io/github/v/release/attogram/bash-screensavers?style=flat)
-![License](https://img.shields.io/github/license/attogram/bash-screensavers?style=flat)
+[Tour the gallery](#tour-the-gallery) -
+[Get the party started](#get-the-party-started) -
+[Join the Community](#join-the-community) -
+[Developers Guide](#developers-guide)
+
+[![Release](https://img.shields.io/github/v/release/attogram/bash-screensavers?style=flat)](https://github.com/attogram/bash-screensavers/releases)
+[![License](https://img.shields.io/github/license/attogram/bash-screensavers?style=flat)](./LICENSE)
 ![Bash ≥3.2](https://img.shields.io/badge/bash-%3E=3.2-blue?style=flat)
-![GitHub commit activity](https://img.shields.io/github/commit-activity/t/attogram/bash-screensavers?style=flat)
-![GitHub stars](https://img.shields.io/github/stars/attogram/bash-screensavers?style=flat)
-![GitHub watchers](https://img.shields.io/github/watchers/attogram/bash-screensavers?style=flat)
-![Forks](https://img.shields.io/github/forks/attogram/bash-screensavers?style=flat)
-![Issues](https://img.shields.io/github/issues/attogram/bash-screensavers?style=flat)
+[![GitHub commit activity](https://img.shields.io/github/commit-activity/t/attogram/bash-screensavers?style=flat)](https://github.com/attogram/bash-screensavers/commits/main/)
+[![GitHub stars](https://img.shields.io/github/stars/attogram/bash-screensavers?style=flat)](https://github.com/attogram/bash-screensavers/stargazers)
+[![GitHub watchers](https://img.shields.io/github/watchers/attogram/bash-screensavers?style=flat)](https://github.com/attogram/bash-screensavers/watchers)
+[![Forks](https://img.shields.io/github/forks/attogram/bash-screensavers?style=flat)](https://github.com/attogram/bash-screensavers/forks)
+[![Issues](https://img.shields.io/github/issues/attogram/bash-screensavers?style=flat)](https://github.com/attogram/bash-screensavers/issues)
+
 
 ## Tour the gallery
 
