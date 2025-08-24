@@ -51,7 +51,7 @@ cd bash-screensavers
 ./screensaver.sh
 ```
 ```
-Bash Screensavers v0.0.21 (Mystic Jazz)
+Bash Screensavers v0.0.22 (Mystic Suns)
 
   1 . alpha        - random colorful pixels
   2 . bouncing     - bouncing 'O' madness
