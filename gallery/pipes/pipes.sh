@@ -226,11 +226,13 @@ cleanup() {
     # clear out standard input
     read -t 0.001 && cat </dev/stdin>/dev/null
 
-    tput rmcup
-    tput cnorm
-    stty echo
-    printf "$SGR0"
-    echo
+    if [[ "$BASH_SCREENSAVERS_RECORDING" != "true" ]]; then
+        tput rmcup
+        tput cnorm
+        stty echo
+        printf "$SGR0"
+        echo
+    fi
     exit 0
 }
 

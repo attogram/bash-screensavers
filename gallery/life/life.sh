@@ -58,7 +58,9 @@ init() {
 
 cleanup() {
    while read -r -t 0.001 -N 1; do : ; done # Consumes any pending input bytes
-   printf '\e[?25h' # Shows the cursor again
+   if [[ "$BASH_SCREENSAVERS_RECORDING" != "true" ]]; then
+        printf '\e[?25h' # Shows the cursor again
+   fi
    printf '\e[?1049l' # Leaves the alternate screen
    exit 0
 }
@@ -185,7 +187,7 @@ main() {
       draw_grid
       swap
 
-      if read -r -N 1 -t "$SLEEP_DURATION" key; then
+      if read -r -N 1 -t "$SLEEP_DURATION" key 2>/dev/null; then
          break # Exit loop if key pressed
       fi
    done

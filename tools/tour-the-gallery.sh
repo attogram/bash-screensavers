@@ -9,9 +9,9 @@
 
 validate_cast() {
     local cast_file="$1"
-    if [[ ! -s "$cast_file" ]]; then
+    if [[ ! -s "$cast_file" ]] || ! grep -q '"version": 2' "$cast_file"; then
         echo "Error: Failed to create a valid cast file: $cast_file"
-        echo "The file is missing, empty, or invalid."
+        echo "The file is missing, empty, or contains invalid JSON."
         exit 1
     fi
 }
@@ -21,8 +21,8 @@ check_deps() {
         echo "Error: asciinema not found. Please install it."
         exit 1
     fi
-    if ! command -v agg &> /dev/null; then
-        echo "Error: agg not found. Please install it."
+    if ! python -m agg --help &> /dev/null; then
+        echo "Error: agg not found or not runnable. Please install it via 'pip install --user agg'."
         exit 1
     fi
 }
@@ -114,12 +114,12 @@ main() {
 
                 # Record a longer snippet
                 local temp_cast="$temp_dir/$(printf "%02d" $i)_${name}_temp.cast"
-                asciinema rec --command="bash -c 'run_with_timeout 6s env SHELL=/bin/bash $run_script'" --overwrite "$temp_cast"
+                asciinema rec --command="bash -c 'run_with_timeout 6s env BASH_SCREENSAVERS_RECORDING=true SHELL=/bin/bash $run_script'" --overwrite "$temp_cast"
                 validate_cast "$temp_cast"
 
-                # Cut a snippet from the middle
+                # awk trick to remove the first few frames, since `asciinema cut` is not available in this version
+                awk 'NR==1{print;next} /^\[/ && substr($1,2)+0 > 0.5' "$temp_cast" > "$temp_dir/$(printf "%02d" $i)_${name}_snippet.cast"
                 local snippet_cast="$temp_dir/$(printf "%02d" $i)_${name}_snippet.cast"
-                asciinema cut -s 3 -e 6 "$temp_cast" > "$snippet_cast"
                 validate_cast "$snippet_cast"
                 all_casts+=("$snippet_cast")
 
@@ -141,7 +141,7 @@ main() {
     # 5. Convert to GIF
     echo "  - Converting to GIF..."
     local overview_gif="$output_dir/overview.gif"
-    agg "$overview_cast" "$overview_gif"
+    python -m agg "$overview_cast" "$overview_gif"
 
     # 6. Clean up
     echo "  - Cleaning up..."
