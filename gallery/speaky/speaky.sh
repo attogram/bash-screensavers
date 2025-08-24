@@ -219,7 +219,16 @@ tts_get_voices_say() {
         local voice
         voice=$(awk -v loc="$locale" '{ for (i=1; i<=NF; i++) { if ($i == loc) { for (j=1; j<i; j++) { printf "%s%s", $j, (j<i-1 ? OFS : "") }; exit } } }' <<<"$line_no_comment")
         if [[ -n "$voice" ]]; then
-            SAY_VOICES+=("$voice")
+            # Filter for English and approved bilingual voices.
+            # Some non-English voices are surprisingly good with English phrases,
+            # and some English voices are... not. This is a curated list.
+            if [[ "$locale" == en* ]] ||
+               [[ "$voice" == "Emilio" ]] ||
+               [[ "$voice" == "Valeria" ]] ||
+               [[ "$voice" == "Rod" ]] ||
+               [[ "$voice" == "Rodrigo" ]]; then
+                SAY_VOICES+=("$voice")
+            fi
         fi
     done <<<"$raw_voices"
 }
