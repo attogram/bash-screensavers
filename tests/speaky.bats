@@ -45,13 +45,14 @@ EOF
     SAY_VOICES=("Alex" "Fred")
     TTS_ENGINE="say"
 
+    RANDOM=0
     say_txt "hello world"
 
     sleep 0.1
 
     run cat "$MOCK_LOG"
     [ "$status" -eq 0 ]
-    [[ "$output" =~ "say called with: -v (Alex|Fred) hello world" ]]
+    [ "$output" = "say called with: -v Alex hello world" ]
 }
 
 @test "speaky: say_txt works normally if no voices are found" {
