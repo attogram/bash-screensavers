@@ -64,13 +64,15 @@ That's it! The main `screensaver.sh` script will automatically detect your new c
 ├─ screensaver.sh    # Where the ASCII magic begins
 ├─ LICENSE           # MIT Licensed, because all the cool kids are doing it
 ├─ README.md         # This file, isn't it pretty?
-├─ CONTRIBUTING.md   # Guidelines for contributing to this project
+├─ CONTRIBUTING.md   # help us out
+├─ AGENTS.md         # Vibe Vibe Vibe!
 ├─ gallery           # Welcome to the Gallery of Terminal Visualizations
 │   ├─ name          # I'm a screensaver, and I have my own directory!
 │   │   └─ name.sh   # I'm a screensaver, and I can run, run, run!
 │   │   └─ config.sh # Psst... want some free metadata?
-├─ tests             # I gotta BATSy idea, we should test this stuff
+├─ jury              # I gotta BATSy idea, we should test this stuff
 │   └─ tests.sh      # It can't be that bad, can it?
+├─ spotlight         # Tools for curators
 └─ .github           # GitHub magic lives here
     └─ workflows
         └─ create.release.for.tag.yml

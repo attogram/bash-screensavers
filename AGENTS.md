@@ -26,9 +26,9 @@ This section outlines the universal rules and expectations for any AI agent work
 
   * `gallery/`: Contains each screensaver as a subdirectory.
 
-  * `tools/`: Helper scripts, such as `smile-for-the-camera.sh`.
+  * `spotlight/`: Helper scripts, such as `smile-for-the-camera.sh`.
 
-  * `tests/`: The `bats` test suite.
+  * `jury/`: The `bats` test suite.
 
 * **General Tips:**
 
