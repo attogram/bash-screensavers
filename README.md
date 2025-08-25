@@ -14,8 +14,10 @@ when you have `echo`, `sleep`, and a little bit of `tput` magic?
 
 [Tour the gallery](#tour-the-gallery) -
 [Get the party started](#get-the-party-started) -
-[Join the Community](#join-the-community) -
-[Contributing](./CONTRIBUTING.md)
+[Jury](#jury) -
+[Spotlight](#spotlight) -
+[Contributing](#contributing) - 
+[Chat](#chat) -
 
 [![Release](https://img.shields.io/github/v/release/attogram/bash-screensavers?style=flat)](https://github.com/attogram/bash-screensavers/releases)
 [![License](https://img.shields.io/github/license/attogram/bash-screensavers?style=flat)](./LICENSE)
@@ -26,22 +28,13 @@ when you have `echo`, `sleep`, and a little bit of `tput` magic?
 [![Forks](https://img.shields.io/github/forks/attogram/bash-screensavers?style=flat)](https://github.com/attogram/bash-screensavers/forks)
 [![Issues](https://img.shields.io/github/issues/attogram/bash-screensavers?style=flat)](https://github.com/attogram/bash-screensavers/issues)
 
-
 ## Tour the gallery
 
 For a full list of all screensavers, see the [Gallery README](./gallery/README.md).
 
-### Matrix
+### Spotlight
+
 ![Matrix](gallery/matrix/matrix.gif)
-
-### Bouncing
-![Bouncing](gallery/bouncing/bouncing.gif)
-
-### Rain
-![Rain](gallery/rain/rain.gif)
-
-### Tunnel
-![Tunnel](gallery/tunnel/tunnel.gif)
 
 ## Get the party started
 
@@ -71,30 +64,32 @@ Bash Screensavers v0.0.22 (Mystic Suns)
 Choose your screensaver:
 ```
 
-## Join the Community
-
-Have questions, ideas, or just want to chat? Join our Discord server!
-
-[**Join our Discord!**](https://discord.gg/BGQJCbYVBa)
-
-
 ## Contributing
 
 We welcome contributions!
 
-Feel free to fork the repo,
-create a new screensaver,
-fix a bug,
-make something better
-and submit a pull request.
+For the nitty-gritty, see [CONTRIBUTING.md](./CONTRIBUTING.md).
 
-For more information, please see the [Developers Guide](./CONTRIBUTING.md).
+Vibe coders and [AI Assitants](./AGENTS.md) are welcome to join the party.
 
----
+## Spotlight
 
-## Gallery Tools
+The spotlight is a curators tool to create pretty previews of all the screensavers.
 
-This project includes several scripts to help with development and maintenance. For a full list of tools and their usage, please see the [Tools README](./tools/README.md).
+Read the [Spotlight Manual](./tools/README.md) for details.
+
+## Jury
+
+The jury makes sure the gallery is neat and tidy. They test **everything**
+
+Se the [Jury Criteria](./jury/README.md) for the rules.
+
+## Chat
+
+Have questions, ideas, or just want to chat? 
+
+[**Join our Discord server!**](https://discord.gg/BGQJCbYVBa)
+
 
 ---
 
