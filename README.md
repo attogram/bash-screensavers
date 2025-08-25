@@ -13,10 +13,10 @@ when you have `echo`, `sleep`, and a little bit of `tput` magic?
 
 [Gallery](#gallery) -
 [Quickstart](#quickstart) -
-[Jury](#jury) -
-[Spotlight](#spotlight) -
 [Contributing](#contributing) - 
-[Chat](#chat) -
+[Spotlight](#spotlight) -
+[Jury](#jury) -
+[Chat](#chat)
 
 [![Release](https://img.shields.io/github/v/release/attogram/bash-screensavers?style=flat)](https://github.com/attogram/bash-screensavers/releases)
 [![License](https://img.shields.io/github/license/attogram/bash-screensavers?style=flat)](./LICENSE)
@@ -71,9 +71,10 @@ Vibe coders and [AI Assistants](./AGENTS.md) are welcome to join the party.
 
 ## Spotlight
 
-The spotlight is a curators tool to create pretty previews of all the screensavers.
+The spotlight is a set of curator tools for marketing and publicity fluff,
+like pretty previews of all the screensavers.
 
-Read the [Spotlight Manual](./tools/README.md) for details.
+Read the [Spotlight Manual](./spotlight/README.md) for details.
 
 ## Jury
 
@@ -81,7 +82,7 @@ The jury makes sure the gallery is up-to-snuff.
 
 They test **everything**. They're a bit batsy about it.
 
-Se the [Jury Criteria](./jury/README.md) for the rules.
+See the [Jury Criteria](./jury/README.md) for the rules.
 
 ## Chat
 
