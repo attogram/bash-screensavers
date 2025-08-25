@@ -7,8 +7,8 @@
 #
 
 BASH_SCREENSAVERS_NAME='Bash Screensavers'
-BASH_SCREENSAVERS_VERSION='0.0.22'
-BASH_SCREENSAVERS_CODENAME='Mystic Suns'
+BASH_SCREENSAVERS_VERSION='0.0.23'
+BASH_SCREENSAVERS_CODENAME='Mystic Grotto'
 BASH_SCREENSAVERS_URL='https://github.com/attogram/bash-screensavers'
 BASH_SCREENSAVERS_DISCORD='https://discord.gg/BGQJCbYVBa'
 BASH_SCREENSAVERS_LICENSE='MIT'
@@ -58,10 +58,11 @@ enjoy_a_screensaver() {
 }
 
 intro() {
-  local emptiness='                                                                      '
-  echo "$emptiness"
-  echo "$BASH_SCREENSAVERS_NAME v$BASH_SCREENSAVERS_VERSION ($BASH_SCREENSAVERS_CODENAME)" '     '
-  echo "$emptiness"
+    #TODO - smart emptiness, or even a nice box around the menu with pretty colors and stuff
+    local emptiness='                                                                      '
+    echo "$emptiness"
+    echo "$BASH_SCREENSAVERS_NAME v$BASH_SCREENSAVERS_VERSION ($BASH_SCREENSAVERS_CODENAME)" '     '
+    echo "$emptiness"
 }
 
 choose_screensaver() {
@@ -124,7 +125,7 @@ choose_screensaver() {
       done
   fi
 
-  echo
+  #echo
   echo 'Oops, invalid input!  Please enter a number or name from the list.     '
   echo
   return 1
@@ -194,11 +195,8 @@ EOL
 
 _main_menu_cleanup() {
     tput sgr0 # Reset terminal attributes
-    echo
-    echo "Enjoyed Bash Screensavers? Give the project a star on GitHub! ✨"
-    echo
-    echo "${BASH_SCREENSAVERS_URL}"
-    echo
+    echo; echo; echo 'Enjoyed Bash Screensavers? Give the project a star on GitHub! ✨'
+    echo; echo "${BASH_SCREENSAVERS_URL}"; echo
 }
 trap _main_menu_cleanup EXIT
 
