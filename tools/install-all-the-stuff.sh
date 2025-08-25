@@ -141,7 +141,8 @@ install_agg_binary() {
     temp_dir=$(mktemp -d)
     trap 'rm -rf "$temp_dir"' EXIT
 
-    curl -L "$agg_url" -o "$temp_dir/agg_archive"
+    local downloaded_file="$temp_dir/agg_download"
+    curl -L "$agg_url" -o "$downloaded_file"
 
     local agg_executable
     if [[ "$agg_url" == *.tar.gz ]]; then
@@ -149,18 +150,18 @@ install_agg_binary() {
             echo "Error: tar is required to extract the agg binary."
             exit 1
         fi
-        tar -xzf "$temp_dir/agg_archive" -C "$temp_dir"
+        tar -xzf "$downloaded_file" -C "$temp_dir"
         agg_executable=$(find "$temp_dir" -type f -name "agg")
     elif [[ "$agg_url" == *.zip ]]; then
         if ! command -v unzip &> /dev/null; then
             echo "Error: unzip is required to extract the agg binary."
             exit 1
         fi
-        unzip "$temp_dir/agg_archive" -d "$temp_dir"
+        unzip "$downloaded_file" -d "$temp_dir"
         agg_executable=$(find "$temp_dir" -type f -name "agg.exe")
     else
-        echo "Error: Unknown archive format for agg binary."
-        exit 1
+        # Assume it's a raw binary
+        agg_executable="$downloaded_file"
     fi
 
     if [ -z "$agg_executable" ]; then

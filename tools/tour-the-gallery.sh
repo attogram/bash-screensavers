@@ -10,8 +10,12 @@
 validate_cast() {
     local cast_file="$1"
     if [[ ! -s "$cast_file" ]]; then
-        echo "Error: Failed to create a valid cast file: $cast_file"
-        echo "The file is missing, empty, or invalid."
+        echo "Error: Cast file is empty: $cast_file"
+        exit 1
+    fi
+    if ! head -n 1 "$cast_file" | grep -q '^{.*}$'; then
+        echo "Error: Invalid JSON header in cast file: $cast_file"
+        cat "$cast_file" >&2
         exit 1
     fi
 }
@@ -27,25 +31,6 @@ check_deps() {
     fi
 }
 
-run_with_timeout() {
-    local timeout_duration=$1
-    shift
-    local command_to_run=("$@")
-
-    # Run the command in the background
-    "${command_to_run[@]}" &
-    local cmd_pid=$!
-
-    # Sleep for the duration and then kill the command
-    (sleep "$timeout_duration" && kill "$cmd_pid" 2>/dev/null) &
-    local sleeper_pid=$!
-
-    # Wait for the command to finish, suppressing job termination message
-    wait "$cmd_pid" 2>/dev/null
-
-    # Kill the sleeper process if it's still running
-    kill "$sleeper_pid" 2>/dev/null
-}
 
 
 # Create a title card as a .cast file
@@ -67,12 +52,12 @@ if command -v figlet &>/dev/null; then
 else
     echo "$text"
 fi
-sleep 2
+sleep 1
 EOF
     chmod +x "$temp_script"
 
     # Record the script with asciinema
-    asciinema rec --command="$temp_script" --overwrite "$output_file"
+    asciinema rec --command="$temp_script" --idle-time-limit=1 --overwrite "$output_file"
     validate_cast "$output_file"
 
     rm "$temp_script"
@@ -97,7 +82,6 @@ main() {
     all_casts+=("$temp_dir/00_intro.cast")
 
     # 2. Loop through screensavers
-    export -f run_with_timeout
     local i=1
     for screensaver_dir in "$gallery_dir"/*/; do
         if [[ -d "$screensaver_dir" ]]; then
@@ -112,14 +96,9 @@ main() {
                 create_title_card "$name" "$temp_dir/$(printf "%02d" $i)_${name}_title.cast"
                 all_casts+=("$temp_dir/$(printf "%02d" $i)_${name}_title.cast")
 
-                # Record a longer snippet
-                local temp_cast="$temp_dir/$(printf "%02d" $i)_${name}_temp.cast"
-                asciinema rec --command="bash -c 'run_with_timeout 6s env SHELL=/bin/bash $run_script'" --overwrite "$temp_cast"
-                validate_cast "$temp_cast"
-
-                # Cut a snippet from the middle
+                # Record a snippet from the middle
                 local snippet_cast="$temp_dir/$(printf "%02d" $i)_${name}_snippet.cast"
-                asciinema cut -s 3 -e 6 "$temp_cast" > "$snippet_cast"
+                asciinema rec --command="bash -c 'sleep 3; timeout 3s env SHELL=/bin/bash $run_script'" --overwrite "$snippet_cast"
                 validate_cast "$snippet_cast"
                 all_casts+=("$snippet_cast")
 
@@ -141,8 +120,11 @@ main() {
     # 5. Convert to GIF
     echo "  - Converting to GIF..."
     local overview_gif="$output_dir/overview.gif"
-    agg "$overview_cast" "$overview_gif"
+    #agg "$overview_cast" "$overview_gif"
 
+    echo "--- overview.cast content ---"
+    cat "$overview_cast"
+    echo "---------------------------"
     # 6. Clean up
     echo "  - Cleaning up..."
     rm -rf "$temp_dir"
