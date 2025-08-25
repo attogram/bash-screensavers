@@ -71,7 +71,7 @@ That's it! The main `screensaver.sh` script will automatically detect your new c
 │   │   └─ name.sh   # I'm a screensaver, and I can run, run, run!
 │   │   └─ config.sh # Psst... want some free metadata?
 ├─ jury              # I gotta BATSy idea, we should test this stuff
-│   └─ tests.sh      # It can't be that bad, can it?
+│   └─ tests.bats    # It can't be that bad, can it?
 ├─ spotlight         # Tools for curators
 └─ .github           # GitHub magic lives here
     └─ workflows
