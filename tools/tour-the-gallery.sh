@@ -72,6 +72,7 @@ main() {
     local output_dir="."
     local temp_dir
     temp_dir=$(mktemp -d)
+    echo "Temp dir: $temp_dir"
     local all_casts=()
 
     echo "Creating overview cast..."
@@ -82,6 +83,7 @@ main() {
     all_casts+=("$temp_dir/00_intro.cast")
 
     # 2. Loop through screensavers
+    echo "-> Starting to record screensavers..."
     local i=1
     for screensaver_dir in "$gallery_dir"/*/; do
         if [[ -d "$screensaver_dir" ]]; then
@@ -106,6 +108,7 @@ main() {
             fi
         fi
     done
+    echo "<- Finished recording screensavers."
 
     # 3. Outro Title Card
     echo "  - Creating outro title card..."
@@ -116,18 +119,17 @@ main() {
     echo "  - Concatenating all casts..."
     local overview_cast="$output_dir/overview.cast"
     asciinema cat "${all_casts[@]}" > "$overview_cast"
+    echo "  - Concatenation complete."
 
     # 5. Convert to GIF
     echo "  - Converting to GIF..."
+    validate_cast "$overview_cast"
     local overview_gif="$output_dir/overview.gif"
-    #agg "$overview_cast" "$overview_gif"
-
-    echo "--- overview.cast content ---"
-    cat "$overview_cast"
-    echo "---------------------------"
+    agg "$overview_cast" "$overview_gif"
+    echo "  - Conversion to GIF complete."
     # 6. Clean up
     echo "  - Cleaning up..."
-    rm -rf "$temp_dir"
+    #rm -rf "$temp_dir"
 
     echo "Done! Overview saved to $overview_cast and $overview_gif"
 }

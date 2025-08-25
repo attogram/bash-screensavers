@@ -185,9 +185,7 @@ main() {
       draw_grid
       swap
 
-      if read -r -N 1 -t "$SLEEP_DURATION" key; then
-         break # Exit loop if key pressed
-      fi
+      sleep "$SLEEP_DURATION"
    done
 }
 
