@@ -6,14 +6,13 @@ Tired of your boring old terminal?
 Wish you could spice up your command line with some animated ASCII art?
 Well, you've come to the right place!
 
-Welcome to **Bash Screensavers**,
-a collection of screensavers written entirely in `bash`.
+Welcome to **Bash Screensavers**, a collection of screensavers written entirely in `bash`.
 
 Because who needs fancy graphics cards and complex rendering engines
 when you have `echo`, `sleep`, and a little bit of `tput` magic?
 
-[Tour the gallery](#tour-the-gallery) -
-[Get the party started](#get-the-party-started) -
+[Gallery](#gallery) -
+[Quickstart](#quickstart) -
 [Jury](#jury) -
 [Spotlight](#spotlight) -
 [Contributing](#contributing) - 
@@ -28,15 +27,13 @@ when you have `echo`, `sleep`, and a little bit of `tput` magic?
 [![Forks](https://img.shields.io/github/forks/attogram/bash-screensavers?style=flat)](https://github.com/attogram/bash-screensavers/forks)
 [![Issues](https://img.shields.io/github/issues/attogram/bash-screensavers?style=flat)](https://github.com/attogram/bash-screensavers/issues)
 
-## Tour the gallery
+## Gallery
 
-For a full list of all screensavers, see the [Gallery README](./gallery/README.md).
-
-### Spotlight
+The [Gallery README](./gallery/README.md) has info on all the screensavers.
 
 ![Matrix](gallery/matrix/matrix.gif)
 
-## Get the party started
+## Quickstart
 
 ```bash
 git clone https://github.com/attogram/bash-screensavers.git
@@ -80,7 +77,9 @@ Read the [Spotlight Manual](./tools/README.md) for details.
 
 ## Jury
 
-The jury makes sure the gallery is neat and tidy. They test **everything**
+The jury makes sure the gallery is up-to-snuff. 
+
+They test **everything**. They're a bit batsy about it.
 
 Se the [Jury Criteria](./jury/README.md) for the rules.
 
