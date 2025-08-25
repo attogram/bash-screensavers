@@ -70,7 +70,7 @@ We welcome contributions!
 
 For the nitty-gritty, see [CONTRIBUTING.md](./CONTRIBUTING.md).
 
-Vibe coders and [AI Assitants](./AGENTS.md) are welcome to join the party.
+Vibe coders and [AI Assistants](./AGENTS.md) are welcome to join the party.
 
 ## Spotlight
 
