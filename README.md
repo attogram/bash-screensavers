@@ -1,6 +1,6 @@
 # Bash Screensavers
 
-![Logo](docs/logos/logo.320x160.png)
+![Logo](spotlight/logos/logo.320x160.png)
 
 Tired of your boring old terminal?
 Wish you could spice up your command line with some animated ASCII art?
