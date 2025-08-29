@@ -98,11 +98,14 @@ main() {
                 create_title_card "$name" "$temp_dir/$(printf "%02d" $i)_${name}_title.cast"
                 all_casts+=("$temp_dir/$(printf "%02d" $i)_${name}_title.cast")
 
-                # Record a snippet from the middle
-                local snippet_cast="$temp_dir/$(printf "%02d" $i)_${name}_snippet.cast"
-                asciinema rec --command="bash -c 'sleep 3; timeout 3s env SHELL=/bin/bash $run_script'" --overwrite "$snippet_cast"
-                validate_cast "$snippet_cast"
-                all_casts+=("$snippet_cast")
+                # Add the existing cast file
+                local cast_file="${screensaver_dir}${name}.cast"
+                if [[ -f "$cast_file" ]]; then
+                    validate_cast "$cast_file"
+                    all_casts+=("$cast_file")
+                else
+                    echo "Warning: Cast file not found for $name, skipping."
+                fi
 
                 i=$((i+1))
             fi
