@@ -10,5 +10,5 @@
 🔥 ▌░░░░░░░░▐ This project is on fire!
 😀 ▓▐▌▒▐▌░▐▌ A random face for you! {random_emoji_face}
 😎 ░▌▐▓▌▐▒▌▐ Stay cool and keep coding.
-🤓 ▐▓▒░ ░▒▓▌ We love our contributors!
-⭐ ▌░▒▓ ▓▒░▐ Star us on GitHub! {repo} {random_emoji}
+🤓 ▓▒░▐▌░▒▓ We love our contributors!
+⭐ ░▒▓▐▌▓▒░ Star us on GitHub! {repo} {random_emoji}
