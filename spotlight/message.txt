@@ -1,14 +1,14 @@
-😜 ▓▒░ Welcome to {project_name} v{version}!
-🙈 █▀▄ By {user} on {date}.
-❤️ ■□▪ We have {screensaver_count} screensavers!
-✨ ▐▌▐▌ Check out the {branch} branch.
-🚀 ▓▒░ Latest tag: {tag}.
-💻 █▀▄ This is the {repo} repository.
-🎨 ■□▪ Have a great day! {random_emoji}
-🎉 ▐▌▐▌ What's your favorite screensaver?
-💡 ▓▒░ Let us know in the issues!
-🔥 █▀▄ This project is on fire!
-😀 ■□▪ A random face for you! {random_emoji_face}
-😎 ▐▌▐▌ Stay cool and keep coding.
-🤓 ▓▒░ We love our contributors!
-⭐ █▀▄ Star us on GitHub! {repo} {random_emoji}
+😜 ▐▓▒░▐▓▒░▐▓ Welcome to {project_name} v{version}!
+🙈 ▌░▒▓▌░▒▓▌░ By {user} on {date}.
+❤️ ▓▓▓▓▓▓▓▓▓▓ We have {screensaver_count} screensavers!
+✨ ▒▒▒▒▒▒▒▒▒▒ Check out the {branch} branch.
+🚀 ░░░░░░░░░░ Latest tag: {tag}.
+💻 ▐▌▐▌▐▌▐▌▐▌ This is the {repo} repository.
+🎨 ▓▒░▓▒░▓▒░▓ Have a great day! {random_emoji}
+🎉 ░▒▓░▒▓░▒▓░ What's your favorite screensaver?
+💡 ▐▓▓▓▓▓▓▓▓▌ Let us know in the issues!
+🔥 ▌░░░░░░░░▐ This project is on fire!
+😀 ▓▐▌▒▐▌░▐▌ A random face for you! {random_emoji_face}
+😎 ░▌▐▓▌▐▒▌▐ Stay cool and keep coding.
+🤓 ▐▓▒░ ░▒▓▌ We love our contributors!
+⭐ ▌░▒▓ ▓▒░▐ Star us on GitHub! {repo} {random_emoji}
