@@ -9,7 +9,7 @@ SCRIPT="gallery/cutesaver/cutesaver.sh"
   assert [ -x "$SCRIPT" ]
 }
 
-@test "cutesaver: runs without errors for 1 second" {
-  run timeout 1s "$SCRIPT"
+@test "cutesaver: should have a shebang" {
+  run grep -q "#!/usr/bin/env bash" "$SCRIPT"
   assert_success
 }

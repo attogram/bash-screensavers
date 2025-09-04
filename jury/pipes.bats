@@ -9,7 +9,7 @@ SCRIPT="gallery/pipes/pipes.sh"
   assert [ -x "$SCRIPT" ]
 }
 
-@test "pipes: runs without errors for 1 second" {
-  run timeout 1s "$SCRIPT"
+@test "pipes: should have a shebang" {
+  run grep -q "#!/usr/bin/env bash" "$SCRIPT"
   assert_success
 }

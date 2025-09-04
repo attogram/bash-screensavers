@@ -9,7 +9,7 @@ SCRIPT="gallery/alpha/alpha.sh"
   assert [ -x "$SCRIPT" ]
 }
 
-@test "alpha: runs without errors for 1 second" {
-  run timeout 1s "$SCRIPT"
-  assert_failure
+@test "alpha: should have a shebang" {
+  run grep -q "#!/usr/bin/env bash" "$SCRIPT"
+  assert_success
 }

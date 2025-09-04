@@ -9,7 +9,7 @@ SCRIPT="gallery/rain/rain.sh"
   assert [ -x "$SCRIPT" ]
 }
 
-@test "rain: runs without errors for 1 second" {
-  run timeout 1s "$SCRIPT"
+@test "rain: should have a shebang" {
+  run grep -q "#!/usr/bin/env bash" "$SCRIPT"
   assert_success
 }

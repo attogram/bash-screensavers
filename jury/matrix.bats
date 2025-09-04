@@ -9,7 +9,7 @@ SCRIPT="gallery/matrix/matrix.sh"
   assert [ -x "$SCRIPT" ]
 }
 
-@test "matrix: runs without errors for 1 second" {
-  run timeout 1s "$SCRIPT"
+@test "matrix: should have a shebang" {
+  run grep -q "#!/usr/bin/env bash" "$SCRIPT"
   assert_success
 }

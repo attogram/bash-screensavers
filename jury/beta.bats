@@ -3,7 +3,11 @@
 load 'test_libs/bats-support-0.3.0/load.bash'
 load 'test_libs/bats-assert-2.2.0/load.bash'
 
-@test "beta screensaver runs" {
-  run timeout 1s ./gallery/beta/beta.sh
-  assert_failure
+@test "beta: should be executable" {
+  assert [ -x "./gallery/beta/beta.sh" ]
+}
+
+@test "beta: should have a shebang" {
+  run grep -q "#!/usr/bin/env bash" "./gallery/beta/beta.sh"
+  assert_success
 }

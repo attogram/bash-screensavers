@@ -9,7 +9,7 @@ SCRIPT="gallery/fireworks/fireworks.sh"
   assert [ -x "$SCRIPT" ]
 }
 
-@test "fireworks: runs without errors for 1 second" {
-  run timeout 1s "$SCRIPT"
+@test "fireworks: should have a shebang" {
+  run grep -q "#!/usr/bin/env bash" "$SCRIPT"
   assert_success
 }

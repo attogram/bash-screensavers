@@ -10,6 +10,40 @@
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 REPO_ROOT=$(dirname "$SCRIPT_DIR")
 
+# Source the main screensaver script to get access to variables
+# shellcheck source=../screensaver.sh
+source "$REPO_ROOT/screensaver.sh"
+
+# Define variables for message templates
+SUSER=${SPREAD_THE_WORD_USER:-$(git config user.name)}
+SREPO=${SPREAD_THE_WORD_REPO:-$(basename "$(git rev-parse --show-toplevel)")}
+SPROJECT_NAME=${SPREAD_THE_WORD_PROJECT_NAME:-$BASH_SCREENSAVERS_NAME}
+SVERSION=${SPREAD_THE_WORD_VERSION:-$BASH_SCREENSAVERS_VERSION}
+SDATE=$(date +%Y-%m-%d)
+SBRANCH=$(git rev-parse --abbrev-ref HEAD)
+STAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "no-tag")
+SCREENSAVER_COUNT=$(find "$BASH_SCREENSAVERS_GALLERY" -mindepth 2 -name "*.sh" | wc -l)
+EMOJIS=("✨" "🚀" "💻" "🎨" "🎉" "💡" "🔥")
+RANDOM_EMOJI=${EMOJIS[$RANDOM % ${#EMOJIS[@]}]}
+FACE_EMOJIS=("😀" "😁" "😂" "🤣" "😃" "😄" "😅" "😆" "😉" "😊" "😋" "😎" "😍" "😘" "🥰" "😗" "😙" "😚" "🙂" "🤗" "🤩" "🤔" "🤨" "😐" "😑" "😶" "🙄" "😏" "😣" "😥" "😮" "🤐" "😯" "😪" "😫" "😴" "😌" "😛" "😜" "😝" "🤤" "😒" "😓" "😔" "😕" "🙃" "🤑" "😲" "🙁" "😖" "😞" "😟" "😤" "😢" "😭" "😦" "😧" "😨" "😩" "🤯" "😬" "😰" "😱" "🥵" "🥶" "😳" "🤪" "😵" "😡" "😠" "🤬" "😷" "🤒" "🤕" "🤢" "🤮" "🤧" "😇" "🤠" "🤡" "🥳" "🥴" "🥺" "🤥" "🤫" "🤭" "🧐" "🤓")
+RANDOM_EMOJI_FACE=${FACE_EMOJIS[$RANDOM % ${#FACE_EMOJIS[@]}]}
+
+# Function to replace variables in a string
+replace_vars() {
+    local message="$1"
+    message="${message//\{user\}/$SUSER}"
+    message="${message//\{repo\}/$SREPO}"
+    message="${message//\{project_name\}/$SPROJECT_NAME}"
+    message="${message//\{version\}/$SVERSION}"
+    message="${message//\{date\}/$SDATE}"
+    message="${message//\{branch\}/$SBRANCH}"
+    message="${message//\{tag\}/$STAG}"
+    message="${message//\{screensaver_count\}/$SCREENSAVER_COUNT}"
+    message="${message//\{random_emoji\}/$RANDOM_EMOJI}"
+    message="${message//\{random_emoji_face\}/$RANDOM_EMOJI_FACE}"
+    echo "$message"
+}
+
 # Dynamically generate the list of target files.
 # The goal is to select the files that are most prominent on the repo's main page.
 # The logic is as follows:
@@ -63,7 +97,7 @@ fi
 # Generate the git commands
 for i in "${!TARGETS[@]}"; do
     target="${TARGETS[$i]}"
-    message="${MESSAGES[$i]}"
+    message=$(replace_vars "${MESSAGES[$i]}")
 
     # Generate the command to make a trivial change to the file
     cat <<EOF

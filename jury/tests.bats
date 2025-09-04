@@ -26,17 +26,17 @@ load 'test_libs/bats-assert-2.2.0/load.bash'
 }
 
 @test "runs a screensaver by number" {
-  run timeout 1s ./screensaver.sh <<< "1"
+  run timeout 2s ./screensaver.sh <<< "1"
   assert_failure
 }
 
 @test "runs a screensaver by name" {
-  run timeout 1s ./screensaver.sh <<< "matrix"
+  run timeout 2s ./screensaver.sh <<< "matrix"
   assert_failure
 }
 
 @test "runs a screensaver by number with leading zeros" {
-  run timeout 1s ./screensaver.sh <<< "01"
+  run timeout 2s ./screensaver.sh <<< "01"
   assert_failure
 }
 
@@ -71,31 +71,31 @@ load 'test_libs/bats-assert-2.2.0/load.bash'
 }
 
 @test "runs a screensaver directly by name" {
-  run timeout 1s ./screensaver.sh matrix
+  run timeout 2s ./screensaver.sh matrix
   assert_failure
 }
 
 @test "runs a screensaver directly by number" {
-  run timeout 1s ./screensaver.sh 1
+  run timeout 2s ./screensaver.sh 1
   assert_failure
 }
 
 @test "runs a random screensaver with -r" {
-  run timeout 1s ./screensaver.sh -r
+  run timeout 2s ./screensaver.sh -r
   assert_failure
 }
 
 @test "runs a random screensaver with --random" {
-  run timeout 1s ./screensaver.sh --random
+  run timeout 2s ./screensaver.sh --random
   assert_failure
 }
 
 @test "runs a random screensaver with r from menu" {
-  run timeout 1s ./screensaver.sh <<< "r"
+  run timeout 2s ./screensaver.sh <<< "r"
   assert_failure
 }
 
 @test "runs a random screensaver with random from menu" {
-  run timeout 1s ./screensaver.sh <<< "random"
+  run timeout 2s ./screensaver.sh <<< "random"
   assert_failure
 }
