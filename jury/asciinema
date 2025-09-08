@@ -1,0 +1,6 @@
+#!/bin/bash
+# Mock asciinema
+# Creates a fake cast file at the location specified by the last argument
+# The awk command in the main script requires a timestamp > 0.5
+echo '{"version": 2, "width": 80, "height": 24, "timestamp": 1615663343, "env": {}}' > "${@: -1}"
+echo '[0.6, "o", "mock asciinema recording"]' >> "${@: -1}"

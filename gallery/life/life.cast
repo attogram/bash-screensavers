@@ -1,2 +1,2 @@
-{"version": 2, "width": 80, "height": 20, "timestamp": 1, "env": {"SHELL": "/bin/bash", "TERM": "linux"}}
-[0.6, "o", "mock output"]
+{"version": 2, "width": 80, "height": 24, "timestamp": 1615663343, "env": {}}
+[0.6, "o", "mock asciinema recording"]

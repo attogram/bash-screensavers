@@ -4,55 +4,50 @@ setup() {
     SCRIPT="spotlight/smile-for-the-camera.sh"
     chmod +x "$SCRIPT"
 
-    BATS_TMPDIR=$(mktemp -d -t bats-smile-XXXXXX)
-    export PATH="$BATS_TMPDIR:$PATH"
+    # Add jury directory to PATH to use mock scripts
+    export PATH="$(pwd)/jury:$PATH"
 
     # Create dummy gallery
     mkdir -p "gallery/testsaver"
     echo "echo hello" > "gallery/testsaver/testsaver.sh"
     chmod +x "gallery/testsaver/testsaver.sh"
+
+    # Ensure the real cast/gif files don't exist
+    rm -f "gallery/testsaver/testsaver.cast"
+    rm -f "gallery/testsaver/testsaver.gif"
 }
 
 teardown() {
-    rm -rf "$BATS_TMPDIR"
     rm -rf "gallery/testsaver"
 }
 
-@test "smile-for-the-camera: exits if asciinema is not found" {
-    # agg is available, asciinema is not
-    touch "$BATS_TMPDIR/agg" && chmod +x "$BATS_TMPDIR/agg"
-
-    run "$SCRIPT"
-    [ "$status" -eq 1 ]
-    [[ "$output" == *"Error: asciinema not found"* ]]
-}
-
-@test "smile-for-the-camera: warns if agg is not found" {
-    # asciinema is available, agg is not
-    touch "$BATS_TMPDIR/asciinema" && chmod +x "$BATS_TMPDIR/asciinema"
-
-    run "$SCRIPT"
-    [ "$status" -eq 0 ]
-    [[ "$output" == *"Warning: agg not found"* ]]
-}
-
-@test "smile-for-the-camera: creates cast and gif files" {
-    # Mock dependencies
-    cat > "$BATS_TMPDIR/asciinema" <<EOF
-#!/usr/bin/env bash
-touch "\$4" # Create the .cast file
-EOF
-    chmod +x "$BATS_TMPDIR/asciinema"
-
-    cat > "$BATS_TMPDIR/agg" <<EOF
-#!/usr/bin/env bash
-touch "\$2" # Create the .gif file
-EOF
-    chmod +x "$BATS_TMPDIR/agg"
-
+@test "smile-for-the-camera: (all) creates cast and gif files" {
     run "$SCRIPT"
 
     [ "$status" -eq 0 ]
     [ -f "gallery/testsaver/testsaver.cast" ]
     [ -f "gallery/testsaver/testsaver.gif" ]
+
+    # Check content of mock files
+    [[ "$(cat gallery/testsaver/testsaver.cast)" == *'mock asciinema recording'* ]]
+    [[ "$(cat gallery/testsaver/testsaver.gif)" == "mock gif" ]]
+}
+
+@test "smile-for-the-camera: (single) creates cast and gif files" {
+    run "$SCRIPT" "gallery/testsaver"
+
+    [ "$status" -eq 0 ]
+    [ -f "gallery/testsaver/testsaver.cast" ]
+    [ -f "gallery/testsaver/testsaver.gif" ]
+
+    # Check content of mock files
+    [[ "$(cat gallery/testsaver/testsaver.cast)" == *'mock asciinema recording'* ]]
+    [[ "$(cat gallery/testsaver/testsaver.gif)" == "mock gif" ]]
+}
+
+@test "smile-for-the-camera: (single) errors on invalid directory" {
+    run "$SCRIPT" "gallery/nonexistent"
+
+    [ "$status" -eq 1 ]
+    [[ "$output" == *"Error: Directory not found"* ]]
 }

@@ -1,0 +1,4 @@
+#!/bin/bash
+# Mock agg
+# First argument is the cast file, second is the gif file.
+echo "mock gif" > "$2"
