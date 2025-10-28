@@ -17,6 +17,14 @@ BASH_SCREENSAVERS_COPYRIGHT='Copyright (c) 2025 Attogram Project <https://github
 BASH_SCREENSAVERS_GALLERY="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &> /dev/null && pwd)/gallery"
 
 chosen_screensaver='' # the chosen one
+transparent_background=0
+
+# Set background
+set_background(){
+    if [[ ! transparent_background -eq 1 ]]; then
+      tput setab 0 # black background
+    fi
+}
 
 # Peak into the gallery
 #
@@ -219,7 +227,7 @@ main_menu() {
         run_random
     fi
     while true; do
-      tput setab 0 # black background
+      set_background
       tput setaf 2 # green foreground
       echo
 
@@ -236,7 +244,7 @@ main_menu() {
       enjoy_a_screensaver "$chosen_screensaver" # run until user presses ^C
       screensaver_return=$?
       if (( screensaver_return )); then
-            tput setab 0 # black background
+            set_background
             tput setaf 1 # red foreground
             printf '
 
@@ -249,7 +257,7 @@ Oh no! Screensaver had trouble! Error code: %d
 }
 
 BASH_SCREENSAVERS_DESCRIPTION="A collection of screensavers written in bash."
-BASH_SCREENSAVERS_USAGE="Usage: $0 [-h|--help] [-v|--version] [-n <name>|--new <name>] [-r|--random] [name|number]"
+BASH_SCREENSAVERS_USAGE="Usage: $0 [-h|--help] [-v|--version] [-n <name>|--new <name>] [-r|--random] [-b|--transparent-background] [name|number]"
 
 run_direct() {
     local choice="$1"
@@ -336,6 +344,9 @@ main() {
                 main_menu "random"
                 exit 0
                 ;;
+            -b|--transparent-background)
+                export transparent_background=1
+                ;;
             *)
                 run_direct "$1"
                 exit 0
@@ -346,6 +357,6 @@ main() {
 }
 
 main "$@"
- 
- 
- 
+
+
+

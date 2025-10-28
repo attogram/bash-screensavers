@@ -61,7 +61,9 @@ draw_firework() {
 # Main animation loop
 #
 animate() {
-    tput setab 0 # black background
+    if [[ ! transparent_background -eq 1 ]]; then
+      tput setab 0 # black background
+    fi
     clear
     tput civis # Hide cursor
 

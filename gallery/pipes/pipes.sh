@@ -261,7 +261,9 @@ init_screen() {
     stty -echo
     tput smcup
     tput civis
-    tput setab 0 # black background
+    if [[ ! transparent_background -eq 1 ]]; then
+      tput setab 0 # black background
+    fi
     tput clear
 
     resize

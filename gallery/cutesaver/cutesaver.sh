@@ -53,7 +53,9 @@ sleep 2
 
 # Now we'll simply start the animation.
 animate() {
-    tput setab 0 # black background
+    if [[ ! transparent_background -eq 1 ]]; then
+      tput setab 0 # black background
+    fi
     clear
     tput civis # Hide cursor
 
