@@ -17,9 +17,9 @@ DELAY=0.02
 STARS=("*" "." "+" "'" "O")
 
 _cleanup_and_exit() { # handler for SIGINT (Ctrl‑C)
-  tput cnorm # show cursor
-  tput sgr0 # restore screen
-  exit 0
+    tput cnorm        # show cursor
+    tput sgr0         # restore screen
+    exit 0
 }
 
 trap _cleanup_and_exit SIGINT # Ctrl‑C
@@ -28,7 +28,9 @@ trap _cleanup_and_exit SIGINT # Ctrl‑C
 # Main animation loop
 #
 animate() {
-    tput setab 0 # black background
+    if [[ ! transparent_background -eq 1 ]]; then
+        tput setab 0 # black background
+    fi
     clear
     tput civis # Hide cursor
 
