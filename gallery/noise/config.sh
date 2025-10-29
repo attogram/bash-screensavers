@@ -5,6 +5,6 @@ name="noise"
 # Tagline for the screensaver (40 chars max)
 tagline="Retro CRT static noise screensaver"
 description="Relive the analog static noise of the yester-years."
-authors=""
+authors="Rawiri Blundell"
 license="MIT"
 settings=""
