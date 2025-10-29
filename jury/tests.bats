@@ -1,7 +1,7 @@
 #!/usr/bin/env bats
 
-load 'jury/test_libs/bats-support-0.3.0/load.bash'
-load 'jury/test_libs/bats-assert-2.2.0/load.bash'
+load 'test_libs/bats-support-0.3.0/load.bash'
+load 'test_libs/bats-assert-2.2.0/load.bash'
 
 @test "displays usage and lists screensavers" {
   run ./screensaver.sh
