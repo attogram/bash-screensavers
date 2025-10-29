@@ -42,21 +42,23 @@ blocks=( "${block100}" "${block75}" "${block50}" "${block25}" "${block00}" )
 # This would allow desired behaviour to be selectable
 while true; do
   rand="${RANDOM}"
-
-  # Require range [0, 32766] to evenly divide by 2
-  # Reject 32767 to avoid modulo bias
-  if (( rand < 32767 )); then
-    result=$(( rand % 2 ))
+  # Require range [0, 32765] to evenly divide by 3
+  # Reject 32766 and 32767 to avoid modulo bias
+  if (( rand < 32766 )); then
+    result=$(( rand % 3 ))
     if (( result == 0 )); then
       # Black, white, greys from 256 ANSI set
-      color_set=( 0 7 8 15 16 145 188 {231..255} )  
-    else
+      color_set=( 0 7 8 15 16 145 188 {231..255} )
+    elif (( result == 1 )); then
       # Black, white, greys from 256 ANSI set, with RGBY thrown in
       color_set=( 0 7 8 15 16 145 188 {231..255} 196 46 21 226 )
+    else
+      # White only - uses faster emit_without_color()
+      color_set=( 15 )
     fi
     break
   fi
-  # If we're at this line, RANDOM hit 32767!
+  # If we're at this line, RANDOM hit 32766 or 32767!
 done
 
 tput setab 0 # black background
@@ -64,28 +66,64 @@ clear
 tput civis # no cursor
 
 # Initialise vars for batching
+# This eliminates "one pixel change per loop iteration"
+# Benchmarking led to a batch_size selection of 100
 buffer=""
 count=0
 batch_size=100
 
-while true; do
-  # Get random location and color
-  x=$(( ${SRANDOM:-$RANDOM} % width + 1 ))
-  y=$(( ${SRANDOM:-$RANDOM} % height + 1 ))
-  color_element=$(( ${SRANDOM:-$RANDOM} % ${#color_set[@]} ))
-  color_code="${color_set[color_element]}"
-  block_element=$(( ${SRANDOM:-$RANDOM} % ${#blocks[@]} ))
-  block=${blocks[block_element]}
+emit_with_color() {
+  while true; do
+    # Get random location and color
+    x=$(( ${SRANDOM:-$RANDOM} % width + 1 ))
+    y=$(( ${SRANDOM:-$RANDOM} % height + 1 ))
+    color_element=$(( ${SRANDOM:-$RANDOM} % ${#color_set[@]} ))
+    color_code="${color_set[color_element]}"
+    block_element=$(( ${SRANDOM:-$RANDOM} % ${#blocks[@]} ))
+    block=${blocks[block_element]}
 
-  # Build a buffer of changes to emit
-  buffer+="\e[${y};${x}H\e[38;5;${color_code}m${block}"
-  ((count++))
+    # Build a buffer of changes to emit
+    buffer+="\e[${y};${x}H\e[38;5;${color_code}m${block}"
+    ((count++))
 
-  # Once the buffer size meets the threshold, dump it and start again
-  if (( count >= batch_size )); then
-    printf -- '%b' "${buffer}"
-    buffer=""
-    count=0
-  fi
-done
+    # Once the buffer size meets the threshold, dump it and start again
+    if (( count >= batch_size )); then
+      printf -- '%b' "${buffer}"
+      buffer=""
+      count=0
+    fi
+  done
+}
 
+# In benchmarking, this performs 25-30% faster than emit_with_color()
+# Eliminating the rand calls for color selection clearly has an impact
+# Implicit trust of the terminal color state may have unpredictable results
+# At the end of the day, we're constrained by a shell loop
+# More performance could potentially be gleaned with parallelism (see: forkrun)
+emit_without_color() {
+  color_code="${color_set[*]}"
+  while true; do
+    # Get random location and color
+    x=$(( ${SRANDOM:-$RANDOM} % width + 1 ))
+    y=$(( ${SRANDOM:-$RANDOM} % height + 1 ))
+    block_element=$(( ${SRANDOM:-$RANDOM} % ${#blocks[@]} ))
+    block=${blocks[block_element]}
+
+    # Build a buffer of changes to emit
+    buffer+="\e[${y};${x}H\e[38;5;${color_code}m${block}"
+    ((count++))
+
+    # Once the buffer size meets the threshold, dump it and start again
+    if (( count >= batch_size )); then
+      printf -- '%b' "${buffer}"
+      buffer=""
+      count=0
+    fi
+  done
+}
+
+# Select our output method based on the size of ${color_set[@]}
+case "${#color_set[@]}" in
+  (1) emit_without_color ;;
+  (*) emit_with_color ;;
+esac
