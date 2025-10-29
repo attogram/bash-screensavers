@@ -63,6 +63,11 @@ tput setab 0 # black background
 clear
 tput civis # no cursor
 
+# Initialise vars for batching
+buffer=""
+count=0
+batch_size=100
+
 while true; do
   # Get random location and color
   x=$(( ${SRANDOM:-$RANDOM} % width + 1 ))
@@ -72,7 +77,15 @@ while true; do
   block_element=$(( ${SRANDOM:-$RANDOM} % ${#blocks[@]} ))
   block=${blocks[block_element]}
 
-  # Print the frame
-  printf -- '%b' "\e[${y};${x}H\e[38;5;${color_code}m${block}"
+  # Build a buffer of changes to emit
+  buffer+="\e[${y};${x}H\e[38;5;${color_code}m${block}"
+  ((count++))
+
+  # Once the buffer size meets the threshold, dump it and start again
+  if (( count >= batch_size )); then
+    printf -- '%b' "${buffer}"
+    buffer=""
+    count=0
+  fi
 done
 
