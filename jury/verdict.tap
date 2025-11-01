@@ -1,7 +1,7 @@
-1..54
+1..53
 not ok 1 alpha: should be executable
-# (from function `assert' in file ./test_libs/bats-assert-2.2.0/src/assert.bash, line 40,
-#  in test file ./alpha.bats, line 9)
+# (from function `assert' in file /app/jury/test_libs/bats-assert-2.2.0/src/assert.bash, line 40,
+#  in test file /app/jury/alpha.bats, line 9)
 #   `assert [ -x "$SCRIPT" ]' failed
 #
 # -- assertion failed --
@@ -9,19 +9,18 @@ not ok 1 alpha: should be executable
 # --
 #
 ok 2 alpha: runs without errors for 1 second
-ok 3 beta screensaver runs
-not ok 4 bouncing: should be executable
-# (from function `assert' in file ./test_libs/bats-assert-2.2.0/src/assert.bash, line 40,
-#  in test file ./bouncing.bats, line 9)
+not ok 3 bouncing: should be executable
+# (from function `assert' in file /app/jury/test_libs/bats-assert-2.2.0/src/assert.bash, line 40,
+#  in test file /app/jury/bouncing.bats, line 9)
 #   `assert [ -x "$SCRIPT" ]' failed
 #
 # -- assertion failed --
 # expression : [ -x gallery/bouncing/bouncing.sh ]
 # --
 #
-not ok 5 bouncing: runs without errors for 1 second
-# (from function `assert_success' in file ./test_libs/bats-assert-2.2.0/src/assert_success.bash, line 45,
-#  in test file ./bouncing.bats, line 14)
+not ok 4 bouncing: runs without errors for 1 second
+# (from function `assert_success' in file /app/jury/test_libs/bats-assert-2.2.0/src/assert_success.bash, line 45,
+#  in test file /app/jury/bouncing.bats, line 14)
 #   `assert_success' failed
 #
 # -- command failed --
@@ -29,18 +28,18 @@ not ok 5 bouncing: runs without errors for 1 second
 # output : timeout: failed to run command ‘gallery/bouncing/bouncing.sh’: No such file or directory
 # --
 #
-not ok 6 cutesaver: main script should be executable
-# (from function `assert' in file ./test_libs/bats-assert-2.2.0/src/assert.bash, line 40,
-#  in test file ./cutesaver.bats, line 9)
+not ok 5 cutesaver: main script should be executable
+# (from function `assert' in file /app/jury/test_libs/bats-assert-2.2.0/src/assert.bash, line 40,
+#  in test file /app/jury/cutesaver.bats, line 9)
 #   `assert [ -x "$SCRIPT" ]' failed
 #
 # -- assertion failed --
 # expression : [ -x gallery/cutesaver/cutesaver.sh ]
 # --
 #
-not ok 7 cutesaver: runs without errors for 1 second
-# (from function `assert_success' in file ./test_libs/bats-assert-2.2.0/src/assert_success.bash, line 45,
-#  in test file ./cutesaver.bats, line 14)
+not ok 6 cutesaver: runs without errors for 1 second
+# (from function `assert_success' in file /app/jury/test_libs/bats-assert-2.2.0/src/assert_success.bash, line 45,
+#  in test file /app/jury/cutesaver.bats, line 14)
 #   `assert_success' failed
 #
 # -- command failed --
@@ -48,18 +47,18 @@ not ok 7 cutesaver: runs without errors for 1 second
 # output : timeout: failed to run command ‘gallery/cutesaver/cutesaver.sh’: No such file or directory
 # --
 #
-not ok 8 fireworks: should be executable
-# (from function `assert' in file ./test_libs/bats-assert-2.2.0/src/assert.bash, line 40,
-#  in test file ./fireworks.bats, line 9)
+not ok 7 fireworks: should be executable
+# (from function `assert' in file /app/jury/test_libs/bats-assert-2.2.0/src/assert.bash, line 40,
+#  in test file /app/jury/fireworks.bats, line 9)
 #   `assert [ -x "$SCRIPT" ]' failed
 #
 # -- assertion failed --
 # expression : [ -x gallery/fireworks/fireworks.sh ]
 # --
 #
-not ok 9 fireworks: runs without errors for 1 second
-# (from function `assert_success' in file ./test_libs/bats-assert-2.2.0/src/assert_success.bash, line 45,
-#  in test file ./fireworks.bats, line 14)
+not ok 8 fireworks: runs without errors for 1 second
+# (from function `assert_success' in file /app/jury/test_libs/bats-assert-2.2.0/src/assert_success.bash, line 45,
+#  in test file /app/jury/fireworks.bats, line 14)
 #   `assert_success' failed
 #
 # -- command failed --
@@ -67,31 +66,31 @@ not ok 9 fireworks: runs without errors for 1 second
 # output : timeout: failed to run command ‘gallery/fireworks/fireworks.sh’: No such file or directory
 # --
 #
-ok 10 library-of-voices: can be sourced
-ok 11 library-of-voices: lov_detect_engine function exists
-ok 12 library-of-voices: lov_say function exists
-ok 13 library-of-voices: lov_kill_speech function exists
-not ok 14 library-of-voices: lov_detect_engine sets a TTS engine
-# (from function `assert' in file ./test_libs/bats-assert-2.2.0/src/assert.bash, line 40,
-#  in test file ./library-of-voices.bats, line 34)
+ok 9 library-of-voices: can be sourced
+ok 10 library-of-voices: lov_detect_engine function exists
+ok 11 library-of-voices: lov_say function exists
+ok 12 library-of-voices: lov_kill_speech function exists
+not ok 13 library-of-voices: lov_detect_engine sets a TTS engine
+# (from function `assert' in file /app/jury/test_libs/bats-assert-2.2.0/src/assert.bash, line 40,
+#  in test file /app/jury/library-of-voices.bats, line 34)
 #   `assert [ -n "$LOV_TTS_ENGINE" ]' failed
 #
 # -- assertion failed --
 # expression : [ -n  ]
 # --
 #
-not ok 15 matrix: should be executable
-# (from function `assert' in file ./test_libs/bats-assert-2.2.0/src/assert.bash, line 40,
-#  in test file ./matrix.bats, line 9)
+not ok 14 matrix: should be executable
+# (from function `assert' in file /app/jury/test_libs/bats-assert-2.2.0/src/assert.bash, line 40,
+#  in test file /app/jury/matrix.bats, line 9)
 #   `assert [ -x "$SCRIPT" ]' failed
 #
 # -- assertion failed --
 # expression : [ -x gallery/matrix/matrix.sh ]
 # --
 #
-not ok 16 matrix: runs without errors for 1 second
-# (from function `assert_success' in file ./test_libs/bats-assert-2.2.0/src/assert_success.bash, line 45,
-#  in test file ./matrix.bats, line 14)
+not ok 15 matrix: runs without errors for 1 second
+# (from function `assert_success' in file /app/jury/test_libs/bats-assert-2.2.0/src/assert_success.bash, line 45,
+#  in test file /app/jury/matrix.bats, line 14)
 #   `assert_success' failed
 #
 # -- command failed --
@@ -99,18 +98,18 @@ not ok 16 matrix: runs without errors for 1 second
 # output : timeout: failed to run command ‘gallery/matrix/matrix.sh’: No such file or directory
 # --
 #
-not ok 17 pipes: should be executable
-# (from function `assert' in file ./test_libs/bats-assert-2.2.0/src/assert.bash, line 40,
-#  in test file ./pipes.bats, line 9)
+not ok 16 pipes: should be executable
+# (from function `assert' in file /app/jury/test_libs/bats-assert-2.2.0/src/assert.bash, line 40,
+#  in test file /app/jury/pipes.bats, line 9)
 #   `assert [ -x "$SCRIPT" ]' failed
 #
 # -- assertion failed --
 # expression : [ -x gallery/pipes/pipes.sh ]
 # --
 #
-not ok 18 pipes: runs without errors for 1 second
-# (from function `assert_success' in file ./test_libs/bats-assert-2.2.0/src/assert_success.bash, line 45,
-#  in test file ./pipes.bats, line 14)
+not ok 17 pipes: runs without errors for 1 second
+# (from function `assert_success' in file /app/jury/test_libs/bats-assert-2.2.0/src/assert_success.bash, line 45,
+#  in test file /app/jury/pipes.bats, line 14)
 #   `assert_success' failed
 #
 # -- command failed --
@@ -118,18 +117,18 @@ not ok 18 pipes: runs without errors for 1 second
 # output : timeout: failed to run command ‘gallery/pipes/pipes.sh’: No such file or directory
 # --
 #
-not ok 19 rain: should be executable
-# (from function `assert' in file ./test_libs/bats-assert-2.2.0/src/assert.bash, line 40,
-#  in test file ./rain.bats, line 9)
+not ok 18 rain: should be executable
+# (from function `assert' in file /app/jury/test_libs/bats-assert-2.2.0/src/assert.bash, line 40,
+#  in test file /app/jury/rain.bats, line 9)
 #   `assert [ -x "$SCRIPT" ]' failed
 #
 # -- assertion failed --
 # expression : [ -x gallery/rain/rain.sh ]
 # --
 #
-not ok 20 rain: runs without errors for 1 second
-# (from function `assert_success' in file ./test_libs/bats-assert-2.2.0/src/assert_success.bash, line 45,
-#  in test file ./rain.bats, line 14)
+not ok 19 rain: runs without errors for 1 second
+# (from function `assert_success' in file /app/jury/test_libs/bats-assert-2.2.0/src/assert_success.bash, line 45,
+#  in test file /app/jury/rain.bats, line 14)
 #   `assert_success' failed
 #
 # -- command failed --
@@ -137,12 +136,12 @@ not ok 20 rain: runs without errors for 1 second
 # output : timeout: failed to run command ‘gallery/rain/rain.sh’: No such file or directory
 # --
 #
-not ok 21 smile-for-the-camera: exits if asciinema is not found
-# (from function `setup' in test file ./smile-for-the-camera.bats, line 5)
+not ok 20 smile-for-the-camera: exits if asciinema is not found
+# (from function `setup' in test file /app/jury/smile-for-the-camera.bats, line 5)
 #   `chmod +x "$SCRIPT"' failed
-not ok 24 teardown_file failed
-# (from function `source' in file ./smile-for-the-camera.bats, line 39,
-#  from function `bats_run_setup_file' in file test_libs/bats-core-1.12.0/libexec/bats-core/bats-exec-file, line 99,
-#  from function `main' in test file test_libs/bats-core-1.12.0/libexec/bats-core/bats-exec-file, line 382)
+not ok 23 teardown_file failed
+# (from function `source' in file /app/jury/smile-for-the-camera.bats, line 39,
+#  from function `bats_run_setup_file' in file /app/jury/test_libs/bats-core-1.12.0/libexec/bats-core/bats-exec-file, line 99,
+#  from function `main' in test file /app/jury/test_libs/bats-core-1.12.0/libexec/bats-core/bats-exec-file, line 382)
 #   `bats_run_setup_file' failed
-# bats warning: Executed 22 instead of expected 54 tests
+# bats warning: Executed 21 instead of expected 53 tests

@@ -1,7 +1,8 @@
 #!/bin/bash
 
 
-TEST_LIBS_DIR="jury/test_libs"
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+TEST_LIBS_DIR="${SCRIPT_DIR}/test_libs"
 
 # Create a directory for the test dependencies
 mkdir -p ${TEST_LIBS_DIR}

@@ -1,7 +1,7 @@
 #!/usr/bin/env bats
 
-load 'jury/test_libs/bats-support-0.3.0/load.bash'
-load 'jury/test_libs/bats-assert-2.2.0/load.bash'
+load "$BATS_TEST_DIRNAME/test_libs/bats-support-0.3.0/load.bash"
+load "$BATS_TEST_DIRNAME/test_libs/bats-assert-2.2.0/load.bash"
 
 setup() {
     # Get the repo root, which is the current working directory for the test runner
