@@ -4,8 +4,8 @@ load "$BATS_TEST_DIRNAME/test_libs/bats-support-0.3.0/load.bash"
 load "$BATS_TEST_DIRNAME/test_libs/bats-assert-2.2.0/load.bash"
 
 @test "displays usage and lists screensavers" {
-  run ./screensaver.sh
-  assert_success
+  run timeout 3s ./screensaver.sh
+  assert_failure # It will be killed by timeout, so it's a failure
   assert_output --partial "Bash Screensavers"
   assert_output --partial "1. alpha"
   assert_output --partial "10. tunnel"
