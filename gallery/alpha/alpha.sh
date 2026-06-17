@@ -18,7 +18,10 @@ trap _cleanup_and_exit SIGINT # Ctrl‑C
 width=$(tput cols)
 height=$(tput lines)
 
-tput setab 0 # black background
+
+if [[ ! transparent_background -eq 1 ]]; then
+  tput setab 0 # black background
+fi
 clear
 tput civis # no cursor
 

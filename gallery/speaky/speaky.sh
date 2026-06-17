@@ -388,7 +388,9 @@ trap cleanup_and_exit SIGINT
 the_show_must_go_on() {
     lov_detect_engine
     lov_hide_cursor
-    lov_back_color 0 # Set background to black
+    if [[ ! transparent_background -eq 1 ]]; then
+        lov_back_color 0 # Set background to black
+    fi
     lov_clear_screen
 
     if [ -z "$LOV_TTS_ENGINE" ]; then

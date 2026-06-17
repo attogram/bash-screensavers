@@ -9,22 +9,22 @@
 # --- Configuration ---
 # Color palette for the "dark -> bright -> dark" cycle.
 PALETTE=(
-    $'\e[38;5;22m'   # Dark Green
+    $'\e[38;5;22m' # Dark Green
     $'\e[38;5;28m'
     $'\e[38;5;34m'
     $'\e[38;5;40m'
-    $'\e[38;5;46m'   # Bright Green
+    $'\e[38;5;46m' # Bright Green
     $'\e[38;5;82m'
     $'\e[38;5;118m'
-    $'\e[38;5;45m'   # Bright Blue
+    $'\e[38;5;45m' # Bright Blue
     $'\e[38;5;39m'
     $'\e[38;5;33m'
     $'\e[38;5;27m'
-    $'\e[38;5;21m'   # Dark Blue
-    $'\e[38;5;52m'   # Dark Purple
+    $'\e[38;5;21m' # Dark Blue
+    $'\e[38;5;52m' # Dark Purple
     $'\e[38;5;93m'
     $'\e[38;5;129m'
-  $'\e[38;5;165m' # Bright Purple
+    $'\e[38;5;165m' # Bright Purple
 )
 RESET=$'\e[0m'
 
@@ -49,23 +49,22 @@ CONTENT=(
 )
 
 GLITCHES=(
-"
+    "
    _  _
   ( \/ )
    \  /
     )(
    (__)
 "
-"
+    "
   ____
  (____)
  (____)
  (____)
 "
-"SYNTAX ERROR"
-"DECOMPILING..."
+    "SYNTAX ERROR"
+    "DECOMPILING..."
 )
-
 
 # The maximum length of the character streams
 MAX_STREAM_LEN=20
@@ -73,11 +72,11 @@ MAX_STREAM_LEN=20
 DELAY=0.04
 
 _cleanup_and_exit() { # handler for SIGINT (Ctrl‑C)
-  tput cnorm       # show the cursor again
-  tput sgr0        # reset all attributes
-  clear
-  echo
-  exit 0
+    tput cnorm        # show the cursor again
+    tput sgr0         # reset all attributes
+    clear
+    echo
+    exit 0
 }
 
 trap _cleanup_and_exit SIGINT # Catch Ctrl‑C
@@ -86,7 +85,9 @@ trap _cleanup_and_exit SIGINT # Catch Ctrl‑C
 # Main animation loop (Optimized)
 #
 animate() {
-    tput setab 0 # black background
+    if [[ ! transparent_background -eq 1 ]]; then
+        tput setab 0 # black background
+    fi
     clear
     tput civis # Hide cursor
 
@@ -97,12 +98,12 @@ animate() {
     height=$(tput lines)
 
     # Initialize column arrays
-    local -a heads           # y-position of the head of the stream
-    local -a stream_lengths  # length of the stream
-    local -a active_cols     # 1 if column is active, 0 if not
+    local -a heads          # y-position of the head of the stream
+    local -a stream_lengths # length of the stream
+    local -a active_cols    # 1 if column is active, 0 if not
     local -a stream_content
 
-    for ((i=0; i<width; i++)); do
+    for ((i = 0; i < width; i++)); do
         active_cols[$i]=0
     done
 
@@ -119,8 +120,7 @@ animate() {
             frame_buffer+="\e[${glitch_y};${glitch_x}H\e[38;5;231m\e[48;5;52m${glitch_content}${RESET}"
         fi
 
-
-        for ((i=0; i<width; i++)); do
+        for ((i = 0; i < width; i++)); do
             # If a column is inactive, randomly decide to activate it
             if [ ${active_cols[$i]} -eq 0 ]; then
                 if [ $((RANDOM % 100)) -lt 5 ]; then
@@ -138,13 +138,13 @@ animate() {
             local content_len=${#content}
 
             # --- Draw the full stream with the color cycle gradient ---
-            for ((j=0; j < stream_len; j++)); do
+            for ((j = 0; j < stream_len; j++)); do
                 local y=$((y_head - j))
                 if [ $y -lt 1 ]; then break; fi
 
                 local color_index=$((j % ${#PALETTE[@]}))
                 local color=${PALETTE[$color_index]}
-                local char_index=$(( (y_head - y) % content_len ))
+                local char_index=$(((y_head - y) % content_len))
                 local char=${content:$char_index:1}
                 frame_buffer+="\e[${y};$((i + 1))H${color}${char}"
             done
@@ -169,7 +169,7 @@ animate() {
 
         # Vary the speed slightly
         local random_delay
-        random_delay=$(printf "0.0%d" $((RANDOM % 3 + 2)) )
+        random_delay=$(printf "0.0%d" $((RANDOM % 3 + 2)))
         sleep $random_delay
     done
 }
