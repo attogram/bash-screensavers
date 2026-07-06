@@ -1,5 +1,9 @@
 # Bash Screensavers
 
+Cite all versions? You can cite all versions by using the DOI 10.5281/zenodo.21226222. This DOI represents all versions, and will always resolve to the latest one. 
+
+https://zenodo.org/records/21226223
+
 ![Logo](spotlight/logos/logo.320x160.png)
 
 Tired of your boring old terminal?
