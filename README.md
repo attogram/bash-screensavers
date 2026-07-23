@@ -1,6 +1,6 @@
 # Bash Screensavers
 
-Part of the [Atrogram Corpus](https://github.com/attogram)
+Part of the [Attogram Corpus](https://github.com/attogram)
 
 You can cite all versions by using the DOI 10.5281/zenodo.2122622
 
